@@ -28,8 +28,8 @@ const UserSchema = new Schema<IUser>(
     role: {
       type: String,
       enum: ERole,
-      required: false,
-      default: null,
+      required: true,
+      default: "user",
     },
 
     isVerified: {
@@ -47,7 +47,7 @@ const UserSchema = new Schema<IUser>(
       default: false,
     },
   },
-  { timestamps: true },
+  { timestamps: true }
 );
 
 export const UserModel =
