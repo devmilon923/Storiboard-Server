@@ -4,7 +4,6 @@ dotenv.config();
 import "./utils/redisConnection";
 import { requestLogger } from "./middleware/requestLog";
 import mainrouter from "./modules/routes";
-import errorHandler from "./middleware/errorHandler";
 import globalErrorHandler from "./middleware/errorHandler";
 
 const app: Express = express();
