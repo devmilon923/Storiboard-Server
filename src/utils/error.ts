@@ -4,26 +4,16 @@ interface ServerError extends Error {
   errorDetails?: { path?: string | null; value?: any };
 }
 
-export default function ServerError(
-  statusCode: number,
-  message: string,
-  errorDetails?: { path?: string | null; value?: any },
-  isOperational = true,
-): ServerError {
-  const error = new Error(`${message}`) as ServerError;
-  error.statusCode = statusCode;
-  error.isOperational = isOperational;
-  error.errorDetails = errorDetails || { path: null, value: null };
+class ServerError extends Error {
+  public statusCode: number;
+  public isOperational: boolean;
 
-  Object.defineProperty(error, "stack", { value: undefined });
-
-  return error;
+  constructor(statusCode: number, message: string, isOperational = true) {
+    super(`${message}`);
+    this.statusCode = statusCode;
+    this.isOperational = isOperational;
+    Object.defineProperty(this, "stack", { value: undefined });
+  }
 }
 
-function isApiError(error: unknown): error is ServerError {
-  return (
-    error instanceof Error &&
-    typeof (error as any).statusCode === "number" &&
-    typeof (error as any).isOperational === "boolean"
-  );
-}
+export default ServerError;

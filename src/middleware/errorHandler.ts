@@ -1,6 +1,5 @@
-
 import { ErrorRequestHandler } from "express";
-
+import ServerError from "../utils/error";
 
 const globalErrorHandler: ErrorRequestHandler = (error, req, res, next) => {
   let errorInfo = {
@@ -8,16 +7,17 @@ const globalErrorHandler: ErrorRequestHandler = (error, req, res, next) => {
     statusCode: 500,
     errorType: "Invalid request",
     errorMessage: "",
-    errorDetails: { path: null, value: null },
   };
-
+  if (error instanceof ServerError) {
+    errorInfo.statusCode = error.statusCode;
+    errorInfo.errorMessage = error.message;
+  }
   return res.status(errorInfo.statusCode).json({
     success: errorInfo.success,
     path: req.originalUrl,
     status: errorInfo.statusCode,
     errorType: errorInfo.errorType,
     message: errorInfo.errorMessage,
-
   });
 };
 
