@@ -1,6 +1,6 @@
 import { Router } from "express";
 import { AuthRoutes } from "./auth/auth.route";
-const mainrouter = Router();
+const router = Router();
 
 // config all root and handler
 export const appRouters = [
@@ -12,7 +12,7 @@ export const appRouters = [
 
 // ready for use
 appRouters.forEach(({ path, handler }) => {
-  mainrouter.use(path, handler);
+  router.use(path, handler);
 });
 
-export default mainrouter;
+export default router;
