@@ -16,7 +16,12 @@ services:
       - "6379:6379"
     volumes:
       - redis-data:/var/lib/redis/data
-
+  adminer:
+    image: adminer:latest
+    ports:
+      - "8080:8080"
+    depends_on:
+      - postgres
 volumes:
   postgres-data:
   redis-data:
