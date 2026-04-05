@@ -2,3 +2,7 @@
 dist
 node_modules
 /generated/prisma
+
+/prisma/src/generated/prisma
+
+/prisma/src/generated/prisma
