@@ -25,6 +25,8 @@
     "@types/ioredis": "^4.28.10",
     "@types/mongoose": "^5.11.96",
     "@types/node": "^25.5.0",
+    "@types/passport": "^1.0.17",
+    "@types/passport-jwt": "^4.0.1",
     "@types/pg": "^8.20.0",
     "nodemon": "^3.1.14",
     "prisma": "^7.6.0",
@@ -34,12 +36,16 @@
   "dependencies": {
     "@prisma/adapter-pg": "^7.6.0",
     "@prisma/client": "^7.6.0",
+    "bcrypt": "^6.0.0",
     "dotenv": "^17.3.1",
     "express": "^5.2.1",
     "http-status": "^2.1.0",
     "ioredis": "^5.10.0",
     "mongoose": "^9.3.0",
+    "passport": "^0.7.0",
+    "passport-jwt": "^4.0.1",
     "pg": "^8.20.0",
-    "winston": "^3.19.0"
+    "winston": "^3.19.0",
+    "zod": "^4.3.6"
   }
 }

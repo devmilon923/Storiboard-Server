@@ -5,11 +5,11 @@ import "./utils/redisConnection";
 import { requestLogger } from "./middleware/requestLog";
 import mainrouter from "./modules/routes";
 import globalErrorHandler from "./middleware/errorHandler";
-
+import passport from "passport";
 const app: Express = express();
 const port = process.env.ServerPort || 3000;
-
 app.use(express.json());
+app.use(passport.initialize());
 app.use(requestLogger);
 app.get("/", (req: Request, res: Response) => {
   res.json({ message: "Hello from Express with TypeScript!" });
