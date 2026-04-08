@@ -4,4 +4,6 @@ model User {
   email String  @unique
   password  String
   isVerifyed  Boolean @default(false)
+  refreshTokens  RefreshToken?
 } 
+

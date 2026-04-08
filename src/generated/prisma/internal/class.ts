@@ -20,7 +20,7 @@ const config: runtime.GetPrismaClientConfig = {
   "clientVersion": "7.6.0",
   "engineVersion": "75cbdc1eb7150937890ad5465d861175c6624711",
   "activeProvider": "postgresql",
-  "inlineSchema": "model User {\n  id         Int     @id @default(autoincrement())\n  name       String\n  email      String  @unique\n  password   String\n  isVerifyed Boolean @default(false)\n}\n\n// This is your Prisma schema file,\n// learn more about it in the docs: https://pris.ly/d/prisma-schema\n\n// Get a free hosted Postgres database in seconds: `npx create-db`\n\ngenerator client {\n  provider = \"prisma-client\"\n  // output   = \"./src/generated/prisma\"\n  output   = \"../src/generated/prisma\"\n}\n\ndatasource db {\n  provider = \"postgresql\"\n}\n",
+  "inlineSchema": "model RefreshToken {\n  id     Int    @id @default(autoincrement())\n  token  String @unique\n  userId Int    @unique\n  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)\n}\n\nmodel User {\n  id            Int           @id @default(autoincrement())\n  name          String\n  email         String        @unique\n  password      String\n  isVerifyed    Boolean       @default(false)\n  refreshTokens RefreshToken?\n}\n\n// This is your Prisma schema file,\n// learn more about it in the docs: https://pris.ly/d/prisma-schema\n\n// Get a free hosted Postgres database in seconds: `npx create-db`\n\ngenerator client {\n  provider = \"prisma-client\"\n  // output   = \"./src/generated/prisma\"\n  output   = \"../src/generated/prisma\"\n}\n\ndatasource db {\n  provider = \"postgresql\"\n}\n",
   "runtimeDataModel": {
     "models": {},
     "enums": {},
@@ -32,10 +32,10 @@ const config: runtime.GetPrismaClientConfig = {
   }
 }
 
-config.runtimeDataModel = JSON.parse("{\"models\":{\"User\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"name\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"email\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"password\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"isVerifyed\",\"kind\":\"scalar\",\"type\":\"Boolean\"}],\"dbName\":null}},\"enums\":{},\"types\":{}}")
+config.runtimeDataModel = JSON.parse("{\"models\":{\"RefreshToken\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"token\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"userId\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"user\",\"kind\":\"object\",\"type\":\"User\",\"relationName\":\"RefreshTokenToUser\"}],\"dbName\":null},\"User\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"name\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"email\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"password\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"isVerifyed\",\"kind\":\"scalar\",\"type\":\"Boolean\"},{\"name\":\"refreshTokens\",\"kind\":\"object\",\"type\":\"RefreshToken\",\"relationName\":\"RefreshTokenToUser\"}],\"dbName\":null}},\"enums\":{},\"types\":{}}")
 config.parameterizationSchema = {
-  strings: JSON.parse("[\"where\",\"User.findUnique\",\"User.findUniqueOrThrow\",\"orderBy\",\"cursor\",\"User.findFirst\",\"User.findFirstOrThrow\",\"User.findMany\",\"data\",\"User.createOne\",\"User.createMany\",\"User.createManyAndReturn\",\"User.updateOne\",\"User.updateMany\",\"User.updateManyAndReturn\",\"create\",\"update\",\"User.upsertOne\",\"User.deleteOne\",\"User.deleteMany\",\"having\",\"_count\",\"_avg\",\"_sum\",\"_min\",\"_max\",\"User.groupBy\",\"User.aggregate\",\"AND\",\"OR\",\"NOT\",\"id\",\"name\",\"email\",\"password\",\"isVerifyed\",\"equals\",\"not\",\"in\",\"notIn\",\"lt\",\"lte\",\"gt\",\"gte\",\"contains\",\"startsWith\",\"endsWith\",\"set\",\"increment\",\"decrement\",\"multiply\",\"divide\"]"),
-  graph: "MAsQCBwAACUAMB0AAAQAEB4AACUAMB8CAAAAASABACcAISEBAAAAASIBACcAISMgACgAIQEAAAABACABAAAAAQAgCBwAACUAMB0AAAQAEB4AACUAMB8CACYAISABACcAISEBACcAISIBACcAISMgACgAIQADAAAABAAgAwAABQAwBAAAAQAgAwAAAAQAIAMAAAUAMAQAAAEAIAMAAAAEACADAAAFADAEAAABACAFHwIAAAABIAEAAAABIQEAAAABIgEAAAABIyAAAAABAQgAAAkAIAUfAgAAAAEgAQAAAAEhAQAAAAEiAQAAAAEjIAAAAAEBCAAACwAwAQgAAAsAMAUfAgAwACEgAQAuACEhAQAuACEiAQAuACEjIAAvACECAAAAAQAgCAAADgAgBR8CADAAISABAC4AISEBAC4AISIBAC4AISMgAC8AIQIAAAAEACAIAAAQACACAAAABAAgCAAAEAAgAwAAAAEAIA8AAAkAIBAAAA4AIAEAAAABACABAAAABAAgBRUAACkAIBYAACoAIBcAAC0AIBgAACwAIBkAACsAIAgcAAAaADAdAAAXABAeAAAaADAfAgAbACEgAQAcACEhAQAcACEiAQAcACEjIAAdACEDAAAABAAgAwAAFgAwFAAAFwAgAwAAAAQAIAMAAAUAMAQAAAEAIAgcAAAaADAdAAAXABAeAAAaADAfAgAbACEgAQAcACEhAQAcACEiAQAcACEjIAAdACENFQAAHwAgFgAAJAAgFwAAHwAgGAAAHwAgGQAAHwAgJAIAAAABJQIAIwAhJgIAAAAEJwIAAAAEKAIAAAABKQIAAAABKgIAAAABKwIAAAABDhUAAB8AIBgAACIAIBkAACIAICQBAAAAASUBACEAISYBAAAABCcBAAAABCgBAAAAASkBAAAAASoBAAAAASsBAAAAASwBAAAAAS0BAAAAAS4BAAAAAQUVAAAfACAYAAAgACAZAAAgACAkIAAAAAElIAAeACEFFQAAHwAgGAAAIAAgGQAAIAAgJCAAAAABJSAAHgAhCCQCAAAAASUCAB8AISYCAAAABCcCAAAABCgCAAAAASkCAAAAASoCAAAAASsCAAAAAQIkIAAAAAElIAAgACEOFQAAHwAgGAAAIgAgGQAAIgAgJAEAAAABJQEAIQAhJgEAAAAEJwEAAAAEKAEAAAABKQEAAAABKgEAAAABKwEAAAABLAEAAAABLQEAAAABLgEAAAABCyQBAAAAASUBACIAISYBAAAABCcBAAAABCgBAAAAASkBAAAAASoBAAAAASsBAAAAASwBAAAAAS0BAAAAAS4BAAAAAQ0VAAAfACAWAAAkACAXAAAfACAYAAAfACAZAAAfACAkAgAAAAElAgAjACEmAgAAAAQnAgAAAAQoAgAAAAEpAgAAAAEqAgAAAAErAgAAAAEIJAgAAAABJQgAJAAhJggAAAAEJwgAAAAEKAgAAAABKQgAAAABKggAAAABKwgAAAABCBwAACUAMB0AAAQAEB4AACUAMB8CACYAISABACcAISEBACcAISIBACcAISMgACgAIQgkAgAAAAElAgAfACEmAgAAAAQnAgAAAAQoAgAAAAEpAgAAAAEqAgAAAAErAgAAAAELJAEAAAABJQEAIgAhJgEAAAAEJwEAAAAEKAEAAAABKQEAAAABKgEAAAABKwEAAAABLAEAAAABLQEAAAABLgEAAAABAiQgAAAAASUgACAAIQAAAAAAAS8BAAAAAQEvIAAAAAEFLwIAAAABMAIAAAABMQIAAAABMgIAAAABMwIAAAABAAAAAAUVAAYWAAcXAAgYAAkZAAoAAAAAAAUVAAYWAAcXAAgYAAkZAAoBAgECAwEFBgEGBwEHCAEJCgEKDAILDQMMDwENEQIOEgQREwESFAETFQIaGAUbGQs"
+  strings: JSON.parse("[\"where\",\"refreshTokens\",\"user\",\"RefreshToken.findUnique\",\"RefreshToken.findUniqueOrThrow\",\"orderBy\",\"cursor\",\"RefreshToken.findFirst\",\"RefreshToken.findFirstOrThrow\",\"RefreshToken.findMany\",\"data\",\"RefreshToken.createOne\",\"RefreshToken.createMany\",\"RefreshToken.createManyAndReturn\",\"RefreshToken.updateOne\",\"RefreshToken.updateMany\",\"RefreshToken.updateManyAndReturn\",\"create\",\"update\",\"RefreshToken.upsertOne\",\"RefreshToken.deleteOne\",\"RefreshToken.deleteMany\",\"having\",\"_count\",\"_avg\",\"_sum\",\"_min\",\"_max\",\"RefreshToken.groupBy\",\"RefreshToken.aggregate\",\"User.findUnique\",\"User.findUniqueOrThrow\",\"User.findFirst\",\"User.findFirstOrThrow\",\"User.findMany\",\"User.createOne\",\"User.createMany\",\"User.createManyAndReturn\",\"User.updateOne\",\"User.updateMany\",\"User.updateManyAndReturn\",\"User.upsertOne\",\"User.deleteOne\",\"User.deleteMany\",\"User.groupBy\",\"User.aggregate\",\"AND\",\"OR\",\"NOT\",\"id\",\"name\",\"email\",\"password\",\"isVerifyed\",\"equals\",\"not\",\"in\",\"notIn\",\"lt\",\"lte\",\"gt\",\"gte\",\"contains\",\"startsWith\",\"endsWith\",\"token\",\"userId\",\"is\",\"isNot\",\"connectOrCreate\",\"upsert\",\"disconnect\",\"delete\",\"connect\",\"set\",\"increment\",\"decrement\",\"multiply\",\"divide\"]"),
+  graph: "YxUgBwIAAEYAIC4AAEUAMC8AAAMAEDAAAEUAMDECAAAAAUEBAAAAAUICAAAAAQEAAAABACAHAgAARgAgLgAARQAwLwAAAwAQMAAARQAwMQIAQAAhQQEAQQAhQgIAQAAhAQAAAAMAIAEAAAABACABAgAAXgAgAwAAAAMAIAUAAAYAMAYAAAEAIAMAAAADACAFAAAGADAGAAABACADAAAAAwAgBQAABgAwBgAAAQAgBAIAAF0AIDECAAAAAUEBAAAAAUICAAAAAQEKAAAKACADMQIAAAABQQEAAAABQgIAAAABAQoAAAwAMAEKAAAMADAEAgAAXAAgMQIATgAhQQEATAAhQgIATgAhAgAAAAEAIAoAAA8AIAMxAgBOACFBAQBMACFCAgBOACECAAAAAwAgCgAAEQAgAgAAAAMAIAoAABEAIAMAAAABACARAAAKACASAAAPACABAAAAAQAgAQAAAAMAIAUXAABXACAYAABYACAZAABbACAaAABaACAbAABZACAGLgAARAAwLwAAGAAQMAAARAAwMQIANQAhQQEANgAhQgIANQAhAwAAAAMAIAUAABcAMBYAABgAIAMAAAADACAFAAAGADAGAAABACAJAQAAQwAgLgAAPwAwLwAAHgAQMAAAPwAwMQIAAAABMgEAQQAhMwEAAAABNAEAQQAhNSAAQgAhAQAAABsAIAEAAAAbACAJAQAAQwAgLgAAPwAwLwAAHgAQMAAAPwAwMQIAQAAhMgEAQQAhMwEAQQAhNAEAQQAhNSAAQgAhAQEAAFYAIAMAAAAeACAFAAAfADAGAAAbACADAAAAHgAgBQAAHwAwBgAAGwAgAwAAAB4AIAUAAB8AMAYAABsAIAYBAABVACAxAgAAAAEyAQAAAAEzAQAAAAE0AQAAAAE1IAAAAAEBCgAAIwAgBTECAAAAATIBAAAAATMBAAAAATQBAAAAATUgAAAAAQEKAAAlADABCgAAJQAwBgEAAE8AIDECAE4AITIBAEwAITMBAEwAITQBAEwAITUgAE0AIQIAAAAbACAKAAAoACAFMQIATgAhMgEATAAhMwEATAAhNAEATAAhNSAATQAhAgAAAB4AIAoAACoAIAIAAAAeACAKAAAqACADAAAAGwAgEQAAIwAgEgAAKAAgAQAAABsAIAEAAAAeACAFFwAARwAgGAAASAAgGQAASwAgGgAASgAgGwAASQAgCC4AADQAMC8AADEAEDAAADQAMDECADUAITIBADYAITMBADYAITQBADYAITUgADcAIQMAAAAeACAFAAAwADAWAAAxACADAAAAHgAgBQAAHwAwBgAAGwAgCC4AADQAMC8AADEAEDAAADQAMDECADUAITIBADYAITMBADYAITQBADYAITUgADcAIQ0XAAA5ACAYAAA-ACAZAAA5ACAaAAA5ACAbAAA5ACA2AgAAAAE3AgA9ACE4AgAAAAQ5AgAAAAQ6AgAAAAE7AgAAAAE8AgAAAAE9AgAAAAEOFwAAOQAgGgAAPAAgGwAAPAAgNgEAAAABNwEAOwAhOAEAAAAEOQEAAAAEOgEAAAABOwEAAAABPAEAAAABPQEAAAABPgEAAAABPwEAAAABQAEAAAABBRcAADkAIBoAADoAIBsAADoAIDYgAAAAATcgADgAIQUXAAA5ACAaAAA6ACAbAAA6ACA2IAAAAAE3IAA4ACEINgIAAAABNwIAOQAhOAIAAAAEOQIAAAAEOgIAAAABOwIAAAABPAIAAAABPQIAAAABAjYgAAAAATcgADoAIQ4XAAA5ACAaAAA8ACAbAAA8ACA2AQAAAAE3AQA7ACE4AQAAAAQ5AQAAAAQ6AQAAAAE7AQAAAAE8AQAAAAE9AQAAAAE-AQAAAAE_AQAAAAFAAQAAAAELNgEAAAABNwEAPAAhOAEAAAAEOQEAAAAEOgEAAAABOwEAAAABPAEAAAABPQEAAAABPgEAAAABPwEAAAABQAEAAAABDRcAADkAIBgAAD4AIBkAADkAIBoAADkAIBsAADkAIDYCAAAAATcCAD0AITgCAAAABDkCAAAABDoCAAAAATsCAAAAATwCAAAAAT0CAAAAAQg2CAAAAAE3CAA-ACE4CAAAAAQ5CAAAAAQ6CAAAAAE7CAAAAAE8CAAAAAE9CAAAAAEJAQAAQwAgLgAAPwAwLwAAHgAQMAAAPwAwMQIAQAAhMgEAQQAhMwEAQQAhNAEAQQAhNSAAQgAhCDYCAAAAATcCADkAITgCAAAABDkCAAAABDoCAAAAATsCAAAAATwCAAAAAT0CAAAAAQs2AQAAAAE3AQA8ACE4AQAAAAQ5AQAAAAQ6AQAAAAE7AQAAAAE8AQAAAAE9AQAAAAE-AQAAAAE_AQAAAAFAAQAAAAECNiAAAAABNyAAOgAhCQIAAEYAIC4AAEUAMC8AAAMAEDAAAEUAMDECAEAAIUEBAEEAIUICAEAAIUMAAAMAIEQAAAMAIAYuAABEADAvAAAYABAwAABEADAxAgA1ACFBAQA2ACFCAgA1ACEHAgAARgAgLgAARQAwLwAAAwAQMAAARQAwMQIAQAAhQQEAQQAhQgIAQAAhCwEAAEMAIC4AAD8AMC8AAB4AEDAAAD8AMDECAEAAITIBAEEAITMBAEEAITQBAEEAITUgAEIAIUMAAB4AIEQAAB4AIAAAAAAAAUoBAAAAAQFKIAAAAAEFSgIAAAABSwIAAAABTAIAAAABTQIAAAABTgIAAAABBxEAAFAAIBIAAFMAIEUAAFEAIEYAAFIAIEcAAAMAIEgAAAMAIEkAAAEAIAIxAgAAAAFBAQAAAAECAAAAAQAgEQAAUAAgAwAAAAMAIBEAAFAAIBIAAFQAIAQAAAADACAKAABUACAxAgBOACFBAQBMACECMQIATgAhQQEATAAhAxEAAFAAIEUAAFEAIEkAAAEAIAECAABeACAAAAAAAAURAABfACASAABiACBFAABgACBGAABhACBJAAAbACADEQAAXwAgRQAAYAAgSQAAGwAgAQEAAFYAIAUxAgAAAAEyAQAAAAEzAQAAAAE0AQAAAAE1IAAAAAECAAAAGwAgEQAAXwAgAwAAAB4AIBEAAF8AIBIAAGMAIAcAAAAeACAKAABjACAxAgBOACEyAQBMACEzAQBMACE0AQBMACE1IABNACEFMQIATgAhMgEATAAhMwEATAAhNAEATAAhNSAATQAhAQIAAgEBBAEAAQIAAgECAAIFFwAHGAAIGQAJGgAKGwALAAAAAAAFFwAHGAAIGQAJGgAKGwALAAAFFwAQGAARGQASGgATGwAUAAAAAAAFFwAQGAARGQASGgATGwAUAwIBBAUBBwcBCAgBCQkBCwsBDA0DDQ4EDhABDxIDEBMFExQBFBUBFRYDHBkGHRoMHhwCHx0CICACISECIiICIyQCJCYDJScNJikCJysDKCwOKS0CKi4CKy8DLDIPLTMV"
 }
 
 async function decodeBase64AsWasm(wasmBase64: string): Promise<WebAssembly.Module> {
@@ -70,8 +70,8 @@ export interface PrismaClientConstructor {
    * const prisma = new PrismaClient({
    *   adapter: new PrismaPg({ connectionString: process.env.DATABASE_URL })
    * })
-   * // Fetch zero or more Users
-   * const users = await prisma.user.findMany()
+   * // Fetch zero or more RefreshTokens
+   * const refreshTokens = await prisma.refreshToken.findMany()
    * ```
    * 
    * Read more in our [docs](https://pris.ly/d/client).
@@ -94,8 +94,8 @@ export interface PrismaClientConstructor {
  * const prisma = new PrismaClient({
  *   adapter: new PrismaPg({ connectionString: process.env.DATABASE_URL })
  * })
- * // Fetch zero or more Users
- * const users = await prisma.user.findMany()
+ * // Fetch zero or more RefreshTokens
+ * const refreshTokens = await prisma.refreshToken.findMany()
  * ```
  * 
  * Read more in our [docs](https://pris.ly/d/client).
@@ -189,6 +189,16 @@ export interface PrismaClient<
   }>>
 
       /**
+   * `prisma.refreshToken`: Exposes CRUD operations for the **RefreshToken** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more RefreshTokens
+    * const refreshTokens = await prisma.refreshToken.findMany()
+    * ```
+    */
+  get refreshToken(): Prisma.RefreshTokenDelegate<ExtArgs, { omit: OmitOpts }>;
+
+  /**
    * `prisma.user`: Exposes CRUD operations for the **User** model.
     * Example usage:
     * ```ts

@@ -4,6 +4,10 @@ export const generateOTP = () => {
   crypto.getRandomValues(array);
   const plainOTP = ((array[0] % 90000) + 10000).toString();
   const hash = bcrypt.hashSync(plainOTP, 10);
+  console.log({
+    plainToken: plainOTP,
+    hash: hash,
+  });
   return {
     plainToken: plainOTP,
     hash: hash,
