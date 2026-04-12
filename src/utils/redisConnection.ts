@@ -3,6 +3,9 @@ console.log(process.env.RedisPort);
 const redisDatabase = new Redis({
   host: process.env.RedisHost as string,
   port: parseInt(process.env.RedisPort as string),
+  retryStrategy: (times) => Math.min(times * 50, 2000),
+  enableReadyCheck: true,
+  enableOfflineQueue: true,
 });
 
 // Connection event listeners
@@ -15,6 +18,11 @@ redisDatabase.on("error", (err) => {
 
 redisDatabase.on("reconnecting", () => {
   console.log("⟳ Redis Reconnecting...");
+});
+
+// Wait for connection before export
+redisDatabase.on("ready", () => {
+  console.log("✓ Redis Ready");
 });
 
 export default redisDatabase;
