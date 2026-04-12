@@ -5,6 +5,7 @@ export type TJwtUser = {
   name: String;
   email: String;
   isVerifyed: Boolean;
+  role: "user" | "admin";
 };
 export const verificationToken = (
   userId: string,

@@ -65,16 +65,10 @@ const localLogin = handleAsync(async (req: Request, res: Response) => {
   if (!isValidPassword) {
     throw new ServerError(httpStatus.BAD_REQUEST, "Invalid password");
   }
-  const token = loginToken(user);
+  const token = loginToken({ ...user, role: "user" });
   // generate refresh token
-  const refreshToken = bcrypt.hashSync(token, 20);
-  res.cookie("rt", refreshToken, {
-    maxAge: 1000 * 60 * 60 * 24, // expires in 24 hours (milliseconds)
-    httpOnly: true, // inaccessible to client-side JavaScript
-    secure: true, // only sent over HTTPS
-    sameSite: "strict", // CSRF protection
-    // domain: "example.com", // cookie domain
-  });
+  const refreshToken = bcrypt.hashSync(token, 10);
+
   return sendResponse(res, {
     statusCode: httpStatus.CREATED,
     success: true,
@@ -84,7 +78,9 @@ const localLogin = handleAsync(async (req: Request, res: Response) => {
       name: user.name,
       email: user.email,
       isVerifyed: user.isVerifyed,
+      role: "user",
       token,
+      refreshToken,
     },
   });
 });
