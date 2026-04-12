@@ -34,3 +34,7 @@ export const newPassword = z.object({
       "Password must contain at least one uppercase letter, one lowercase letter, one number, and one special character",
     ),
 });
+export const renewToken = z.object({
+  userId: z.number().min(1, "User id is required"),
+  refreshToken: z.string().min(1, "Refresh token is required"),
+});

@@ -69,7 +69,7 @@ const localLogin = handleAsync(async (req: Request, res: Response) => {
   // generate refresh token
   const refreshToken = bcrypt.hashSync(token, 10);
 
-  return sendResponse(res, {
+  sendResponse(res, {
     statusCode: httpStatus.CREATED,
     success: true,
     message: "Login successfully!",
@@ -83,6 +83,11 @@ const localLogin = handleAsync(async (req: Request, res: Response) => {
       refreshToken,
     },
   });
+  await redisDatabase.setex(
+    `refresh_token:${user.id}`,
+    60, // Seconds
+    refreshToken,
+  );
 });
 
 const verifyAccount = handleAsync(async (req: Request, res: Response) => {
@@ -241,6 +246,42 @@ const newPassword = handleAsync(async (req: Request, res: Response) => {
   });
   await redisDatabase.del("otp" + payload.user.toString());
 });
+
+const renewToken = handleAsync(async (req: Request, res: Response) => {
+  const storedToken = await redisDatabase.get(
+    `refresh_token:${req.body.userId}`,
+  );
+
+  if (!storedToken || storedToken !== req.body.refreshToken) {
+    throw new ServerError(
+      httpStatus.UNAUTHORIZED,
+      "Invalid refresh token or user",
+    );
+  }
+  const user = await prisma.user.findUnique({
+    where: {
+      id: req.body.userId,
+    },
+  });
+  if (!user) {
+    throw new ServerError(httpStatus.BAD_REQUEST, "User not found");
+  }
+
+  const token = loginToken({ ...user, role: "user" });
+  // generate refresh token
+  const refreshToken = bcrypt.hashSync(token, 10);
+  sendResponse(res, {
+    statusCode: httpStatus.CREATED,
+    success: true,
+    message: "Token renew successful",
+    data: { refreshToken, accessToken: token },
+  });
+  return await redisDatabase.setex(
+    `refresh_token:${user.id}`,
+    parseInt(process.env.rfExpire as string), // Seconds
+    refreshToken,
+  );
+});
 export const AuthController = {
   register,
   localLogin,
@@ -248,4 +289,5 @@ export const AuthController = {
   resendOTP,
   forgetPassword,
   newPassword,
+  renewToken,
 };

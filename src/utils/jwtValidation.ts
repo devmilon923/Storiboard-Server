@@ -12,13 +12,13 @@ export const verificationToken = (
   type: "accountVerification" | "forgetPassword",
 ) => {
   return jwt.sign({ user: userId, type }, privateToken, {
-    expiresIn: 300,
+    expiresIn: parseInt(process.env.veriExpire as string),
   });
 };
 
 export const loginToken = (payload: TJwtUser) => {
   return jwt.sign(payload, privateToken, {
-    expiresIn: 60,
+    expiresIn: parseInt(process.env.acExpire as string),
   });
 };
 export const decodeToken = (token: string) => {

@@ -1,5 +1,5 @@
 model RefreshToken {
-    id     Int    @id @default(autoincrement())
+    id     Int    @id  @default(autoincrement())
     token  String
     userId Int @unique
     user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
