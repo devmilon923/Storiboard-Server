@@ -10,6 +10,8 @@ import redisDatabase from "../../utils/redisConnection";
 import {
   decodeToken,
   loginToken,
+  refreshtoken,
+  TJwtUser,
   verificationToken,
 } from "../../utils/jwtValidation";
 import { generateOTP, verifyOTP } from "../../utils/otpValidation";
@@ -67,10 +69,21 @@ const localLogin = handleAsync(async (req: Request, res: Response) => {
   }
   const token = loginToken({ ...user, role: "user" });
   // generate refresh token
-  const refreshToken = bcrypt.hashSync(token, 10);
-
+  const refreshToken = refreshtoken({ ...user, role: "user" });
+  res.cookie("token", token, {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === "production",
+    sameSite: process.env.NODE_ENV === "production" ? "none" : "strict",
+    maxAge: parseInt(process.env.acExpire as string) * 1000,
+  });
+  res.cookie("refreshToken", refreshToken, {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === "production",
+    sameSite: process.env.NODE_ENV === "production" ? "none" : "strict",
+    maxAge: parseInt(process.env.rfExpire as string) * 1000,
+  });
   sendResponse(res, {
-    statusCode: httpStatus.CREATED,
+    statusCode: httpStatus.OK,
     success: true,
     message: "Login successfully!",
     data: {
@@ -248,9 +261,9 @@ const newPassword = handleAsync(async (req: Request, res: Response) => {
 });
 
 const renewToken = handleAsync(async (req: Request, res: Response) => {
-  const storedToken = await redisDatabase.get(
-    `refresh_token:${req.body.userId}`,
-  );
+  const userDecode = req.user as TJwtUser;
+
+  const storedToken = await redisDatabase.get(`refresh_token:${userDecode.id}`);
 
   if (!storedToken || storedToken !== req.body.refreshToken) {
     throw new ServerError(
@@ -260,7 +273,7 @@ const renewToken = handleAsync(async (req: Request, res: Response) => {
   }
   const user = await prisma.user.findUnique({
     where: {
-      id: req.body.userId,
+      id: userDecode.id,
     },
   });
   if (!user) {
@@ -269,7 +282,7 @@ const renewToken = handleAsync(async (req: Request, res: Response) => {
 
   const token = loginToken({ ...user, role: "user" });
   // generate refresh token
-  const refreshToken = bcrypt.hashSync(token, 10);
+  const refreshToken = refreshtoken({ ...user, role: "user" });
   sendResponse(res, {
     statusCode: httpStatus.CREATED,
     success: true,

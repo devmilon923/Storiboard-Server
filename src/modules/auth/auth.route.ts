@@ -9,6 +9,7 @@ import {
   renewToken,
   verifyAccount,
 } from "./validation";
+import passport from "passport";
 
 const router = Router();
 
@@ -35,5 +36,9 @@ router
 
 router
   .route("/renew-token")
-  .post(zodValidate(renewToken), AuthController.renewToken);
+  .post(
+    passport.authenticate("jwt", { session: false }),
+    zodValidate(renewToken),
+    AuthController.renewToken,
+  );
 export const AuthRoutes = router;

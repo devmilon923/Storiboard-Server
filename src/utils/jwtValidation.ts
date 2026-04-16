@@ -1,7 +1,7 @@
 import jwt from "jsonwebtoken";
 const privateToken = process.env.JWT_SECRET_KEY as string;
 export type TJwtUser = {
-  id: Number;
+  id: number;
   name: String;
   email: String;
   isVerifyed: Boolean;
@@ -19,6 +19,11 @@ export const verificationToken = (
 export const loginToken = (payload: TJwtUser) => {
   return jwt.sign(payload, privateToken, {
     expiresIn: parseInt(process.env.acExpire as string),
+  });
+};
+export const refreshtoken = (payload: TJwtUser) => {
+  return jwt.sign(payload, privateToken, {
+    expiresIn: parseInt(process.env.rfExpire as string),
   });
 };
 export const decodeToken = (token: string) => {
