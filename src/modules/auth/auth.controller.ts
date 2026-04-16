@@ -6,7 +6,7 @@ import httpStatus from "http-status";
 import ServerError from "../../utils/error";
 import bcrypt from "bcrypt";
 import redisDatabase from "../../utils/redisConnection";
-
+import jwt from "jsonwebtoken";
 import {
   decodeToken,
   loginToken,
@@ -15,6 +15,7 @@ import {
   verificationToken,
 } from "../../utils/jwtValidation";
 import { generateOTP, verifyOTP } from "../../utils/otpValidation";
+import { log } from "console";
 
 const register = handleAsync(async (req: Request, res: Response) => {
   const hashPassword = bcrypt.hashSync(req.body.password, 10);
@@ -261,11 +262,14 @@ const newPassword = handleAsync(async (req: Request, res: Response) => {
 });
 
 const renewToken = handleAsync(async (req: Request, res: Response) => {
-  const userDecode = req.user as TJwtUser;
+  const cookieToken = req.cookies.refreshToken;
+  // console.log(cookieToken)
+
+  const userDecode = jwt.verify(cookieToken, process.env.JWT_SECRET_KEY as string) as TJwtUser;
 
   const storedToken = await redisDatabase.get(`refresh_token:${userDecode.id}`);
 
-  if (!storedToken || storedToken !== req.body.refreshToken) {
+  if (!storedToken || storedToken !== cookieToken) {
     throw new ServerError(
       httpStatus.UNAUTHORIZED,
       "Invalid refresh token or user",
@@ -283,6 +287,19 @@ const renewToken = handleAsync(async (req: Request, res: Response) => {
   const token = loginToken({ ...user, role: "user" });
   // generate refresh token
   const refreshToken = refreshtoken({ ...user, role: "user" });
+
+  res.cookie("token", token, {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === "production",
+    sameSite: process.env.NODE_ENV === "production" ? "none" : "strict",
+    maxAge: parseInt(process.env.acExpire as string) * 1000,
+  });
+  res.cookie("refreshToken", refreshToken, {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === "production",
+    sameSite: process.env.NODE_ENV === "production" ? "none" : "strict",
+    maxAge: parseInt(process.env.rfExpire as string) * 1000,
+  });
   sendResponse(res, {
     statusCode: httpStatus.CREATED,
     success: true,

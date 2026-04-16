@@ -37,8 +37,8 @@ router
 router
   .route("/renew-token")
   .post(
-    passport.authenticate("jwt", { session: false }),
-    zodValidate(renewToken),
+    // passport.authenticate("jwt", { session: false }),
+    // zodValidate(renewToken),
     AuthController.renewToken,
   );
 export const AuthRoutes = router;
