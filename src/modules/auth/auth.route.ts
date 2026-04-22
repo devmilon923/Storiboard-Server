@@ -34,11 +34,6 @@ router
   .route("/forget-password")
   .post(zodValidate(forgetPassword), AuthController.forgetPassword);
 
-router
-  .route("/renew-token")
-  .post(
-    // passport.authenticate("jwt", { session: false }),
-    // zodValidate(renewToken),
-    AuthController.renewToken,
-  );
+router.route("/renew-token").post(AuthController.renewToken);
+router.route("/logout").post(AuthController.logout);
 export const AuthRoutes = router;

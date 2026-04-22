@@ -1,0 +1,13 @@
+model Post {
+    id Int @id @default(autoincrement()) @unique
+    content String
+    authorId Int
+    feeling Json
+    likesCount Int @default(0)
+    commentsCount Int @default(0)
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+    author User @relation(fields: [authorId], references: [id],onDelete: Cascade)
+    @@map("post")
+}
+

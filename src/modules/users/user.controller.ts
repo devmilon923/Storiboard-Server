@@ -4,8 +4,9 @@ import { prisma } from "../../utils/prisma";
 import { Request, Response } from "express";
 import httpStatus from "http-status";
 import sendResponse from "../../utils/response";
+import { TJwtUser } from "../../utils/jwtValidation";
 const getProfile = handleAsync(async (req: Request, res: Response) => {
-  const data: any = req.user;
+  const data = req.user as TJwtUser;
 
   const user = await prisma.user.findUnique({
     where: {

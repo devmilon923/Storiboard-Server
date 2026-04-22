@@ -15,14 +15,28 @@ import {
   verificationToken,
 } from "../../utils/jwtValidation";
 import { generateOTP, verifyOTP } from "../../utils/otpValidation";
-import { log } from "console";
+import { sendOTP } from "../../utils/nodemailler";
 
 const register = handleAsync(async (req: Request, res: Response) => {
-  const hashPassword = bcrypt.hashSync(req.body.password, 10);
+  const { email, password, name, gender, profession, image } = req.body;
+  const hashPassword = bcrypt.hashSync(password, 10);
+  const isUserExist = await prisma.user.findFirst({
+    where: {
+      email,
+      role: "User",
+    },
+  });
+  if (isUserExist && isUserExist.isVerifyed) {
+    throw new ServerError(httpStatus.BAD_REQUEST, "User already exists");
+  }
+
   const user = await prisma.user.create({
     data: {
-      email: req.body.email,
-      name: req.body.name,
+      name,
+      email,
+      gender,
+      image,
+      profession,
       password: hashPassword as string,
     },
   });
@@ -35,20 +49,30 @@ const register = handleAsync(async (req: Request, res: Response) => {
     );
   }
 
-  // Expire in 60 seconds
+  // Generate Secure OTP (Expire in 120 seconds)
   const secureOTP: any = generateOTP();
 
   await redisDatabase.setex("otp" + user.id.toString(), 120, secureOTP.hash);
 
-  //TODO: need to add email send otp
-
-  //TODO: Need to generate an validation otp
+  // Generate an validation otp
   const token = verificationToken(user.id.toString(), "accountVerification");
-  return sendResponse(res, {
+  res.cookie("verification_token", token, {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === "production",
+    sameSite: process.env.NODE_ENV === "production" ? "none" : "strict",
+    maxAge: parseInt(process.env.veriExpire as string) * 1000,
+  });
+  sendResponse(res, {
     statusCode: httpStatus.CREATED,
     success: true,
     message: "Register successfully but you need to verify your account",
-    data: { user, token },
+    data: { user },
+  });
+  //Send Otp
+  await sendOTP({
+    to: user.email,
+    subject: "Verify your account",
+    otp: secureOTP.plainToken,
   });
 });
 
@@ -105,14 +129,14 @@ const localLogin = handleAsync(async (req: Request, res: Response) => {
 });
 
 const verifyAccount = handleAsync(async (req: Request, res: Response) => {
-  const authHeader = req.get("Authorization")?.split(" ")[1];
-  if (!authHeader) {
+  const verificationToken = req.cookies.verification_token;
+  if (!verificationToken) {
     throw new ServerError(
       httpStatus.BAD_REQUEST,
-      "Authorization token is required",
+      "Verification token is required",
     );
   }
-  const payload: any = decodeToken(authHeader);
+  const payload: any = decodeToken(verificationToken);
   if (payload.type !== "accountVerification") {
     throw new ServerError(httpStatus.BAD_REQUEST, "Invalid action");
   }
@@ -143,6 +167,7 @@ const verifyAccount = handleAsync(async (req: Request, res: Response) => {
       isVerifyed: true,
     },
   });
+  res.clearCookie("verification_token");
   sendResponse(res, {
     statusCode: httpStatus.CREATED,
     success: true,
@@ -153,14 +178,14 @@ const verifyAccount = handleAsync(async (req: Request, res: Response) => {
 });
 
 const resendOTP = handleAsync(async (req: Request, res: Response) => {
-  const authHeader = req.get("Authorization")?.split(" ")[1];
-  if (!authHeader) {
+  const verificationToken = req.cookies.verification_token;
+  if (!verificationToken) {
     throw new ServerError(
       httpStatus.BAD_REQUEST,
       "Authorization token is required",
     );
   }
-  const payload: any = decodeToken(authHeader);
+  const payload: any = decodeToken(verificationToken);
   if (
     payload.type !== "accountVerification" &&
     payload.type !== "forgetPassword"
@@ -174,20 +199,28 @@ const resendOTP = handleAsync(async (req: Request, res: Response) => {
       "Try again after" + " " + time + " " + "seconds",
     );
   }
-  console.log(payload);
-  // Expire in 60 seconds
   const secureOTP: any = generateOTP();
-  console.log(secureOTP);
   await redisDatabase.setex(
     "otp" + payload.user.toString(),
-    120,
+    parseInt(process.env.veriExpire as string),
     secureOTP.hash,
   );
+  res.cookie("verification_token", verificationToken, {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === "production",
+    sameSite: process.env.NODE_ENV === "production" ? "none" : "strict",
+    maxAge: parseInt(process.env.veriExpire as string) * 1000,
+  });
+  await sendOTP({
+    to: payload.email,
+    subject: "Verify your account",
+    otp: secureOTP.plainToken,
+  });
   sendResponse(res, {
     statusCode: httpStatus.CREATED,
     success: true,
     message: "New OTP sended!",
-    data: authHeader,
+    data: verificationToken,
   });
 });
 const forgetPassword = handleAsync(async (req: Request, res: Response) => {
@@ -263,12 +296,11 @@ const newPassword = handleAsync(async (req: Request, res: Response) => {
 
 const renewToken = handleAsync(async (req: Request, res: Response) => {
   const cookieToken = req.cookies.refreshToken;
-  // console.log(cookieToken)
-
-  const userDecode = jwt.verify(cookieToken, process.env.JWT_SECRET_KEY as string) as TJwtUser;
-
+  const userDecode = jwt.verify(
+    cookieToken,
+    process.env.JWT_SECRET_KEY as string,
+  ) as TJwtUser;
   const storedToken = await redisDatabase.get(`refresh_token:${userDecode.id}`);
-
   if (!storedToken || storedToken !== cookieToken) {
     throw new ServerError(
       httpStatus.UNAUTHORIZED,
@@ -312,6 +344,23 @@ const renewToken = handleAsync(async (req: Request, res: Response) => {
     refreshToken,
   );
 });
+
+const logout = handleAsync(async (req: Request, res: Response) => {
+  const cookieToken = req.cookies.refreshToken;
+  const userDecode = jwt.verify(
+    cookieToken,
+    process.env.JWT_SECRET_KEY as string,
+  ) as TJwtUser;
+  await redisDatabase.del(`refresh_token:${userDecode.id}`);
+  res.clearCookie("token");
+  res.clearCookie("refreshToken");
+  sendResponse(res, {
+    statusCode: httpStatus.CREATED,
+    success: true,
+    message: "Logout successful",
+    data: true,
+  });
+});
 export const AuthController = {
   register,
   localLogin,
@@ -320,4 +369,5 @@ export const AuthController = {
   forgetPassword,
   newPassword,
   renewToken,
+  logout,
 };

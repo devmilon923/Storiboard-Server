@@ -216,13 +216,14 @@ export type RefreshTokenOrderByWithRelationInput = {
 
 export type RefreshTokenWhereUniqueInput = Prisma.AtLeast<{
   id?: number
-  token?: string
   userId?: number
+  token_userId?: Prisma.RefreshTokenTokenUserIdCompoundUniqueInput
   AND?: Prisma.RefreshTokenWhereInput | Prisma.RefreshTokenWhereInput[]
   OR?: Prisma.RefreshTokenWhereInput[]
   NOT?: Prisma.RefreshTokenWhereInput | Prisma.RefreshTokenWhereInput[]
+  token?: Prisma.StringFilter<"RefreshToken"> | string
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
-}, "id" | "token" | "userId">
+}, "id" | "userId" | "token_userId">
 
 export type RefreshTokenOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
@@ -282,6 +283,11 @@ export type RefreshTokenUncheckedUpdateManyInput = {
   userId?: Prisma.IntFieldUpdateOperationsInput | number
 }
 
+export type RefreshTokenTokenUserIdCompoundUniqueInput = {
+  token: string
+  userId: number
+}
+
 export type RefreshTokenCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   token?: Prisma.SortOrder
@@ -313,18 +319,6 @@ export type RefreshTokenSumOrderByAggregateInput = {
 export type RefreshTokenNullableScalarRelationFilter = {
   is?: Prisma.RefreshTokenWhereInput | null
   isNot?: Prisma.RefreshTokenWhereInput | null
-}
-
-export type StringFieldUpdateOperationsInput = {
-  set?: string
-}
-
-export type IntFieldUpdateOperationsInput = {
-  set?: number
-  increment?: number
-  decrement?: number
-  multiply?: number
-  divide?: number
 }
 
 export type RefreshTokenCreateNestedOneWithoutUserInput = {

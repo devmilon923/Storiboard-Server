@@ -5,15 +5,25 @@ export const loginValidation = z.object({
   password: z.string().min(1, "Password is required").trim(),
 });
 export const registrationValidation = z.object({
-  name: z.string().min(1, "Name is required").trim(),
-  email: z.email().min(1, "Email is required").trim(),
+  name: z.string().min(3, "Name must be at least 3 characters long"),
+  email: z.email("Invalid email address"),
+  image: z.string().min(1, "Image path is required"),
   password: z
     .string()
-    .min(8, "Password must be at least 8 characters long")
+    .min(6, "Password must be at least 6 characters long")
+    .regex(/[A-Z]/, "Password must contain at least one uppercase letter")
+    .regex(/[a-z]/, "Password must contain at least one lowercase letter")
+    .regex(/[0-9]/, "Password must contain at least one number")
     .regex(
-      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,
-      "Password must contain at least one uppercase letter, one lowercase letter, one number, and one special character",
+      /[!@#$%^&*]/,
+      "Password must contain at least one special character (!@#$%^&*)",
     ),
+  gender: z.enum(["Male", "Female", "Others"], {
+    error: "Please select your gender",
+  }),
+  profession: z.enum(["Student", "Teacher", "Doctor", "Engineer"], {
+    error: "Please select your profession",
+  }),
 });
 
 export const verifyAccount = z.object({
