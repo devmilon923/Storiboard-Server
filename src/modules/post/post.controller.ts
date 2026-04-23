@@ -43,13 +43,23 @@ const getPosts = handleAsync(async (req: Request, res: Response) => {
     where: {
       authorId: user.id,
     },
-    include: {
+    select: {
       author: {
         select: {
           name: true,
+          image: true,
+          isVerifyed: true,
+          profession: true,
         },
       },
+      content: true,
+      createdAt: true,
+      id: true,
+      likesCount: true,
+      commentsCount: true,
+      feeling: true,
     },
+    orderBy: { createdAt: "desc" },
   });
   return sendResponse(res, {
     statusCode: httpStatus.OK,
