@@ -38,6 +38,7 @@ const getPost = handleAsync(async (req: Request, res: Response) => {
   });
 });
 const getPosts = handleAsync(async (req: Request, res: Response) => {
+  
   const user = req.user as TJwtUser;
   const result = await prisma.post.findMany({
     where: {
@@ -61,11 +62,30 @@ const getPosts = handleAsync(async (req: Request, res: Response) => {
     },
     orderBy: { createdAt: "desc" },
   });
+  const response = result.map((data) => {
+    return {
+      ...data,
+      comments: [
+        {
+          id: 101,
+          author: {
+            name: "David Chen",
+            image: "https://api.dicebear.com/7.x/avataaars/svg?seed=David",
+          },
+          content:
+            "This looks incredible! The attention to detail in the spacing scales is exactly what we needed.",
+          createdAt: new Date(Date.now() - 1000 * 60 * 30).toISOString(),
+          likesCount: 12,
+          repliesCount: 4,
+        },
+      ],
+    };
+  });
   return sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,
     message: "Get all post successfully!",
-    data: result,
+    data: response,
   });
 });
 const deletePost = handleAsync(async (req: Request, res: Response) => {
@@ -76,10 +96,31 @@ const deletePost = handleAsync(async (req: Request, res: Response) => {
     data: true,
   });
 });
+
+const addComment = handleAsync(async (req: Request, res: Response) => {
+  const user = req.user as TJwtUser;
+  const { content, sourceId, commentType } = req.body;
+  const result = await prisma.comment.create({
+    data: {
+      content,
+      sourceId,
+      commentType,
+      user: { connect: { id: user.id } },
+    },
+  });
+
+  return sendResponse(res, {
+    statusCode: httpStatus.CREATED,
+    success: true,
+    message: "Comment added successfully!",
+    data: result,
+  });
+});
 export const PostController = {
   createPost,
   updatePost,
   getPost,
   deletePost,
   getPosts,
+  addComment,
 };

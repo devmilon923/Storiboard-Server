@@ -46,6 +46,7 @@ export type CommentMinAggregateOutputType = {
   id: number | null
   sourceId: number | null
   userId: number | null
+  content: string | null
   commentType: $Enums.CommentType | null
   likesCount: number | null
   commentCount: number | null
@@ -56,6 +57,7 @@ export type CommentMaxAggregateOutputType = {
   id: number | null
   sourceId: number | null
   userId: number | null
+  content: string | null
   commentType: $Enums.CommentType | null
   likesCount: number | null
   commentCount: number | null
@@ -66,6 +68,7 @@ export type CommentCountAggregateOutputType = {
   id: number
   sourceId: number
   userId: number
+  content: number
   commentType: number
   likesCount: number
   commentCount: number
@@ -94,6 +97,7 @@ export type CommentMinAggregateInputType = {
   id?: true
   sourceId?: true
   userId?: true
+  content?: true
   commentType?: true
   likesCount?: true
   commentCount?: true
@@ -104,6 +108,7 @@ export type CommentMaxAggregateInputType = {
   id?: true
   sourceId?: true
   userId?: true
+  content?: true
   commentType?: true
   likesCount?: true
   commentCount?: true
@@ -114,6 +119,7 @@ export type CommentCountAggregateInputType = {
   id?: true
   sourceId?: true
   userId?: true
+  content?: true
   commentType?: true
   likesCount?: true
   commentCount?: true
@@ -211,6 +217,7 @@ export type CommentGroupByOutputType = {
   id: number
   sourceId: number
   userId: number
+  content: string
   commentType: $Enums.CommentType
   likesCount: number
   commentCount: number
@@ -244,6 +251,7 @@ export type CommentWhereInput = {
   id?: Prisma.IntFilter<"Comment"> | number
   sourceId?: Prisma.IntFilter<"Comment"> | number
   userId?: Prisma.IntFilter<"Comment"> | number
+  content?: Prisma.StringFilter<"Comment"> | string
   commentType?: Prisma.EnumCommentTypeFilter<"Comment"> | $Enums.CommentType
   likesCount?: Prisma.IntFilter<"Comment"> | number
   commentCount?: Prisma.IntFilter<"Comment"> | number
@@ -255,6 +263,7 @@ export type CommentOrderByWithRelationInput = {
   id?: Prisma.SortOrder
   sourceId?: Prisma.SortOrder
   userId?: Prisma.SortOrder
+  content?: Prisma.SortOrder
   commentType?: Prisma.SortOrder
   likesCount?: Prisma.SortOrder
   commentCount?: Prisma.SortOrder
@@ -269,6 +278,7 @@ export type CommentWhereUniqueInput = Prisma.AtLeast<{
   NOT?: Prisma.CommentWhereInput | Prisma.CommentWhereInput[]
   sourceId?: Prisma.IntFilter<"Comment"> | number
   userId?: Prisma.IntFilter<"Comment"> | number
+  content?: Prisma.StringFilter<"Comment"> | string
   commentType?: Prisma.EnumCommentTypeFilter<"Comment"> | $Enums.CommentType
   likesCount?: Prisma.IntFilter<"Comment"> | number
   commentCount?: Prisma.IntFilter<"Comment"> | number
@@ -280,6 +290,7 @@ export type CommentOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
   sourceId?: Prisma.SortOrder
   userId?: Prisma.SortOrder
+  content?: Prisma.SortOrder
   commentType?: Prisma.SortOrder
   likesCount?: Prisma.SortOrder
   commentCount?: Prisma.SortOrder
@@ -298,6 +309,7 @@ export type CommentScalarWhereWithAggregatesInput = {
   id?: Prisma.IntWithAggregatesFilter<"Comment"> | number
   sourceId?: Prisma.IntWithAggregatesFilter<"Comment"> | number
   userId?: Prisma.IntWithAggregatesFilter<"Comment"> | number
+  content?: Prisma.StringWithAggregatesFilter<"Comment"> | string
   commentType?: Prisma.EnumCommentTypeWithAggregatesFilter<"Comment"> | $Enums.CommentType
   likesCount?: Prisma.IntWithAggregatesFilter<"Comment"> | number
   commentCount?: Prisma.IntWithAggregatesFilter<"Comment"> | number
@@ -307,6 +319,7 @@ export type CommentScalarWhereWithAggregatesInput = {
 export type CommentCreateInput = {
   id?: number
   sourceId: number
+  content: string
   commentType: $Enums.CommentType
   likesCount?: number
   commentCount?: number
@@ -318,6 +331,7 @@ export type CommentUncheckedCreateInput = {
   id?: number
   sourceId: number
   userId: number
+  content: string
   commentType: $Enums.CommentType
   likesCount?: number
   commentCount?: number
@@ -326,6 +340,7 @@ export type CommentUncheckedCreateInput = {
 
 export type CommentUpdateInput = {
   sourceId?: Prisma.IntFieldUpdateOperationsInput | number
+  content?: Prisma.StringFieldUpdateOperationsInput | string
   commentType?: Prisma.EnumCommentTypeFieldUpdateOperationsInput | $Enums.CommentType
   likesCount?: Prisma.IntFieldUpdateOperationsInput | number
   commentCount?: Prisma.IntFieldUpdateOperationsInput | number
@@ -337,6 +352,7 @@ export type CommentUncheckedUpdateInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   sourceId?: Prisma.IntFieldUpdateOperationsInput | number
   userId?: Prisma.IntFieldUpdateOperationsInput | number
+  content?: Prisma.StringFieldUpdateOperationsInput | string
   commentType?: Prisma.EnumCommentTypeFieldUpdateOperationsInput | $Enums.CommentType
   likesCount?: Prisma.IntFieldUpdateOperationsInput | number
   commentCount?: Prisma.IntFieldUpdateOperationsInput | number
@@ -347,6 +363,7 @@ export type CommentCreateManyInput = {
   id?: number
   sourceId: number
   userId: number
+  content: string
   commentType: $Enums.CommentType
   likesCount?: number
   commentCount?: number
@@ -355,6 +372,7 @@ export type CommentCreateManyInput = {
 
 export type CommentUpdateManyMutationInput = {
   sourceId?: Prisma.IntFieldUpdateOperationsInput | number
+  content?: Prisma.StringFieldUpdateOperationsInput | string
   commentType?: Prisma.EnumCommentTypeFieldUpdateOperationsInput | $Enums.CommentType
   likesCount?: Prisma.IntFieldUpdateOperationsInput | number
   commentCount?: Prisma.IntFieldUpdateOperationsInput | number
@@ -365,6 +383,7 @@ export type CommentUncheckedUpdateManyInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   sourceId?: Prisma.IntFieldUpdateOperationsInput | number
   userId?: Prisma.IntFieldUpdateOperationsInput | number
+  content?: Prisma.StringFieldUpdateOperationsInput | string
   commentType?: Prisma.EnumCommentTypeFieldUpdateOperationsInput | $Enums.CommentType
   likesCount?: Prisma.IntFieldUpdateOperationsInput | number
   commentCount?: Prisma.IntFieldUpdateOperationsInput | number
@@ -375,6 +394,7 @@ export type CommentCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   sourceId?: Prisma.SortOrder
   userId?: Prisma.SortOrder
+  content?: Prisma.SortOrder
   commentType?: Prisma.SortOrder
   likesCount?: Prisma.SortOrder
   commentCount?: Prisma.SortOrder
@@ -393,6 +413,7 @@ export type CommentMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
   sourceId?: Prisma.SortOrder
   userId?: Prisma.SortOrder
+  content?: Prisma.SortOrder
   commentType?: Prisma.SortOrder
   likesCount?: Prisma.SortOrder
   commentCount?: Prisma.SortOrder
@@ -403,6 +424,7 @@ export type CommentMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
   sourceId?: Prisma.SortOrder
   userId?: Prisma.SortOrder
+  content?: Prisma.SortOrder
   commentType?: Prisma.SortOrder
   likesCount?: Prisma.SortOrder
   commentCount?: Prisma.SortOrder
@@ -433,6 +455,10 @@ export type IntFieldUpdateOperationsInput = {
   decrement?: number
   multiply?: number
   divide?: number
+}
+
+export type StringFieldUpdateOperationsInput = {
+  set?: string
 }
 
 export type EnumCommentTypeFieldUpdateOperationsInput = {
@@ -488,6 +514,7 @@ export type CommentUncheckedUpdateManyWithoutUserNestedInput = {
 export type CommentCreateWithoutUserInput = {
   id?: number
   sourceId: number
+  content: string
   commentType: $Enums.CommentType
   likesCount?: number
   commentCount?: number
@@ -497,6 +524,7 @@ export type CommentCreateWithoutUserInput = {
 export type CommentUncheckedCreateWithoutUserInput = {
   id?: number
   sourceId: number
+  content: string
   commentType: $Enums.CommentType
   likesCount?: number
   commentCount?: number
@@ -536,6 +564,7 @@ export type CommentScalarWhereInput = {
   id?: Prisma.IntFilter<"Comment"> | number
   sourceId?: Prisma.IntFilter<"Comment"> | number
   userId?: Prisma.IntFilter<"Comment"> | number
+  content?: Prisma.StringFilter<"Comment"> | string
   commentType?: Prisma.EnumCommentTypeFilter<"Comment"> | $Enums.CommentType
   likesCount?: Prisma.IntFilter<"Comment"> | number
   commentCount?: Prisma.IntFilter<"Comment"> | number
@@ -545,6 +574,7 @@ export type CommentScalarWhereInput = {
 export type CommentCreateManyUserInput = {
   id?: number
   sourceId: number
+  content: string
   commentType: $Enums.CommentType
   likesCount?: number
   commentCount?: number
@@ -553,6 +583,7 @@ export type CommentCreateManyUserInput = {
 
 export type CommentUpdateWithoutUserInput = {
   sourceId?: Prisma.IntFieldUpdateOperationsInput | number
+  content?: Prisma.StringFieldUpdateOperationsInput | string
   commentType?: Prisma.EnumCommentTypeFieldUpdateOperationsInput | $Enums.CommentType
   likesCount?: Prisma.IntFieldUpdateOperationsInput | number
   commentCount?: Prisma.IntFieldUpdateOperationsInput | number
@@ -562,6 +593,7 @@ export type CommentUpdateWithoutUserInput = {
 export type CommentUncheckedUpdateWithoutUserInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   sourceId?: Prisma.IntFieldUpdateOperationsInput | number
+  content?: Prisma.StringFieldUpdateOperationsInput | string
   commentType?: Prisma.EnumCommentTypeFieldUpdateOperationsInput | $Enums.CommentType
   likesCount?: Prisma.IntFieldUpdateOperationsInput | number
   commentCount?: Prisma.IntFieldUpdateOperationsInput | number
@@ -571,6 +603,7 @@ export type CommentUncheckedUpdateWithoutUserInput = {
 export type CommentUncheckedUpdateManyWithoutUserInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   sourceId?: Prisma.IntFieldUpdateOperationsInput | number
+  content?: Prisma.StringFieldUpdateOperationsInput | string
   commentType?: Prisma.EnumCommentTypeFieldUpdateOperationsInput | $Enums.CommentType
   likesCount?: Prisma.IntFieldUpdateOperationsInput | number
   commentCount?: Prisma.IntFieldUpdateOperationsInput | number
@@ -583,6 +616,7 @@ export type CommentSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs 
   id?: boolean
   sourceId?: boolean
   userId?: boolean
+  content?: boolean
   commentType?: boolean
   likesCount?: boolean
   commentCount?: boolean
@@ -594,6 +628,7 @@ export type CommentSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Exten
   id?: boolean
   sourceId?: boolean
   userId?: boolean
+  content?: boolean
   commentType?: boolean
   likesCount?: boolean
   commentCount?: boolean
@@ -605,6 +640,7 @@ export type CommentSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Exten
   id?: boolean
   sourceId?: boolean
   userId?: boolean
+  content?: boolean
   commentType?: boolean
   likesCount?: boolean
   commentCount?: boolean
@@ -616,13 +652,14 @@ export type CommentSelectScalar = {
   id?: boolean
   sourceId?: boolean
   userId?: boolean
+  content?: boolean
   commentType?: boolean
   likesCount?: boolean
   commentCount?: boolean
   createdAt?: boolean
 }
 
-export type CommentOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "sourceId" | "userId" | "commentType" | "likesCount" | "commentCount" | "createdAt", ExtArgs["result"]["comment"]>
+export type CommentOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "sourceId" | "userId" | "content" | "commentType" | "likesCount" | "commentCount" | "createdAt", ExtArgs["result"]["comment"]>
 export type CommentInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }
@@ -642,6 +679,7 @@ export type $CommentPayload<ExtArgs extends runtime.Types.Extensions.InternalArg
     id: number
     sourceId: number
     userId: number
+    content: string
     commentType: $Enums.CommentType
     likesCount: number
     commentCount: number
@@ -1073,6 +1111,7 @@ export interface CommentFieldRefs {
   readonly id: Prisma.FieldRef<"Comment", 'Int'>
   readonly sourceId: Prisma.FieldRef<"Comment", 'Int'>
   readonly userId: Prisma.FieldRef<"Comment", 'Int'>
+  readonly content: Prisma.FieldRef<"Comment", 'String'>
   readonly commentType: Prisma.FieldRef<"Comment", 'CommentType'>
   readonly likesCount: Prisma.FieldRef<"Comment", 'Int'>
   readonly commentCount: Prisma.FieldRef<"Comment", 'Int'>

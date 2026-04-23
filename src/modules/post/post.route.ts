@@ -1,6 +1,10 @@
 import { Router } from "express";
 import { zodValidate } from "../../middleware/validation";
-import { createPostValidation, updatePostValidation } from "./post.validation";
+import {
+  commentValidation,
+  createPostValidation,
+  updatePostValidation,
+} from "./post.validation";
 import { PostController } from "./post.controller";
 import passport from "passport";
 
@@ -13,11 +17,19 @@ router
     zodValidate(createPostValidation),
     PostController.createPost,
   );
-router.route("/").get(
-  passport.authenticate("jwt", { session: false }),
-
-  PostController.getPosts,
-);
+router
+  .route("/")
+  .get(
+    passport.authenticate("jwt", { session: false }),
+    PostController.getPosts,
+  );
+router
+  .route("/comments")
+  .post(
+    passport.authenticate("jwt", { session: false }),
+    zodValidate(commentValidation),
+    PostController.addComment,
+  );
 router
   .route("/:id")
   .patch(zodValidate(updatePostValidation), PostController.updatePost);

@@ -2,6 +2,7 @@ model Comment {
   id             Int         @default(autoincrement()) @unique
   sourceId       Int
   userId         Int
+  content String
   commentType    CommentType
   likesCount     Int         @default(0)
   commentCount   Int         @default(0)

@@ -32,5 +32,9 @@ const updatePostValidation = z.object({
     ]),
   }),
 });
-
-export { createPostValidation, updatePostValidation };
+const commentValidation = z.object({
+  content: z.string().min(1, "Comment content is required"),
+  sourceId: z.number().min(1, "Comment source id is required"),
+  commentType: z.enum(["post", "replie"]),
+});
+export { createPostValidation, updatePostValidation, commentValidation };
