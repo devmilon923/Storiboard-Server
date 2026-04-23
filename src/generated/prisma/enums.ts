@@ -9,6 +9,14 @@
 * 🟢 You can import this file directly.
 */
 
+export const CommentType = {
+  post: 'post',
+  replie: 'replie'
+} as const
+
+export type CommentType = (typeof CommentType)[keyof typeof CommentType]
+
+
 export const Gender = {
   Male: 'Male',
   Female: 'Female',

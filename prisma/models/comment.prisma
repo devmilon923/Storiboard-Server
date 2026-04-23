@@ -1,0 +1,15 @@
+model Comment {
+  id             Int         @default(autoincrement()) @unique
+  sourceId       Int
+  userId         Int
+  commentType    CommentType
+  likesCount     Int         @default(0)
+  commentCount   Int         @default(0)
+  createdAt      DateTime    @default(now())
+  user User @relation(fields: [userId],references: [id],onDelete: Cascade)
+}
+
+enum CommentType {
+    post
+    replie
+}

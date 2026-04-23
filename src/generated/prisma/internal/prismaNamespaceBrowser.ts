@@ -51,6 +51,7 @@ export const AnyNull = runtime.AnyNull
 
 
 export const ModelName = {
+  Comment: 'Comment',
   Post: 'Post',
   RefreshToken: 'RefreshToken',
   User: 'User'
@@ -70,6 +71,19 @@ export const TransactionIsolationLevel = runtime.makeStrictEnum({
 } as const)
 
 export type TransactionIsolationLevel = (typeof TransactionIsolationLevel)[keyof typeof TransactionIsolationLevel]
+
+
+export const CommentScalarFieldEnum = {
+  id: 'id',
+  sourceId: 'sourceId',
+  userId: 'userId',
+  commentType: 'commentType',
+  likesCount: 'likesCount',
+  commentCount: 'commentCount',
+  createdAt: 'createdAt'
+} as const
+
+export type CommentScalarFieldEnum = (typeof CommentScalarFieldEnum)[keyof typeof CommentScalarFieldEnum]
 
 
 export const PostScalarFieldEnum = {
