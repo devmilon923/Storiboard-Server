@@ -38,7 +38,6 @@ const getPost = handleAsync(async (req: Request, res: Response) => {
   });
 });
 const getPosts = handleAsync(async (req: Request, res: Response) => {
-  
   const user = req.user as TJwtUser;
   const result = await prisma.post.findMany({
     where: {
@@ -62,25 +61,32 @@ const getPosts = handleAsync(async (req: Request, res: Response) => {
     },
     orderBy: { createdAt: "desc" },
   });
-  const response = result.map((data) => {
-    return {
-      ...data,
-      comments: [
-        {
-          id: 101,
-          author: {
-            name: "David Chen",
-            image: "https://api.dicebear.com/7.x/avataaars/svg?seed=David",
-          },
-          content:
-            "This looks incredible! The attention to detail in the spacing scales is exactly what we needed.",
-          createdAt: new Date(Date.now() - 1000 * 60 * 30).toISOString(),
-          likesCount: 12,
-          repliesCount: 4,
+
+  const postIds = result.map((data) => data.id);
+
+  const latestComments = await prisma.comment.findMany({
+    where: {
+      sourceId: { in: postIds },
+      commentType: "post",
+    },
+    orderBy: [{ sourceId: "asc" }, { createdAt: "desc" }],
+    distinct: ["sourceId"],
+    include: {
+      user: {
+        select: {
+          name: true,
+          image: true,
         },
-      ],
-    };
+      },
+    },
   });
+
+  const commentsMap = new Map(latestComments.map((c) => [c.sourceId, c]));
+
+  const response = result.map((data) => ({
+    ...data,
+    comments: commentsMap.has(data.id) ? [commentsMap.get(data.id)] : [],
+  }));
   return sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,
