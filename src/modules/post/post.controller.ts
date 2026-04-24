@@ -70,7 +70,6 @@ const getPosts = handleAsync(async (req: Request, res: Response) => {
       commentType: "post",
     },
     orderBy: [{ sourceId: "asc" }, { createdAt: "desc" }],
-    distinct: ["sourceId"],
     include: {
       user: {
         select: {
