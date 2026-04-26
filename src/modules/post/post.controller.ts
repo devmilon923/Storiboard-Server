@@ -4,6 +4,7 @@ import { handleAsync } from "../../utils/handleAsync";
 import sendResponse from "../../utils/response";
 import { TJwtUser } from "../../utils/jwtValidation";
 import { prisma } from "../../utils/prisma";
+import ServerError from "../../utils/error";
 
 const createPost = handleAsync(async (req: Request, res: Response) => {
   const user = req.user as TJwtUser;
@@ -69,7 +70,7 @@ const getPosts = handleAsync(async (req: Request, res: Response) => {
       sourceId: { in: postIds },
       commentType: "post",
     },
-    orderBy: [{ sourceId: "asc" }, { createdAt: "desc" }],
+    orderBy: { sourceId: "desc" },
     include: {
       user: {
         select: {
@@ -114,6 +115,72 @@ const addComment = handleAsync(async (req: Request, res: Response) => {
     },
   });
 
+  sendResponse(res, {
+    statusCode: httpStatus.CREATED,
+    success: true,
+    message: "Comment added successfully!",
+    data: result,
+  });
+  if (commentType === "post") {
+    await prisma.post.update({
+      where: {
+        id: sourceId,
+      },
+      data: {
+        commentsCount: {
+          increment: 1,
+        },
+      },
+    });
+  } else if (commentType === "replie") {
+    await prisma.comment.update({
+      where: {
+        id: sourceId,
+      },
+      data: {
+        commentCount: {
+          increment: 1,
+        },
+      },
+    });
+  }
+});
+const getComments = handleAsync(async (req: Request, res: Response) => {
+  const user = req.user as TJwtUser;
+  const { sourceId, commentType } = req.query;
+  if (!sourceId) {
+    throw new ServerError(httpStatus.BAD_REQUEST, "Source id is required");
+  }
+  if (!commentType) {
+    throw new ServerError(httpStatus.BAD_REQUEST, "Comment type is required");
+  }
+  if (commentType !== "post" && commentType !== "replie") {
+    throw new ServerError(
+      httpStatus.BAD_REQUEST,
+      "Comment type is not valid (post/replie)",
+    );
+  }
+  const result = await prisma.comment.findMany({
+    where: {
+      sourceId: +sourceId,
+      commentType,
+    },
+    orderBy: { sourceId: "desc" },
+    select: {
+      user: {
+        select: {
+          name: true,
+          image: true,
+        },
+      },
+      createdAt: true,
+      content: true,
+      id: true,
+      likesCount: true,
+      commentCount: true,
+    },
+  });
+
   return sendResponse(res, {
     statusCode: httpStatus.CREATED,
     success: true,
@@ -128,4 +195,5 @@ export const PostController = {
   deletePost,
   getPosts,
   addComment,
+  getComments,
 };

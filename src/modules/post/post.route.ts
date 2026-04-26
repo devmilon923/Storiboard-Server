@@ -31,6 +31,12 @@ router
     PostController.addComment,
   );
 router
+  .route("/comments")
+  .get(
+    passport.authenticate("jwt", { session: false }),
+    PostController.getComments,
+  );
+router
   .route("/:id")
   .patch(zodValidate(updatePostValidation), PostController.updatePost);
 router.route("/:id").get(PostController.getPost);
