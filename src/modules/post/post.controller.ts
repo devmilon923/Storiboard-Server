@@ -40,17 +40,12 @@ const getPost = handleAsync(async (req: Request, res: Response) => {
 });
 const getPosts = handleAsync(async (req: Request, res: Response) => {
   const user = req.user as TJwtUser;
-  const { lastCursor, limit } = req.query;
-  console.log(typeof lastCursor);
-  const parseLastCursor = Number(lastCursor as string);
+  const pc = Number(req.query.pc as string);
+  const limit = Number(req.query.limit as string);
   const result = await prisma.post.findMany({
-    take: parseInt(limit as string) || 10,
-    skip: parseLastCursor ? 1 : 0,
-    cursor: parseLastCursor
-      ? {
-          id: Number(parseLastCursor),
-        }
-      : undefined,
+    take: limit || 10,
+    skip: pc ? 1 : 0,
+    cursor: pc ? { id: pc } : undefined,
     where: {
       authorId: user.id,
     },
@@ -74,10 +69,8 @@ const getPosts = handleAsync(async (req: Request, res: Response) => {
     orderBy: { id: "desc" },
   });
 
-  const cursor =
-    result.length === Number(limit) ? result[result.length - 1].id : undefined;
+  const cursor = result.length < limit ? result[result.length - 1].id : null;
   const postIds = result.map((data) => data.id);
-  console.log(cursor);
   const latestComments = await prisma.comment.findMany({
     where: {
       sourceId: { in: postIds },
@@ -162,6 +155,8 @@ const addComment = handleAsync(async (req: Request, res: Response) => {
 const getComments = handleAsync(async (req: Request, res: Response) => {
   const user = req.user as TJwtUser;
   const { sourceId, commentType } = req.query;
+  const pc = Number(req.query.pc as string) || null;
+  const limit = Number(req.query.limit as string) || 10;
   if (!sourceId) {
     throw new ServerError(httpStatus.BAD_REQUEST, "Source id is required");
   }
@@ -175,11 +170,14 @@ const getComments = handleAsync(async (req: Request, res: Response) => {
     );
   }
   const result = await prisma.comment.findMany({
+    take: limit,
+    skip: pc ? 1 : 0,
+    cursor: pc ? { id: pc } : undefined,
     where: {
       sourceId: +sourceId,
       commentType,
     },
-    orderBy: { sourceId: "desc" },
+    orderBy: { id: "desc" },
     select: {
       user: {
         select: {
@@ -194,12 +192,13 @@ const getComments = handleAsync(async (req: Request, res: Response) => {
       commentCount: true,
     },
   });
-
+  const cursor = result.length < limit ? result[result.length - 1].id : null;
   return sendResponse(res, {
-    statusCode: httpStatus.CREATED,
+    statusCode: httpStatus.OK,
     success: true,
-    message: "Comment added successfully!",
+    message: "Comments get successfully!",
     data: result,
+    cursor,
   });
 });
 export const PostController = {
