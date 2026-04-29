@@ -68,15 +68,15 @@ const getPosts = handleAsync(async (req: Request, res: Response) => {
     },
     orderBy: { id: "desc" },
   });
-
-  const cursor = result.length < limit ? result[result.length - 1].id : null;
+  const cursor = result.length === limit ? result[result.length - 1].id : null;
   const postIds = result.map((data) => data.id);
   const latestComments = await prisma.comment.findMany({
     where: {
       sourceId: { in: postIds },
       commentType: "post",
     },
-    orderBy: { sourceId: "desc" },
+    distinct: ["sourceId"],
+    orderBy: [{ sourceId: "desc" }, { id: "desc" }],
     include: {
       user: {
         select: {
@@ -98,7 +98,7 @@ const getPosts = handleAsync(async (req: Request, res: Response) => {
     success: true,
     message: "Get all post successfully!",
     data: response,
-    cursor: cursor || null,
+    cursor: cursor,
   });
 });
 const deletePost = handleAsync(async (req: Request, res: Response) => {
@@ -192,7 +192,7 @@ const getComments = handleAsync(async (req: Request, res: Response) => {
       commentCount: true,
     },
   });
-  const cursor = result.length < limit ? result[result.length - 1].id : null;
+  const cursor = result.length === limit ? result[result.length - 1].id : null;
   return sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,
