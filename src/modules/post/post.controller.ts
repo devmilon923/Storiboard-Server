@@ -40,10 +40,21 @@ const getPost = handleAsync(async (req: Request, res: Response) => {
 });
 const getPosts = handleAsync(async (req: Request, res: Response) => {
   const user = req.user as TJwtUser;
+  const { lastCursor, limit } = req.query;
+  console.log(typeof lastCursor);
+  const parseLastCursor = Number(lastCursor as string);
   const result = await prisma.post.findMany({
+    take: parseInt(limit as string) || 10,
+    skip: parseLastCursor ? 1 : 0,
+    cursor: parseLastCursor
+      ? {
+          id: Number(parseLastCursor),
+        }
+      : undefined,
     where: {
       authorId: user.id,
     },
+
     select: {
       author: {
         select: {
@@ -60,11 +71,13 @@ const getPosts = handleAsync(async (req: Request, res: Response) => {
       commentsCount: true,
       feeling: true,
     },
-    orderBy: { createdAt: "desc" },
+    orderBy: { id: "desc" },
   });
 
+  const cursor =
+    result.length === Number(limit) ? result[result.length - 1].id : undefined;
   const postIds = result.map((data) => data.id);
-
+  console.log(cursor);
   const latestComments = await prisma.comment.findMany({
     where: {
       sourceId: { in: postIds },
@@ -92,6 +105,7 @@ const getPosts = handleAsync(async (req: Request, res: Response) => {
     success: true,
     message: "Get all post successfully!",
     data: response,
+    cursor: cursor || null,
   });
 });
 const deletePost = handleAsync(async (req: Request, res: Response) => {

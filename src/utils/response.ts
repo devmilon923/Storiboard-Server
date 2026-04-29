@@ -11,6 +11,7 @@ export type TResponse<T> = {
     limit?: number;
     totalItem?: number;
   };
+  cursor?: any;
   data: T;
 };
 const sendResponse = <T>(res: Response, data: TResponse<T>) => {
@@ -20,6 +21,7 @@ const sendResponse = <T>(res: Response, data: TResponse<T>) => {
     message: data?.message,
     pagination: data.pagination,
     data: data.data,
+    cursor: data.cursor,
   });
 };
 
