@@ -5,6 +5,8 @@ import sendResponse from "../../utils/response";
 import { TJwtUser } from "../../utils/jwtValidation";
 import { prisma } from "../../utils/prisma";
 import ServerError from "../../utils/error";
+import z from "zod";
+import { likeValidation } from "./post.validation";
 
 const createPost = handleAsync(async (req: Request, res: Response) => {
   const user = req.user as TJwtUser;
@@ -70,6 +72,17 @@ const getPosts = handleAsync(async (req: Request, res: Response) => {
   });
   const cursor = result.length === limit ? result[result.length - 1].id : null;
   const postIds = result.map((data) => data.id);
+  const likes = await prisma.likes.findMany({
+    where: {
+      userId: user.id,
+      likeType: "post",
+      sourceId: { in: postIds },
+    },
+    select: {
+      sourceId: true,
+    },
+  });
+  const uniqueLikeIds = new Set(likes.map((like) => like.sourceId));
   const latestComments = await prisma.comment.findMany({
     where: {
       sourceId: { in: postIds },
@@ -91,6 +104,7 @@ const getPosts = handleAsync(async (req: Request, res: Response) => {
 
   const response = result.map((data) => ({
     ...data,
+    isLiked: !!uniqueLikeIds.has(data.id),
     comments: commentsMap.has(data.id) ? [commentsMap.get(data.id)] : [],
   }));
   return sendResponse(res, {
@@ -153,7 +167,6 @@ const addComment = handleAsync(async (req: Request, res: Response) => {
   }
 });
 const getComments = handleAsync(async (req: Request, res: Response) => {
-  const user = req.user as TJwtUser;
   const { sourceId, commentType } = req.query;
   const pc = Number(req.query.pc as string) || null;
   const limit = Number(req.query.limit as string) || 10;
@@ -201,6 +214,108 @@ const getComments = handleAsync(async (req: Request, res: Response) => {
     cursor,
   });
 });
+
+const likeAction = handleAsync(async (req: Request, res: Response) => {
+  const user = req.user as TJwtUser;
+  const { sourceId, likeType } = req.body as z.infer<typeof likeValidation>;
+  try {
+    await prisma.likes.create({
+      data: {
+        sourceId,
+        likeType,
+        user: { connect: { id: user.id } },
+      },
+    });
+    if (likeType === "post") {
+      await prisma.post.update({
+        where: {
+          id: sourceId,
+        },
+        data: {
+          likesCount: {
+            increment: 1,
+          },
+        },
+      });
+    } else if (likeType === "replie") {
+      await prisma.comment.update({
+        where: {
+          id: sourceId,
+        },
+        data: {
+          likesCount: {
+            increment: 1,
+          },
+        },
+      });
+    } else if (likeType === "comment") {
+      await prisma.comment.update({
+        where: {
+          id: sourceId,
+        },
+        data: {
+          likesCount: {
+            increment: 1,
+          },
+        },
+      });
+    }
+  } catch (error: any) {
+    if (error.code === "P2002") {
+      await prisma.likes.delete({
+        where: {
+          uniqueFinder: {
+            sourceId,
+            likeType,
+            userId: user.id,
+          },
+        },
+      });
+      if (likeType === "post") {
+        await prisma.post.update({
+          where: {
+            id: sourceId,
+          },
+          data: {
+            likesCount: {
+              decrement: 1,
+            },
+          },
+        });
+      } else if (likeType === "replie") {
+        await prisma.comment.update({
+          where: {
+            id: sourceId,
+          },
+          data: {
+            likesCount: {
+              decrement: 1,
+            },
+          },
+        });
+      } else if (likeType === "comment") {
+        await prisma.comment.update({
+          where: {
+            id: sourceId,
+          },
+          data: {
+            likesCount: {
+              decrement: 1,
+            },
+          },
+        });
+      }
+    } else {
+      throw error;
+    }
+  }
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: "Like action successfully performed",
+    data: true,
+  });
+});
 export const PostController = {
   createPost,
   updatePost,
@@ -209,4 +324,5 @@ export const PostController = {
   getPosts,
   addComment,
   getComments,
+  likeAction,
 };

@@ -116,6 +116,23 @@ export type DateTimeWithAggregatesFilter<$PrismaModel = never> = {
   _max?: Prisma.NestedDateTimeFilter<$PrismaModel>
 }
 
+export type EnumLikeTypeFilter<$PrismaModel = never> = {
+  equals?: $Enums.LikeType | Prisma.EnumLikeTypeFieldRefInput<$PrismaModel>
+  in?: $Enums.LikeType[] | Prisma.ListEnumLikeTypeFieldRefInput<$PrismaModel>
+  notIn?: $Enums.LikeType[] | Prisma.ListEnumLikeTypeFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumLikeTypeFilter<$PrismaModel> | $Enums.LikeType
+}
+
+export type EnumLikeTypeWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.LikeType | Prisma.EnumLikeTypeFieldRefInput<$PrismaModel>
+  in?: $Enums.LikeType[] | Prisma.ListEnumLikeTypeFieldRefInput<$PrismaModel>
+  notIn?: $Enums.LikeType[] | Prisma.ListEnumLikeTypeFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumLikeTypeWithAggregatesFilter<$PrismaModel> | $Enums.LikeType
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumLikeTypeFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumLikeTypeFilter<$PrismaModel>
+}
+
 export type JsonFilter<$PrismaModel = never> =
 | Prisma.PatchUndefined<
     Prisma.Either<Required<JsonFilterBase<$PrismaModel>>, Exclude<keyof Required<JsonFilterBase<$PrismaModel>>, 'path'>>,
@@ -323,6 +340,23 @@ export type NestedDateTimeWithAggregatesFilter<$PrismaModel = never> = {
   _count?: Prisma.NestedIntFilter<$PrismaModel>
   _min?: Prisma.NestedDateTimeFilter<$PrismaModel>
   _max?: Prisma.NestedDateTimeFilter<$PrismaModel>
+}
+
+export type NestedEnumLikeTypeFilter<$PrismaModel = never> = {
+  equals?: $Enums.LikeType | Prisma.EnumLikeTypeFieldRefInput<$PrismaModel>
+  in?: $Enums.LikeType[] | Prisma.ListEnumLikeTypeFieldRefInput<$PrismaModel>
+  notIn?: $Enums.LikeType[] | Prisma.ListEnumLikeTypeFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumLikeTypeFilter<$PrismaModel> | $Enums.LikeType
+}
+
+export type NestedEnumLikeTypeWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.LikeType | Prisma.EnumLikeTypeFieldRefInput<$PrismaModel>
+  in?: $Enums.LikeType[] | Prisma.ListEnumLikeTypeFieldRefInput<$PrismaModel>
+  notIn?: $Enums.LikeType[] | Prisma.ListEnumLikeTypeFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumLikeTypeWithAggregatesFilter<$PrismaModel> | $Enums.LikeType
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumLikeTypeFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumLikeTypeFilter<$PrismaModel>
 }
 
 export type NestedJsonFilter<$PrismaModel = never> =

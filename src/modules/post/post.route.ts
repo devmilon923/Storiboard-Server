@@ -3,6 +3,7 @@ import { zodValidate } from "../../middleware/validation";
 import {
   commentValidation,
   createPostValidation,
+  likeValidation,
   updatePostValidation,
 } from "./post.validation";
 import { PostController } from "./post.controller";
@@ -29,6 +30,13 @@ router
     passport.authenticate("jwt", { session: false }),
     zodValidate(commentValidation),
     PostController.addComment,
+  );
+router
+  .route("/likes")
+  .patch(
+    passport.authenticate("jwt", { session: false }),
+    zodValidate(likeValidation),
+    PostController.likeAction,
   );
 router
   .route("/comments")

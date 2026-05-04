@@ -17,6 +17,15 @@ export const CommentType = {
 export type CommentType = (typeof CommentType)[keyof typeof CommentType]
 
 
+export const LikeType = {
+  post: 'post',
+  replie: 'replie',
+  comment: 'comment'
+} as const
+
+export type LikeType = (typeof LikeType)[keyof typeof LikeType]
+
+
 export const Gender = {
   Male: 'Male',
   Female: 'Female',

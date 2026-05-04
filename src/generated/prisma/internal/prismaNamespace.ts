@@ -385,6 +385,7 @@ type FieldRefInputType<Model, FieldType> = Model extends never ? never : FieldRe
 
 export const ModelName = {
   Comment: 'Comment',
+  Likes: 'Likes',
   Post: 'Post',
   RefreshToken: 'RefreshToken',
   User: 'User'
@@ -403,7 +404,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "comment" | "post" | "refreshToken" | "user"
+    modelProps: "comment" | "likes" | "post" | "refreshToken" | "user"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -478,6 +479,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         count: {
           args: Prisma.CommentCountArgs<ExtArgs>
           result: runtime.Types.Utils.Optional<Prisma.CommentCountAggregateOutputType> | number
+        }
+      }
+    }
+    Likes: {
+      payload: Prisma.$LikesPayload<ExtArgs>
+      fields: Prisma.LikesFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.LikesFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$LikesPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.LikesFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$LikesPayload>
+        }
+        findFirst: {
+          args: Prisma.LikesFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$LikesPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.LikesFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$LikesPayload>
+        }
+        findMany: {
+          args: Prisma.LikesFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$LikesPayload>[]
+        }
+        create: {
+          args: Prisma.LikesCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$LikesPayload>
+        }
+        createMany: {
+          args: Prisma.LikesCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.LikesCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$LikesPayload>[]
+        }
+        delete: {
+          args: Prisma.LikesDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$LikesPayload>
+        }
+        update: {
+          args: Prisma.LikesUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$LikesPayload>
+        }
+        deleteMany: {
+          args: Prisma.LikesDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.LikesUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.LikesUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$LikesPayload>[]
+        }
+        upsert: {
+          args: Prisma.LikesUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$LikesPayload>
+        }
+        aggregate: {
+          args: Prisma.LikesAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateLikes>
+        }
+        groupBy: {
+          args: Prisma.LikesGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.LikesGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.LikesCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.LikesCountAggregateOutputType> | number
         }
       }
     }
@@ -756,6 +831,18 @@ export const CommentScalarFieldEnum = {
 export type CommentScalarFieldEnum = (typeof CommentScalarFieldEnum)[keyof typeof CommentScalarFieldEnum]
 
 
+export const LikesScalarFieldEnum = {
+  id: 'id',
+  sourceId: 'sourceId',
+  userId: 'userId',
+  likeType: 'likeType',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type LikesScalarFieldEnum = (typeof LikesScalarFieldEnum)[keyof typeof LikesScalarFieldEnum]
+
+
 export const PostScalarFieldEnum = {
   id: 'id',
   content: 'content',
@@ -887,6 +974,20 @@ export type DateTimeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel
  * Reference to a field of type 'DateTime[]'
  */
 export type ListDateTimeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DateTime[]'>
+    
+
+
+/**
+ * Reference to a field of type 'LikeType'
+ */
+export type EnumLikeTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'LikeType'>
+    
+
+
+/**
+ * Reference to a field of type 'LikeType[]'
+ */
+export type ListEnumLikeTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'LikeType[]'>
     
 
 
@@ -1048,6 +1149,7 @@ export type PrismaClientOptions = ({
 }
 export type GlobalOmitConfig = {
   comment?: Prisma.CommentOmit
+  likes?: Prisma.LikesOmit
   post?: Prisma.PostOmit
   refreshToken?: Prisma.RefreshTokenOmit
   user?: Prisma.UserOmit
