@@ -168,6 +168,7 @@ const addComment = handleAsync(async (req: Request, res: Response) => {
 });
 const getComments = handleAsync(async (req: Request, res: Response) => {
   const { sourceId, commentType } = req.query;
+  const user = req.user as TJwtUser;
   const pc = Number(req.query.pc as string) || null;
   const limit = Number(req.query.limit as string) || 10;
   if (!sourceId) {
@@ -205,12 +206,30 @@ const getComments = handleAsync(async (req: Request, res: Response) => {
       commentCount: true,
     },
   });
+  const commentsIds = result.map((c) => c.id);
+  const likes = await prisma.likes.findMany({
+    where: {
+      userId: user.id,
+      likeType: "comment",
+      sourceId: { in: commentsIds },
+    },
+    select: {
+      sourceId: true,
+    },
+  });
+  const uniqueLikeIds = new Set(likes.map((like) => like.sourceId));
+  const response = result.map((c) => {
+    return {
+      ...c,
+      isLiked: uniqueLikeIds.has(c.id),
+    };
+  });
   const cursor = result.length === limit ? result[result.length - 1].id : null;
   return sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,
     message: "Comments get successfully!",
-    data: result,
+    data: response,
     cursor,
   });
 });
