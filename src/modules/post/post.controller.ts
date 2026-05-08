@@ -48,9 +48,9 @@ const getPosts = handleAsync(async (req: Request, res: Response) => {
     take: limit || 10,
     skip: pc ? 1 : 0,
     cursor: pc ? { id: pc } : undefined,
-    where: {
-      authorId: user.id,
-    },
+    // where: {
+    //   authorId: user.id,
+    // },
 
     select: {
       author: {
@@ -73,6 +73,7 @@ const getPosts = handleAsync(async (req: Request, res: Response) => {
   });
   const cursor = result.length === limit ? result[result.length - 1].id : null;
   const postIds = result.map((data) => data.id);
+  const authors = result.map((data) => data.author.id);
   const likes = await prisma.likes.findMany({
     where: {
       userId: user.id,
@@ -103,9 +104,18 @@ const getPosts = handleAsync(async (req: Request, res: Response) => {
 
   const commentsMap = new Map(latestComments.map((c) => [c.sourceId, c]));
 
+  const followers = await prisma.follower.findMany({
+    where: {
+      followingId: { in: authors },
+      followerId: user.id,
+    },
+  });
+  const followersMap = new Map(followers.map((c) => [c.followingId, c]));
+
   const response = result.map((data) => ({
     ...data,
     isLiked: !!uniqueLikeIds.has(data.id),
+    isFollowing: !!followersMap.has(data.author.id),
     comments: commentsMap.has(data.id) ? [commentsMap.get(data.id)] : [],
   }));
   return sendResponse(res, {

@@ -30,6 +30,12 @@ const getProfile = handleAsync(async (req: Request, res: Response) => {
 const followUser = handleAsync(async (req: Request, res: Response) => {
   const user = req.user as TJwtUser;
   const followedUserId = req.params.userId;
+  if (user.id === Number(followedUserId)) {
+    throw new ServerError(
+      httpStatus.BAD_REQUEST,
+      "You can not follow yourself",
+    );
+  }
   let isFollowing = false;
   try {
     await prisma.follower.create({
