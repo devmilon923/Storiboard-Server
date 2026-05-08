@@ -6,5 +6,5 @@ model Follower {
     following User @relation("UserFollowed", references: [id], fields: [followingId], onDelete: Cascade)
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
-    @@unique([followerId,followingId])
+    @@unique([followerId,followingId],name: "uniqueFollower")
 }

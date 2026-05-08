@@ -240,7 +240,7 @@ export type FollowerOrderByWithRelationInput = {
 
 export type FollowerWhereUniqueInput = Prisma.AtLeast<{
   id?: number
-  followerId_followingId?: Prisma.FollowerFollowerIdFollowingIdCompoundUniqueInput
+  uniqueFollower?: Prisma.FollowerUniqueFollowerCompoundUniqueInput
   AND?: Prisma.FollowerWhereInput | Prisma.FollowerWhereInput[]
   OR?: Prisma.FollowerWhereInput[]
   NOT?: Prisma.FollowerWhereInput | Prisma.FollowerWhereInput[]
@@ -250,7 +250,7 @@ export type FollowerWhereUniqueInput = Prisma.AtLeast<{
   updatedAt?: Prisma.DateTimeFilter<"Follower"> | Date | string
   follower?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
   following?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
-}, "id" | "followerId_followingId">
+}, "id" | "uniqueFollower">
 
 export type FollowerOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
@@ -328,7 +328,7 @@ export type FollowerUncheckedUpdateManyInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
-export type FollowerFollowerIdFollowingIdCompoundUniqueInput = {
+export type FollowerUniqueFollowerCompoundUniqueInput = {
   followerId: number
   followingId: number
 }

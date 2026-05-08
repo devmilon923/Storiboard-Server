@@ -55,6 +55,7 @@ const getPosts = handleAsync(async (req: Request, res: Response) => {
     select: {
       author: {
         select: {
+          id: true,
           name: true,
           image: true,
           isVerifyed: true,

@@ -30,12 +30,34 @@ const getProfile = handleAsync(async (req: Request, res: Response) => {
 const followUser = handleAsync(async (req: Request, res: Response) => {
   const user = req.user as TJwtUser;
   const followedUserId = req.params.userId;
-  
+  let isFollowing = false;
+  try {
+    await prisma.follower.create({
+      data: {
+        follower: { connect: { id: user.id } },
+        following: { connect: { id: Number(followedUserId) } },
+      },
+    });
+    isFollowing = true;
+  } catch (error: any) {
+    if (error.code === "P2002") {
+      await prisma.follower.delete({
+        where: {
+          uniqueFollower: {
+            followerId: user.id,
+            followingId: Number(followedUserId),
+          },
+        },
+      });
+    } else {
+      throw error;
+    }
+  }
   return sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,
     message: "Follow update successfully!",
-    data: {},
+    data: isFollowing,
   });
 });
 export const UserController = { getProfile, followUser };

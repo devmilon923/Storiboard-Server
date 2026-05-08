@@ -12,7 +12,7 @@ router
   );
 router
   .route("/follow/:userId")
-  .get(
+  .patch(
     passport.authenticate("jwt", { session: false }),
     UserController.followUser,
   );
