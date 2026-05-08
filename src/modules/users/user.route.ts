@@ -10,4 +10,10 @@ router
     passport.authenticate("jwt", { session: false }),
     UserController.getProfile,
   );
+router
+  .route("/follow/:userId")
+  .get(
+    passport.authenticate("jwt", { session: false }),
+    UserController.followUser,
+  );
 export const UserRouter = router;

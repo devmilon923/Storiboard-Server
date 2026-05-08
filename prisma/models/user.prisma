@@ -9,6 +9,8 @@ model User {
   profession String
   gender Gender
   role Role @default(User)
+  following Follower[] @relation("UserFollows")
+  followers Follower[] @relation("UserFollowed")
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 

@@ -1,0 +1,10 @@
+model Follower {
+    id Int @unique @default(autoincrement())
+    followerId Int
+    followingId Int
+    follower User @relation("UserFollows", references: [id], fields: [followerId], onDelete: Cascade)
+    following User @relation("UserFollowed", references: [id], fields: [followingId], onDelete: Cascade)
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+    @@unique([followerId,followingId])
+}

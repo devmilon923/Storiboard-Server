@@ -45,6 +45,11 @@ export { Prisma }
  */
 export type Comment = Prisma.CommentModel
 /**
+ * Model Follower
+ * 
+ */
+export type Follower = Prisma.FollowerModel
+/**
  * Model Likes
  * 
  */

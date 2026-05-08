@@ -27,4 +27,15 @@ const getProfile = handleAsync(async (req: Request, res: Response) => {
     data: { ...user, role: "user" },
   });
 });
-export const UserController = { getProfile };
+const followUser = handleAsync(async (req: Request, res: Response) => {
+  const user = req.user as TJwtUser;
+  const followedUserId = req.params.userId;
+  
+  return sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: "Follow update successfully!",
+    data: {},
+  });
+});
+export const UserController = { getProfile, followUser };
