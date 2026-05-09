@@ -6,6 +6,7 @@ const redisDatabase = new Redis({
   retryStrategy: (times) => Math.min(times * 50, 2000),
   enableReadyCheck: true,
   enableOfflineQueue: true,
+  maxRetriesPerRequest: null,
 });
 
 // Connection event listeners

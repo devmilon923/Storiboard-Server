@@ -7,6 +7,7 @@ import { prisma } from "../../utils/prisma";
 import ServerError from "../../utils/error";
 import z from "zod";
 import { likeValidation } from "./post.validation";
+import { FeedQueue } from "../../queue/producers/feed";
 
 const createPost = handleAsync(async (req: Request, res: Response) => {
   const user = req.user as TJwtUser;
@@ -16,6 +17,7 @@ const createPost = handleAsync(async (req: Request, res: Response) => {
       author: { connect: { id: user.id } },
     },
   });
+  FeedQueue.prepareFeed(result.id);
   return sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,
@@ -108,7 +110,7 @@ const getPosts = handleAsync(async (req: Request, res: Response) => {
     where: {
       followingId: { in: authors },
       followerId: user.id,
-    },npm i bullmq
+    },
   });
   const followersMap = new Map(followers.map((c) => [c.followingId, c]));
 

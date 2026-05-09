@@ -2,6 +2,7 @@ import express, { Express, Request, Response } from "express";
 import dotenv from "dotenv";
 dotenv.config();
 import "./utils/redisConnection";
+import "./queue/workers/feedWorker";
 import "./strategy/jwt-strategy";
 import { requestLogger } from "./middleware/requestLog";
 import mainrouter from "./modules/routes";
