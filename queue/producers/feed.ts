@@ -8,9 +8,13 @@ const feedPrepare = new Queue("feedPrepare", {
 });
 
 async function prepareFeed(postId: number) {
-  const result = await feedPrepare.add("prepareFeed", {
-    postId,
-  });
+  try {
+    await feedPrepare.add("prepareFeed", {
+      postId,
+    });
+  } catch (error) {
+    throw error;
+  }
 }
 
 export const feedQueue = {
