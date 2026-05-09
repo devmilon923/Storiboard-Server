@@ -385,6 +385,7 @@ type FieldRefInputType<Model, FieldType> = Model extends never ? never : FieldRe
 
 export const ModelName = {
   Comment: 'Comment',
+  Feed: 'Feed',
   Follower: 'Follower',
   Likes: 'Likes',
   Post: 'Post',
@@ -405,7 +406,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "comment" | "follower" | "likes" | "post" | "refreshToken" | "user"
+    modelProps: "comment" | "feed" | "follower" | "likes" | "post" | "refreshToken" | "user"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -480,6 +481,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         count: {
           args: Prisma.CommentCountArgs<ExtArgs>
           result: runtime.Types.Utils.Optional<Prisma.CommentCountAggregateOutputType> | number
+        }
+      }
+    }
+    Feed: {
+      payload: Prisma.$FeedPayload<ExtArgs>
+      fields: Prisma.FeedFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.FeedFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FeedPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.FeedFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FeedPayload>
+        }
+        findFirst: {
+          args: Prisma.FeedFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FeedPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.FeedFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FeedPayload>
+        }
+        findMany: {
+          args: Prisma.FeedFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FeedPayload>[]
+        }
+        create: {
+          args: Prisma.FeedCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FeedPayload>
+        }
+        createMany: {
+          args: Prisma.FeedCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.FeedCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FeedPayload>[]
+        }
+        delete: {
+          args: Prisma.FeedDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FeedPayload>
+        }
+        update: {
+          args: Prisma.FeedUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FeedPayload>
+        }
+        deleteMany: {
+          args: Prisma.FeedDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.FeedUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.FeedUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FeedPayload>[]
+        }
+        upsert: {
+          args: Prisma.FeedUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FeedPayload>
+        }
+        aggregate: {
+          args: Prisma.FeedAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateFeed>
+        }
+        groupBy: {
+          args: Prisma.FeedGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.FeedGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.FeedCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.FeedCountAggregateOutputType> | number
         }
       }
     }
@@ -906,6 +981,17 @@ export const CommentScalarFieldEnum = {
 export type CommentScalarFieldEnum = (typeof CommentScalarFieldEnum)[keyof typeof CommentScalarFieldEnum]
 
 
+export const FeedScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  postId: 'postId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type FeedScalarFieldEnum = (typeof FeedScalarFieldEnum)[keyof typeof FeedScalarFieldEnum]
+
+
 export const FollowerScalarFieldEnum = {
   id: 'id',
   followerId: 'followerId',
@@ -935,6 +1021,7 @@ export const PostScalarFieldEnum = {
   authorId: 'authorId',
   feeling: 'feeling',
   likesCount: 'likesCount',
+  trendScore: 'trendScore',
   commentsCount: 'commentsCount',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
@@ -1235,6 +1322,7 @@ export type PrismaClientOptions = ({
 }
 export type GlobalOmitConfig = {
   comment?: Prisma.CommentOmit
+  feed?: Prisma.FeedOmit
   follower?: Prisma.FollowerOmit
   likes?: Prisma.LikesOmit
   post?: Prisma.PostOmit

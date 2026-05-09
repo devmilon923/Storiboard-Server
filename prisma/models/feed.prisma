@@ -1,0 +1,10 @@
+model Feed  {
+    id Int @unique @default(autoincrement())
+    userId Int
+    postId Int
+    user User @relation(fields: [userId],references: [id])
+    post Post @relation(fields: [postId],references: [id])
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+    @@index([userId,postId,createdAt])
+}

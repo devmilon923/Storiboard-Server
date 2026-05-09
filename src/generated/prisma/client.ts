@@ -45,6 +45,11 @@ export { Prisma }
  */
 export type Comment = Prisma.CommentModel
 /**
+ * Model Feed
+ * 
+ */
+export type Feed = Prisma.FeedModel
+/**
  * Model Follower
  * 
  */

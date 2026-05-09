@@ -52,6 +52,7 @@ export const AnyNull = runtime.AnyNull
 
 export const ModelName = {
   Comment: 'Comment',
+  Feed: 'Feed',
   Follower: 'Follower',
   Likes: 'Likes',
   Post: 'Post',
@@ -89,6 +90,17 @@ export const CommentScalarFieldEnum = {
 export type CommentScalarFieldEnum = (typeof CommentScalarFieldEnum)[keyof typeof CommentScalarFieldEnum]
 
 
+export const FeedScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  postId: 'postId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type FeedScalarFieldEnum = (typeof FeedScalarFieldEnum)[keyof typeof FeedScalarFieldEnum]
+
+
 export const FollowerScalarFieldEnum = {
   id: 'id',
   followerId: 'followerId',
@@ -118,6 +130,7 @@ export const PostScalarFieldEnum = {
   authorId: 'authorId',
   feeling: 'feeling',
   likesCount: 'likesCount',
+  trendScore: 'trendScore',
   commentsCount: 'commentsCount',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'

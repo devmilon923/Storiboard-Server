@@ -108,7 +108,7 @@ const getPosts = handleAsync(async (req: Request, res: Response) => {
     where: {
       followingId: { in: authors },
       followerId: user.id,
-    },
+    },npm i bullmq
   });
   const followersMap = new Map(followers.map((c) => [c.followingId, c]));
 
