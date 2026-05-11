@@ -149,7 +149,7 @@ const addComment = handleAsync(async (req: Request, res: Response) => {
       user: { connect: { id: user.id } },
     },
   });
-
+  PostQueue.comment({ postId: sourceId, isComment: true });
   sendResponse(res, {
     statusCode: httpStatus.CREATED,
     success: true,

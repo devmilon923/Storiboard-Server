@@ -4,7 +4,6 @@ import { TCommentState, TLikeState } from "../../modules/post/post.controller";
 let basedFormula = {
   likes: 1,
   comments: 2,
-  recency: 0.3,
 };
 const W_LikeHandler = async (job: Job<any, any, string>) => {
   console.log("W_likeHandler get a job", job.data);
