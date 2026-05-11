@@ -1,19 +1,19 @@
 import { Job, Worker } from "bullmq";
 import { prisma } from "../../utils/prisma";
-
-const W_likeHandler = async (job: Job<any, any, string>) => {
+import { TCommentState, TLikeState } from "../../modules/post/post.controller";
+let basedFormula = {
+  likes: 1,
+  comments: 2,
+  recency: 0.3,
+};
+const W_LikeHandler = async (job: Job<any, any, string>) => {
   console.log("W_likeHandler get a job", job.data);
-  let basedFormula = {
-    likes: 1,
-    comments: 2,
-    recency: 0.3,
-  };
-
+  const data = job.data as TLikeState;
   try {
-    if (job.data.isLiked) {
+    if (data.isLiked) {
       await prisma.post.update({
         where: {
-          id: job.data.postId,
+          id: data.postId as number,
         },
         data: {
           trendScore: {
@@ -24,7 +24,7 @@ const W_likeHandler = async (job: Job<any, any, string>) => {
     } else {
       await prisma.post.update({
         where: {
-          id: job.data.postId,
+          id: data.postId as number,
         },
         data: {
           trendScore: {
@@ -33,7 +33,40 @@ const W_likeHandler = async (job: Job<any, any, string>) => {
         },
       });
     }
-  } catch (error) {}
+  } catch (error) {
+    throw error;
+  }
+};
+const W_CommentHandler = async (job: Job<any, any, string>) => {
+  console.log("W_CommentHandler get a job", job.data);
+  const data = job.data as TCommentState;
+  try {
+    if (data.isComment) {
+      await prisma.post.update({
+        where: {
+          id: data.postId as number,
+        },
+        data: {
+          trendScore: {
+            increment: basedFormula.comments,
+          },
+        },
+      });
+    } else {
+      await prisma.post.update({
+        where: {
+          id: data.postId as number,
+        },
+        data: {
+          trendScore: {
+            decrement: basedFormula.comments,
+          },
+        },
+      });
+    }
+  } catch (error) {
+    throw error;
+  }
 };
 
-export { W_likeHandler };
+export { W_LikeHandler, W_CommentHandler };

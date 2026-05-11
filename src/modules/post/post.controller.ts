@@ -248,18 +248,19 @@ const getComments = handleAsync(async (req: Request, res: Response) => {
   });
 });
 
-export type TlikeState = {
+export type TLikeState = {
   isLiked: boolean;
-  likeType: "comment" | "post" | "replie";
   postId: number | null;
 };
-
+export type TCommentState = {
+  isComment: boolean;
+  postId: number | null;
+};
 const likeAction = handleAsync(async (req: Request, res: Response) => {
   const user = req.user as TJwtUser;
   const { sourceId, likeType } = req.body as z.infer<typeof likeValidation>;
-  let likeState: TlikeState = {
+  let likeState: TLikeState = {
     isLiked: false,
-    likeType,
     postId: null,
   };
   try {
@@ -355,7 +356,7 @@ const likeAction = handleAsync(async (req: Request, res: Response) => {
       throw error;
     }
   }
-  if (likeState.postId !== null) PostQueue.handleLike(likeState);
+  if (likeState.postId !== null) PostQueue.like(likeState);
   sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,

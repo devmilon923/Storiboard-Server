@@ -1,25 +1,42 @@
 import { Queue, Worker } from "bullmq";
 import redisDatabase from "../../utils/redisConnection";
-import { TlikeState } from "../../modules/post/post.controller";
-import { W_likeHandler } from "../workers/postWorker";
+import { TCommentState, TLikeState } from "../../modules/post/post.controller";
+import { W_CommentHandler, W_LikeHandler } from "../workers/postWorker";
 
-const post = new Queue("handleLike", {
+const handleLike = new Queue("handleLike", {
   connection: redisDatabase,
   defaultJobOptions: {
     removeOnComplete: true,
   },
 });
-async function handleLike(data: TlikeState) {
+const handleComment = new Queue("handleComment", {
+  connection: redisDatabase,
+  defaultJobOptions: {
+    removeOnComplete: true,
+  },
+});
+async function like(data: TLikeState) {
   try {
-    await post.add("like", data);
+    await handleLike.add("like", data);
     console.log("Job added to handleLike queue");
   } catch (error) {
     throw error;
   }
 }
+
+async function comment(data: TCommentState) {
+  try {
+    await handleComment.add("comment", data);
+    console.log("Job added to handleComment queue");
+  } catch (error) {
+    throw error;
+  }
+}
 // Worker=======
-new Worker("handleLike", W_likeHandler, { connection: redisDatabase });
+new Worker("handleLike", W_LikeHandler, { connection: redisDatabase });
+new Worker("handleComment", W_CommentHandler, { connection: redisDatabase });
 
 export const PostQueue = {
-  handleLike,
+  like,
+  comment,
 };
