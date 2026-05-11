@@ -8,6 +8,7 @@ import ServerError from "../../utils/error";
 import z from "zod";
 import { likeValidation } from "./post.validation";
 import { FeedQueue } from "../../queue/producers/feed";
+import { PostQueue } from "../../queue/producers/post";
 
 const createPost = handleAsync(async (req: Request, res: Response) => {
   const user = req.user as TJwtUser;
@@ -247,9 +248,20 @@ const getComments = handleAsync(async (req: Request, res: Response) => {
   });
 });
 
+export type TlikeState = {
+  isLiked: boolean;
+  likeType: "comment" | "post" | "replie";
+  postId: number | null;
+};
+
 const likeAction = handleAsync(async (req: Request, res: Response) => {
   const user = req.user as TJwtUser;
   const { sourceId, likeType } = req.body as z.infer<typeof likeValidation>;
+  let likeState: TlikeState = {
+    isLiked: false,
+    likeType,
+    postId: null,
+  };
   try {
     await prisma.likes.create({
       data: {
@@ -269,6 +281,7 @@ const likeAction = handleAsync(async (req: Request, res: Response) => {
           },
         },
       });
+      likeState.postId = sourceId;
     } else if (likeType === "replie") {
       await prisma.comment.update({
         where: {
@@ -292,6 +305,7 @@ const likeAction = handleAsync(async (req: Request, res: Response) => {
         },
       });
     }
+    likeState.isLiked = true;
   } catch (error: any) {
     if (error.code === "P2002") {
       await prisma.likes.delete({
@@ -341,6 +355,7 @@ const likeAction = handleAsync(async (req: Request, res: Response) => {
       throw error;
     }
   }
+  if (likeState.postId !== null) PostQueue.handleLike(likeState);
   sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,

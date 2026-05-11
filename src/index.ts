@@ -2,7 +2,7 @@ import express, { Express, Request, Response } from "express";
 import dotenv from "dotenv";
 dotenv.config();
 import "./utils/redisConnection";
-import "./queue/workers/feedWorker";
+import "./queue/workers/postWorker";
 import "./strategy/jwt-strategy";
 import { requestLogger } from "./middleware/requestLog";
 import mainrouter from "./modules/routes";
@@ -11,11 +11,11 @@ import passport from "passport";
 import cookieParser from "cookie-parser";
 import cors from "cors";
 const app: Express = express();
-const port = process.env.ServerPort || 3000;
+const port = process.env.ServerPort || 3001;
 app.use(cookieParser());
 app.use(
   cors({
-    origin: "http://localhost:3000",
+    origin: process.env.ClientURl,
     credentials: true,
   }),
 );

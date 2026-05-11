@@ -1,5 +1,4 @@
 import Redis from "ioredis";
-console.log(process.env.RedisPort);
 const redisDatabase = new Redis({
   host: process.env.RedisHost as string,
   port: parseInt(process.env.RedisPort as string),

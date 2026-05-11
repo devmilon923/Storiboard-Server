@@ -14,6 +14,7 @@ async function prepareFeed(postId: number) {
   }
 }
 
+
 export const FeedQueue = {
   prepareFeed,
 };
