@@ -17,6 +17,17 @@ const createPost = handleAsync(async (req: Request, res: Response) => {
       ...req.body,
       author: { connect: { id: user.id } },
     },
+    include: {
+      author: {
+        select: {
+          id: true,
+          name: true,
+          image: true,
+          profession: true,
+          isVerifyed: true,
+        },
+      },
+    },
   });
   FeedQueue.prepareFeed(result.id);
   return sendResponse(res, {
@@ -62,8 +73,8 @@ const getPosts = handleAsync(async (req: Request, res: Response) => {
   });
   const fIds = getMyFollowers.map((follower) => follower.followingId);
   const score =
-    followerCount < 1
-      ? 1
+    followerCount <= 1
+      ? 0
       : followerCount < 10
         ? 2
         : followerCount < 50
