@@ -47,13 +47,48 @@ const getPosts = handleAsync(async (req: Request, res: Response) => {
   const user = req.user as TJwtUser;
   const pc = Number(req.query.pc as string);
   const limit = Number(req.query.limit as string);
+  const followerCount = await prisma.follower.count({
+    where: {
+      followerId: user.id,
+    },
+  });
+  const getMyFollowers = await prisma.follower.findMany({
+    where: {
+      followerId: user.id,
+    },
+    skip: Math.floor(Math.random() * followerCount),
+    take: 10,
+    select: { followingId: true },
+  });
+  const fIds = getMyFollowers.map((follower) => follower.followingId);
+  const score =
+    followerCount < 1
+      ? 1
+      : followerCount < 10
+        ? 2
+        : followerCount < 50
+          ? 10
+          : followerCount < 100
+            ? 20
+            : 30;
+
   const result = await prisma.post.findMany({
     take: limit || 10,
     skip: pc ? 1 : 0,
     cursor: pc ? { id: pc } : undefined,
-    // where: {
-    //   authorId: user.id,
-    // },
+    where: {
+      author: { NOT: { id: user.id } },
+      OR: [
+        {
+          authorId: {
+            in: fIds,
+          },
+        },
+        {
+          trendScore: { gte: score },
+        },
+      ],
+    },
 
     select: {
       author: {
