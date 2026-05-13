@@ -26,6 +26,18 @@ export const LikeType = {
 export type LikeType = (typeof LikeType)[keyof typeof LikeType]
 
 
+export const notificationType = {
+  LIKE_ON_POST: 'LIKE_ON_POST',
+  LIKE_ON_COMMENT: 'LIKE_ON_COMMENT',
+  COMMENT_ON_POST: 'COMMENT_ON_POST',
+  COMMENT_ON_COMMENT: 'COMMENT_ON_COMMENT',
+  FOLLOW: 'FOLLOW',
+  SHARE: 'SHARE'
+} as const
+
+export type notificationType = (typeof notificationType)[keyof typeof notificationType]
+
+
 export const Gender = {
   Male: 'Male',
   Female: 'Female',

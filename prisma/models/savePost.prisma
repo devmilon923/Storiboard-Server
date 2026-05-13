@@ -1,0 +1,10 @@
+model SavePost {
+    id Int @unique @default(autoincrement())
+    userId Int
+    user User @relation(fields:[userId],references: [id],onDelete: Cascade)
+    postId Int
+    post Post @relation(fields:[postId],references: [id],onDelete: Cascade)
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+    @@unique([userId,postId])
+}

@@ -279,7 +279,7 @@ export type FeedCreateInput = {
   id?: number
   createdAt?: Date | string
   updatedAt?: Date | string
-  user: Prisma.UserCreateNestedOneWithoutUserInput
+  user: Prisma.UserCreateNestedOneWithoutFeedsInput
   post: Prisma.PostCreateNestedOneWithoutPostInput
 }
 
@@ -294,7 +294,7 @@ export type FeedUncheckedCreateInput = {
 export type FeedUpdateInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  user?: Prisma.UserUpdateOneRequiredWithoutUserNestedInput
+  user?: Prisma.UserUpdateOneRequiredWithoutFeedsNestedInput
   post?: Prisma.PostUpdateOneRequiredWithoutPostNestedInput
 }
 
@@ -461,7 +461,7 @@ export type FeedCreateWithoutPostInput = {
   id?: number
   createdAt?: Date | string
   updatedAt?: Date | string
-  user: Prisma.UserCreateNestedOneWithoutUserInput
+  user: Prisma.UserCreateNestedOneWithoutFeedsInput
 }
 
 export type FeedUncheckedCreateWithoutPostInput = {
@@ -558,7 +558,7 @@ export type FeedCreateManyPostInput = {
 export type FeedUpdateWithoutPostInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  user?: Prisma.UserUpdateOneRequiredWithoutUserNestedInput
+  user?: Prisma.UserUpdateOneRequiredWithoutFeedsNestedInput
 }
 
 export type FeedUncheckedUpdateWithoutPostInput = {

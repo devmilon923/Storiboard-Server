@@ -38,6 +38,11 @@ export type Follower = Prisma.FollowerModel
  */
 export type Likes = Prisma.LikesModel
 /**
+ * Model Notifications
+ * 
+ */
+export type Notifications = Prisma.NotificationsModel
+/**
  * Model Post
  * 
  */
@@ -47,6 +52,11 @@ export type Post = Prisma.PostModel
  * 
  */
 export type RefreshToken = Prisma.RefreshTokenModel
+/**
+ * Model SavePost
+ * 
+ */
+export type SavePost = Prisma.SavePostModel
 /**
  * Model User
  * 

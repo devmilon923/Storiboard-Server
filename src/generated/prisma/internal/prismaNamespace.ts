@@ -388,8 +388,10 @@ export const ModelName = {
   Feed: 'Feed',
   Follower: 'Follower',
   Likes: 'Likes',
+  Notifications: 'Notifications',
   Post: 'Post',
   RefreshToken: 'RefreshToken',
+  SavePost: 'SavePost',
   User: 'User'
 } as const
 
@@ -406,7 +408,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "comment" | "feed" | "follower" | "likes" | "post" | "refreshToken" | "user"
+    modelProps: "comment" | "feed" | "follower" | "likes" | "notifications" | "post" | "refreshToken" | "savePost" | "user"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -706,6 +708,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    Notifications: {
+      payload: Prisma.$NotificationsPayload<ExtArgs>
+      fields: Prisma.NotificationsFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.NotificationsFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$NotificationsPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.NotificationsFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$NotificationsPayload>
+        }
+        findFirst: {
+          args: Prisma.NotificationsFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$NotificationsPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.NotificationsFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$NotificationsPayload>
+        }
+        findMany: {
+          args: Prisma.NotificationsFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$NotificationsPayload>[]
+        }
+        create: {
+          args: Prisma.NotificationsCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$NotificationsPayload>
+        }
+        createMany: {
+          args: Prisma.NotificationsCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.NotificationsCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$NotificationsPayload>[]
+        }
+        delete: {
+          args: Prisma.NotificationsDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$NotificationsPayload>
+        }
+        update: {
+          args: Prisma.NotificationsUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$NotificationsPayload>
+        }
+        deleteMany: {
+          args: Prisma.NotificationsDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.NotificationsUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.NotificationsUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$NotificationsPayload>[]
+        }
+        upsert: {
+          args: Prisma.NotificationsUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$NotificationsPayload>
+        }
+        aggregate: {
+          args: Prisma.NotificationsAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateNotifications>
+        }
+        groupBy: {
+          args: Prisma.NotificationsGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.NotificationsGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.NotificationsCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.NotificationsCountAggregateOutputType> | number
+        }
+      }
+    }
     Post: {
       payload: Prisma.$PostPayload<ExtArgs>
       fields: Prisma.PostFieldRefs
@@ -851,6 +927,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         count: {
           args: Prisma.RefreshTokenCountArgs<ExtArgs>
           result: runtime.Types.Utils.Optional<Prisma.RefreshTokenCountAggregateOutputType> | number
+        }
+      }
+    }
+    SavePost: {
+      payload: Prisma.$SavePostPayload<ExtArgs>
+      fields: Prisma.SavePostFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.SavePostFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SavePostPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.SavePostFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SavePostPayload>
+        }
+        findFirst: {
+          args: Prisma.SavePostFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SavePostPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.SavePostFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SavePostPayload>
+        }
+        findMany: {
+          args: Prisma.SavePostFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SavePostPayload>[]
+        }
+        create: {
+          args: Prisma.SavePostCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SavePostPayload>
+        }
+        createMany: {
+          args: Prisma.SavePostCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.SavePostCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SavePostPayload>[]
+        }
+        delete: {
+          args: Prisma.SavePostDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SavePostPayload>
+        }
+        update: {
+          args: Prisma.SavePostUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SavePostPayload>
+        }
+        deleteMany: {
+          args: Prisma.SavePostDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.SavePostUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.SavePostUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SavePostPayload>[]
+        }
+        upsert: {
+          args: Prisma.SavePostUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SavePostPayload>
+        }
+        aggregate: {
+          args: Prisma.SavePostAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateSavePost>
+        }
+        groupBy: {
+          args: Prisma.SavePostGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.SavePostGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.SavePostCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.SavePostCountAggregateOutputType> | number
         }
       }
     }
@@ -1015,6 +1165,13 @@ export const LikesScalarFieldEnum = {
 export type LikesScalarFieldEnum = (typeof LikesScalarFieldEnum)[keyof typeof LikesScalarFieldEnum]
 
 
+export const NotificationsScalarFieldEnum = {
+  id: 'id'
+} as const
+
+export type NotificationsScalarFieldEnum = (typeof NotificationsScalarFieldEnum)[keyof typeof NotificationsScalarFieldEnum]
+
+
 export const PostScalarFieldEnum = {
   id: 'id',
   content: 'content',
@@ -1037,6 +1194,17 @@ export const RefreshTokenScalarFieldEnum = {
 } as const
 
 export type RefreshTokenScalarFieldEnum = (typeof RefreshTokenScalarFieldEnum)[keyof typeof RefreshTokenScalarFieldEnum]
+
+
+export const SavePostScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  postId: 'postId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type SavePostScalarFieldEnum = (typeof SavePostScalarFieldEnum)[keyof typeof SavePostScalarFieldEnum]
 
 
 export const UserScalarFieldEnum = {
@@ -1325,8 +1493,10 @@ export type GlobalOmitConfig = {
   feed?: Prisma.FeedOmit
   follower?: Prisma.FollowerOmit
   likes?: Prisma.LikesOmit
+  notifications?: Prisma.NotificationsOmit
   post?: Prisma.PostOmit
   refreshToken?: Prisma.RefreshTokenOmit
+  savePost?: Prisma.SavePostOmit
   user?: Prisma.UserOmit
 }
 

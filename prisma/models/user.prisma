@@ -11,14 +11,14 @@ model User {
   role Role @default(User)
   following Follower[] @relation("UserFollows")
   followers Follower[] @relation("UserFollowed")
-  user Feed[]
+  feeds Feed[] 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-
-  @@map("user")
   posts Post[]
   comments Comment[]
   likes Likes[]
+  savePosts SavePost[]
+  @@map("user")
 } 
 enum Gender {
   Male

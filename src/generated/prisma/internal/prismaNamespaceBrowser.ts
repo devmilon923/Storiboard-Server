@@ -55,8 +55,10 @@ export const ModelName = {
   Feed: 'Feed',
   Follower: 'Follower',
   Likes: 'Likes',
+  Notifications: 'Notifications',
   Post: 'Post',
   RefreshToken: 'RefreshToken',
+  SavePost: 'SavePost',
   User: 'User'
 } as const
 
@@ -124,6 +126,13 @@ export const LikesScalarFieldEnum = {
 export type LikesScalarFieldEnum = (typeof LikesScalarFieldEnum)[keyof typeof LikesScalarFieldEnum]
 
 
+export const NotificationsScalarFieldEnum = {
+  id: 'id'
+} as const
+
+export type NotificationsScalarFieldEnum = (typeof NotificationsScalarFieldEnum)[keyof typeof NotificationsScalarFieldEnum]
+
+
 export const PostScalarFieldEnum = {
   id: 'id',
   content: 'content',
@@ -146,6 +155,17 @@ export const RefreshTokenScalarFieldEnum = {
 } as const
 
 export type RefreshTokenScalarFieldEnum = (typeof RefreshTokenScalarFieldEnum)[keyof typeof RefreshTokenScalarFieldEnum]
+
+
+export const SavePostScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  postId: 'postId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type SavePostScalarFieldEnum = (typeof SavePostScalarFieldEnum)[keyof typeof SavePostScalarFieldEnum]
 
 
 export const UserScalarFieldEnum = {

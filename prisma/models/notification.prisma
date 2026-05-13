@@ -1,0 +1,13 @@
+model Notifications  {
+id Int @unique @default(autoincrement())
+
+}
+
+enum notificationType {
+    LIKE_ON_POST
+    LIKE_ON_COMMENT
+    COMMENT_ON_POST
+    COMMENT_ON_COMMENT
+    FOLLOW
+    SHARE
+}
