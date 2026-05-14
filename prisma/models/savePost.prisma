@@ -6,5 +6,5 @@ model SavePost {
     post Post @relation(fields:[postId],references: [id],onDelete: Cascade)
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
-    @@unique([userId,postId])
+    @@unique([userId,postId],name: "uniqueBookmarkFinder")
 }

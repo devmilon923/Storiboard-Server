@@ -240,7 +240,7 @@ export type SavePostOrderByWithRelationInput = {
 
 export type SavePostWhereUniqueInput = Prisma.AtLeast<{
   id?: number
-  userId_postId?: Prisma.SavePostUserIdPostIdCompoundUniqueInput
+  uniqueBookmarkFinder?: Prisma.SavePostUniqueBookmarkFinderCompoundUniqueInput
   AND?: Prisma.SavePostWhereInput | Prisma.SavePostWhereInput[]
   OR?: Prisma.SavePostWhereInput[]
   NOT?: Prisma.SavePostWhereInput | Prisma.SavePostWhereInput[]
@@ -250,7 +250,7 @@ export type SavePostWhereUniqueInput = Prisma.AtLeast<{
   updatedAt?: Prisma.DateTimeFilter<"SavePost"> | Date | string
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
   post?: Prisma.XOR<Prisma.PostScalarRelationFilter, Prisma.PostWhereInput>
-}, "id" | "userId_postId">
+}, "id" | "uniqueBookmarkFinder">
 
 export type SavePostOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
@@ -338,7 +338,7 @@ export type SavePostOrderByRelationAggregateInput = {
   _count?: Prisma.SortOrder
 }
 
-export type SavePostUserIdPostIdCompoundUniqueInput = {
+export type SavePostUniqueBookmarkFinderCompoundUniqueInput = {
   userId: number
   postId: number
 }

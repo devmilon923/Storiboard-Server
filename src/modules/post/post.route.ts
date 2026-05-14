@@ -45,9 +45,21 @@ router
     PostController.getComments,
   );
 router
+  .route("/bookmarks")
+  .get(
+    passport.authenticate("jwt", { session: false }),
+    PostController.bookmarksGet,
+  );
+router
   .route("/:id")
   .patch(zodValidate(updatePostValidation), PostController.updatePost);
 router.route("/:id").get(PostController.getPost);
 router.route("/:id").delete(PostController.deletePost);
+router
+  .route("/bookmark/:postId")
+  .patch(
+    passport.authenticate("jwt", { session: false }),
+    PostController.bookmarkAction,
+  );
 
 export const PostRouter = router;

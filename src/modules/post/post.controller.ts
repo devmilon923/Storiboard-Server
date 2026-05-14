@@ -57,23 +57,26 @@ const getPost = handleAsync(async (req: Request, res: Response) => {
 const getPosts = handleAsync(async (req: Request, res: Response) => {
   const user = req.user as TJwtUser;
   const pc = Number(req.query.pc as string);
-  const limit = Number(req.query.limit as string);
+  const limit = Number(req.query.limit as string) || 10;
+
+  // Initial data for filtering
   const followerCount = await prisma.follower.count({
-    where: {
-      followerId: user.id,
-    },
+    where: { followerId: user.id },
   });
+
   const getMyFollowers = await prisma.follower.findMany({
-    where: {
-      followerId: user.id,
-    },
-    skip: Math.floor(Math.random() * followerCount),
+    where: { followerId: user.id },
+    skip:
+      followerCount > 10 ? Math.floor(Math.random() * (followerCount - 10)) : 0,
     take: 10,
     select: { followingId: true },
   });
+
   const fIds = getMyFollowers.map((follower) => follower.followingId);
+
+  // Simplified score calculation
   const score =
-    followerCount <= 1
+    followerCount < 2
       ? 0
       : followerCount < 10
         ? 2
@@ -83,24 +86,16 @@ const getPosts = handleAsync(async (req: Request, res: Response) => {
             ? 20
             : 30;
 
+  // Main posts query
   const result = await prisma.post.findMany({
-    take: limit || 10,
+    take: limit,
     skip: pc ? 1 : 0,
     cursor: pc ? { id: pc } : undefined,
     where: {
-      author: { NOT: { id: user.id } },
-      OR: [
-        {
-          authorId: {
-            in: fIds,
-          },
-        },
-        {
-          trendScore: { gte: score },
-        },
-      ],
+      authorId: { not: user.id },
+      savedPosts: { none: { user: { id: user.id } } },
+      OR: [{ authorId: { in: fIds } }, { trendScore: { gte: score } }],
     },
-
     select: {
       author: {
         select: {
@@ -120,53 +115,69 @@ const getPosts = handleAsync(async (req: Request, res: Response) => {
     },
     orderBy: { id: "desc" },
   });
-  const cursor = result.length === limit ? result[result.length - 1].id : null;
+
+  if (result.length === 0) {
+    return sendResponse(res, {
+      statusCode: httpStatus.OK,
+      success: true,
+      message: "Get all post successfully!",
+      data: [],
+      cursor: null,
+    });
+  }
+
   const postIds = result.map((data) => data.id);
   const authors = result.map((data) => data.author.id);
-  const likes = await prisma.likes.findMany({
-    where: {
-      userId: user.id,
-      likeType: "post",
-      sourceId: { in: postIds },
-    },
-    select: {
-      sourceId: true,
-    },
-  });
-  const uniqueLikeIds = new Set(likes.map((like) => like.sourceId));
-  const latestComments = await prisma.comment.findMany({
-    where: {
-      sourceId: { in: postIds },
-      commentType: "post",
-    },
-    distinct: ["sourceId"],
-    orderBy: [{ sourceId: "desc" }, { id: "desc" }],
-    include: {
-      user: {
-        select: {
-          name: true,
-          image: true,
+
+  // Parallel enrichment: likes, comments, and following status
+  const [likes, latestComments, followers] = await Promise.all([
+    prisma.likes.findMany({
+      where: {
+        userId: user.id,
+        likeType: "post",
+        sourceId: { in: postIds },
+      },
+      select: { sourceId: true },
+    }),
+    prisma.comment.findMany({
+      where: {
+        sourceId: { in: postIds },
+        commentType: "post",
+      },
+      distinct: ["sourceId"],
+      orderBy: [{ sourceId: "desc" }, { id: "desc" }],
+      include: {
+        user: {
+          select: {
+            name: true,
+            image: true,
+          },
         },
       },
-    },
-  });
+    }),
+    prisma.follower.findMany({
+      where: {
+        followingId: { in: authors },
+        followerId: user.id,
+      },
+      select: { followingId: true },
+    }),
+  ]);
 
+  // Use Maps/Sets for O(1) lookup
+  const likesSet = new Set(likes.map((like) => like.sourceId));
   const commentsMap = new Map(latestComments.map((c) => [c.sourceId, c]));
-
-  const followers = await prisma.follower.findMany({
-    where: {
-      followingId: { in: authors },
-      followerId: user.id,
-    },
-  });
-  const followersMap = new Map(followers.map((c) => [c.followingId, c]));
+  const followingSet = new Set(followers.map((f) => f.followingId));
 
   const response = result.map((data) => ({
     ...data,
-    isLiked: !!uniqueLikeIds.has(data.id),
-    isFollowing: !!followersMap.has(data.author.id),
+    isLiked: likesSet.has(data.id),
+    isFollowing: followingSet.has(data.author.id),
     comments: commentsMap.has(data.id) ? [commentsMap.get(data.id)] : [],
   }));
+
+  const cursor = result.length === limit ? result[result.length - 1].id : null;
+
   return sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,
@@ -175,6 +186,7 @@ const getPosts = handleAsync(async (req: Request, res: Response) => {
     cursor: cursor,
   });
 });
+
 const deletePost = handleAsync(async (req: Request, res: Response) => {
   return sendResponse(res, {
     statusCode: httpStatus.OK,
@@ -407,7 +419,105 @@ const likeAction = handleAsync(async (req: Request, res: Response) => {
     statusCode: httpStatus.OK,
     success: true,
     message: "Like action successfully performed",
-    data: true,
+    data: likeState.isLiked,
+  });
+});
+
+const bookmarkAction = handleAsync(async (req: Request, res: Response) => {
+  const user = req.user as TJwtUser;
+  const { postId } = req.params;
+  let status = true;
+  let result = null;
+  try {
+    result = await prisma.savePost.create({
+      data: {
+        user: { connect: { id: +user.id } },
+        post: { connect: { id: +postId } },
+      },
+    });
+  } catch (error: any) {
+    if (error.code === "P2002") {
+      result = await prisma.savePost.delete({
+        where: {
+          uniqueBookmarkFinder: {
+            userId: +user.id,
+            postId: +postId,
+          },
+        },
+      });
+      status = false;
+    } else {
+      throw error;
+    }
+  }
+
+  return sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: "Bookmark update successfully!",
+    data: status,
+  });
+});
+const bookmarksGet = handleAsync(async (req: Request, res: Response) => {
+  const user = req.user as TJwtUser;
+  const pc = Number(req.query.pc as string) || null;
+  const limit = Number(req.query.limit as string) || 10;
+  const result = await prisma.savePost.findMany({
+    take: limit,
+    skip: pc ? 1 : 0,
+    cursor: pc ? { id: pc } : undefined,
+    where: {
+      userId: user.id,
+    },
+    orderBy: [{ id: "asc" }, { userId: "asc" }],
+    select: {
+      id: true,
+      createdAt: true,
+      post: {
+        select: {
+          id: true,
+          likesCount: true,
+          commentsCount: true,
+          author: {
+            select: {
+              name: true,
+              image: true,
+              profession: true,
+              isVerifyed: true,
+            },
+          },
+          content: true,
+          createdAt: true,
+          updatedAt: true,
+        },
+      },
+    },
+  });
+  const postIds = result.map((post) => post.post.id);
+  const likes = await prisma.likes.findMany({
+    where: {
+      sourceId: { in: postIds },
+      likeType: "post",
+      userId: user.id,
+    },
+    select: {
+      sourceId: true,
+    },
+  });
+  const likeIds = new Set(likes.map((like) => like.sourceId));
+  const cursor = result.length === limit ? result[result.length - 1].id : null;
+  const response = result.map((post) => {
+    return {
+      ...post,
+      isLiked: likeIds.has(post.post.id),
+    };
+  });
+  return sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: "Bookmarks get successfully!",
+    data: response,
+    cursor,
   });
 });
 export const PostController = {
@@ -419,4 +529,6 @@ export const PostController = {
   addComment,
   getComments,
   likeAction,
+  bookmarkAction,
+  bookmarksGet,
 };
