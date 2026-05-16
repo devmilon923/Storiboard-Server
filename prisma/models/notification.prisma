@@ -5,9 +5,9 @@ receiverId Int
 sender User @relation(references: [id],fields: [senderId],name: "senderNotifications")
 receiver User @relation(references: [id],fields: [receiverId],name:"receiverNotifications")
 title String
-content String
 ref String? // url of page
 notiType notificationType
+isRead Boolean @default(false)
 createdAt DateTime @default(now())
 updatedAt DateTime @updatedAt
 

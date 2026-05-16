@@ -448,10 +448,6 @@ export type NotificationSettingNullableScalarRelationFilter = {
   isNot?: Prisma.NotificationSettingWhereInput | null
 }
 
-export type BoolFieldUpdateOperationsInput = {
-  set?: boolean
-}
-
 export type NotificationSettingCreateNestedOneWithoutUserInput = {
   create?: Prisma.XOR<Prisma.NotificationSettingCreateWithoutUserInput, Prisma.NotificationSettingUncheckedCreateWithoutUserInput>
   connectOrCreate?: Prisma.NotificationSettingCreateOrConnectWithoutUserInput

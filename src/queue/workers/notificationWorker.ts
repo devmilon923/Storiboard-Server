@@ -1,6 +1,5 @@
 import { Job, Worker } from "bullmq";
-import { NotificationType, sendNotification } from "../../utils/notifications";
-import redisDatabase from "../../utils/redisConnection";
+import { sendNotification } from "../../utils/notifications";
 import { prisma } from "../../utils/prisma";
 import { notificationType } from "../../generated/prisma/enums";
 
@@ -50,12 +49,10 @@ const W_SendLikeNotification = async (
   } catch (error) {
     throw error;
   }
-  console.log(receiverId);
 
   if (receiverId) {
     await sendNotification({
       title,
-      content: `${job.data.sender.name || "Unknown"} liked your ${job.data.likeType}`,
       notiType:
         `LIKE_ON_${job.data.likeType.toUpperCase()}` as notificationType,
       senderId: job.data.sender.id,
@@ -113,7 +110,6 @@ const W_SendCommentNotification = async (
   if (receiverId) {
     await sendNotification({
       title,
-      content: `${job.data.sender.name || "Unknown"} commented on your ${job.data.commentType}`,
       notiType:
         `COMMENT_ON_${job.data.commentType.toUpperCase()}` as notificationType,
       senderId: job.data.sender.id,

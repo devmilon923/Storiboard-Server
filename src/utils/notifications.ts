@@ -4,7 +4,6 @@ export type NotificationType = {
   senderId: number;
   receiverId: number;
   title: string;
-  content: string;
   ref?: string; // url of page
   notiType:
     | "LIKE_ON_POST"
@@ -24,7 +23,6 @@ export const sendNotification = async (payload: NotificationType) => {
       data: {
         sender: { connect: { id: payload.senderId } },
         receiver: { connect: { id: payload.receiverId } },
-        content: payload.content,
         title: payload.title,
         notiType: payload.notiType,
         ref: payload.ref,
