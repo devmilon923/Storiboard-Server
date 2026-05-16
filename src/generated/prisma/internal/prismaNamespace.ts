@@ -389,6 +389,7 @@ export const ModelName = {
   Follower: 'Follower',
   Likes: 'Likes',
   Notifications: 'Notifications',
+  NotificationSetting: 'NotificationSetting',
   Post: 'Post',
   RefreshToken: 'RefreshToken',
   SavePost: 'SavePost',
@@ -408,7 +409,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "comment" | "feed" | "follower" | "likes" | "notifications" | "post" | "refreshToken" | "savePost" | "user"
+    modelProps: "comment" | "feed" | "follower" | "likes" | "notifications" | "notificationSetting" | "post" | "refreshToken" | "savePost" | "user"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -779,6 +780,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         count: {
           args: Prisma.NotificationsCountArgs<ExtArgs>
           result: runtime.Types.Utils.Optional<Prisma.NotificationsCountAggregateOutputType> | number
+        }
+      }
+    }
+    NotificationSetting: {
+      payload: Prisma.$NotificationSettingPayload<ExtArgs>
+      fields: Prisma.NotificationSettingFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.NotificationSettingFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$NotificationSettingPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.NotificationSettingFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$NotificationSettingPayload>
+        }
+        findFirst: {
+          args: Prisma.NotificationSettingFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$NotificationSettingPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.NotificationSettingFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$NotificationSettingPayload>
+        }
+        findMany: {
+          args: Prisma.NotificationSettingFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$NotificationSettingPayload>[]
+        }
+        create: {
+          args: Prisma.NotificationSettingCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$NotificationSettingPayload>
+        }
+        createMany: {
+          args: Prisma.NotificationSettingCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.NotificationSettingCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$NotificationSettingPayload>[]
+        }
+        delete: {
+          args: Prisma.NotificationSettingDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$NotificationSettingPayload>
+        }
+        update: {
+          args: Prisma.NotificationSettingUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$NotificationSettingPayload>
+        }
+        deleteMany: {
+          args: Prisma.NotificationSettingDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.NotificationSettingUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.NotificationSettingUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$NotificationSettingPayload>[]
+        }
+        upsert: {
+          args: Prisma.NotificationSettingUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$NotificationSettingPayload>
+        }
+        aggregate: {
+          args: Prisma.NotificationSettingAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateNotificationSetting>
+        }
+        groupBy: {
+          args: Prisma.NotificationSettingGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.NotificationSettingGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.NotificationSettingCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.NotificationSettingCountAggregateOutputType> | number
         }
       }
     }
@@ -1166,10 +1241,33 @@ export type LikesScalarFieldEnum = (typeof LikesScalarFieldEnum)[keyof typeof Li
 
 
 export const NotificationsScalarFieldEnum = {
-  id: 'id'
+  id: 'id',
+  senderId: 'senderId',
+  receiverId: 'receiverId',
+  title: 'title',
+  content: 'content',
+  ref: 'ref',
+  notiType: 'notiType',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
 } as const
 
 export type NotificationsScalarFieldEnum = (typeof NotificationsScalarFieldEnum)[keyof typeof NotificationsScalarFieldEnum]
+
+
+export const NotificationSettingScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  isLikeOnPost: 'isLikeOnPost',
+  isLikeOnComment: 'isLikeOnComment',
+  isCommentOnPost: 'isCommentOnPost',
+  isCommentOnComment: 'isCommentOnComment',
+  isFollow: 'isFollow',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type NotificationSettingScalarFieldEnum = (typeof NotificationSettingScalarFieldEnum)[keyof typeof NotificationSettingScalarFieldEnum]
 
 
 export const PostScalarFieldEnum = {
@@ -1245,6 +1343,14 @@ export const QueryMode = {
 } as const
 
 export type QueryMode = (typeof QueryMode)[keyof typeof QueryMode]
+
+
+export const NullsOrder = {
+  first: 'first',
+  last: 'last'
+} as const
+
+export type NullsOrder = (typeof NullsOrder)[keyof typeof NullsOrder]
 
 
 export const JsonNullValueFilter = {
@@ -1333,6 +1439,27 @@ export type ListEnumLikeTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$Pri
 
 
 /**
+ * Reference to a field of type 'notificationType'
+ */
+export type EnumnotificationTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'notificationType'>
+    
+
+
+/**
+ * Reference to a field of type 'notificationType[]'
+ */
+export type ListEnumnotificationTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'notificationType[]'>
+    
+
+
+/**
+ * Reference to a field of type 'Boolean'
+ */
+export type BooleanFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Boolean'>
+    
+
+
+/**
  * Reference to a field of type 'Json'
  */
 export type JsonFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Json'>
@@ -1343,13 +1470,6 @@ export type JsonFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'J
  * Reference to a field of type 'QueryMode'
  */
 export type EnumQueryModeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'QueryMode'>
-    
-
-
-/**
- * Reference to a field of type 'Boolean'
- */
-export type BooleanFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Boolean'>
     
 
 
@@ -1494,6 +1614,7 @@ export type GlobalOmitConfig = {
   follower?: Prisma.FollowerOmit
   likes?: Prisma.LikesOmit
   notifications?: Prisma.NotificationsOmit
+  notificationSetting?: Prisma.NotificationSettingOmit
   post?: Prisma.PostOmit
   refreshToken?: Prisma.RefreshTokenOmit
   savePost?: Prisma.SavePostOmit

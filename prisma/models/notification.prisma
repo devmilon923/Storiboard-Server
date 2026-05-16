@@ -6,7 +6,7 @@ sender User @relation(references: [id],fields: [senderId],name: "senderNotificat
 receiver User @relation(references: [id],fields: [receiverId],name:"receiverNotifications")
 title String
 content String
-ref String // url of page
+ref String? // url of page
 notiType notificationType
 createdAt DateTime @default(now())
 updatedAt DateTime @updatedAt

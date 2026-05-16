@@ -65,6 +65,11 @@ export type Likes = Prisma.LikesModel
  */
 export type Notifications = Prisma.NotificationsModel
 /**
+ * Model NotificationSetting
+ * 
+ */
+export type NotificationSetting = Prisma.NotificationSettingModel
+/**
  * Model Post
  * 
  */

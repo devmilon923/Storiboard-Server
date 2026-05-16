@@ -30,9 +30,9 @@ export const notificationType = {
   LIKE_ON_POST: 'LIKE_ON_POST',
   LIKE_ON_COMMENT: 'LIKE_ON_COMMENT',
   COMMENT_ON_POST: 'COMMENT_ON_POST',
-  COMMENT_ON_COMMENT: 'COMMENT_ON_COMMENT',
-  FOLLOW: 'FOLLOW',
-  SHARE: 'SHARE'
+  REPLIE_ON_COMMENT: 'REPLIE_ON_COMMENT',
+  REPLIE_ON_REPLIE: 'REPLIE_ON_REPLIE',
+  FOLLOW: 'FOLLOW'
 } as const
 
 export type notificationType = (typeof notificationType)[keyof typeof notificationType]

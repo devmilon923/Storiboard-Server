@@ -56,6 +56,7 @@ export const ModelName = {
   Follower: 'Follower',
   Likes: 'Likes',
   Notifications: 'Notifications',
+  NotificationSetting: 'NotificationSetting',
   Post: 'Post',
   RefreshToken: 'RefreshToken',
   SavePost: 'SavePost',
@@ -127,10 +128,33 @@ export type LikesScalarFieldEnum = (typeof LikesScalarFieldEnum)[keyof typeof Li
 
 
 export const NotificationsScalarFieldEnum = {
-  id: 'id'
+  id: 'id',
+  senderId: 'senderId',
+  receiverId: 'receiverId',
+  title: 'title',
+  content: 'content',
+  ref: 'ref',
+  notiType: 'notiType',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
 } as const
 
 export type NotificationsScalarFieldEnum = (typeof NotificationsScalarFieldEnum)[keyof typeof NotificationsScalarFieldEnum]
+
+
+export const NotificationSettingScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  isLikeOnPost: 'isLikeOnPost',
+  isLikeOnComment: 'isLikeOnComment',
+  isCommentOnPost: 'isCommentOnPost',
+  isCommentOnComment: 'isCommentOnComment',
+  isFollow: 'isFollow',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type NotificationSettingScalarFieldEnum = (typeof NotificationSettingScalarFieldEnum)[keyof typeof NotificationSettingScalarFieldEnum]
 
 
 export const PostScalarFieldEnum = {
@@ -206,6 +230,14 @@ export const QueryMode = {
 } as const
 
 export type QueryMode = (typeof QueryMode)[keyof typeof QueryMode]
+
+
+export const NullsOrder = {
+  first: 'first',
+  last: 'last'
+} as const
+
+export type NullsOrder = (typeof NullsOrder)[keyof typeof NullsOrder]
 
 
 export const JsonNullValueFilter = {
