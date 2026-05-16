@@ -4,6 +4,7 @@ import { TCommentState, TLikeState } from "../../modules/post/post.controller";
 let basedFormula = {
   likes: 1,
   comments: 2,
+  replie: 3,
 };
 const W_LikeHandler = async (job: Job<any, any, string>) => {
   console.log("W_likeHandler get a job", job.data);
@@ -41,27 +42,69 @@ const W_CommentHandler = async (job: Job<any, any, string>) => {
   const data = job.data as TCommentState;
   try {
     if (data.isComment) {
-      await prisma.post.update({
-        where: {
-          id: data.postId as number,
-        },
-        data: {
-          trendScore: {
-            increment: basedFormula.comments,
+      if (data.commentType === "post") {
+        await prisma.post.update({
+          where: {
+            id: data.sourceId as number,
           },
-        },
-      });
+          data: {
+            trendScore: {
+              increment: basedFormula.comments,
+            },
+          },
+        });
+      } else if (data.commentType === "replie") {
+        let findPostId = await prisma.comment.findUnique({
+          where: {
+            id: data.sourceId,
+          },
+          select: {
+            id: true,
+          },
+        });
+        await prisma.post.update({
+          where: {
+            id: findPostId?.id,
+          },
+          data: {
+            trendScore: {
+              increment: basedFormula.replie,
+            },
+          },
+        });
+      }
     } else {
-      await prisma.post.update({
-        where: {
-          id: data.postId as number,
-        },
-        data: {
-          trendScore: {
-            decrement: basedFormula.comments,
+      if (data.commentType === "post") {
+        await prisma.post.update({
+          where: {
+            id: data.sourceId as number,
           },
-        },
-      });
+          data: {
+            trendScore: {
+              decrement: basedFormula.comments,
+            },
+          },
+        });
+      } else if (data.commentType === "replie") {
+        let findPostId = await prisma.comment.findUnique({
+          where: {
+            id: data.sourceId,
+          },
+          select: {
+            id: true,
+          },
+        });
+        await prisma.post.update({
+          where: {
+            id: findPostId?.id,
+          },
+          data: {
+            trendScore: {
+              decrement: basedFormula.replie,
+            },
+          },
+        });
+      }
     }
   } catch (error) {
     throw error;

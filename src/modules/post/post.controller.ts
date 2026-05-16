@@ -6,7 +6,7 @@ import { TJwtUser } from "../../utils/jwtValidation";
 import { prisma } from "../../utils/prisma";
 import ServerError from "../../utils/error";
 import z from "zod";
-import { likeValidation } from "./post.validation";
+import { commentValidation, likeValidation } from "./post.validation";
 import { FeedQueue } from "../../queue/producers/feed";
 import { PostQueue } from "../../queue/producers/post";
 import { NotificationQueue } from "../../queue/producers/notifications";
@@ -199,7 +199,9 @@ const deletePost = handleAsync(async (req: Request, res: Response) => {
 
 const addComment = handleAsync(async (req: Request, res: Response) => {
   const user = req.user as TJwtUser;
-  const { content, sourceId, commentType } = req.body;
+  const { content, sourceId, commentType } = req.body as z.infer<
+    typeof commentValidation
+  >;
   const result = await prisma.comment.create({
     data: {
       content,
@@ -208,7 +210,16 @@ const addComment = handleAsync(async (req: Request, res: Response) => {
       user: { connect: { id: user.id } },
     },
   });
-  PostQueue.comment({ postId: sourceId, isComment: true });
+  PostQueue.comment({ sourceId, isComment: true, commentType });
+  NotificationQueue.comment({
+    sourceId,
+    commentType,
+    sender: {
+      name: user.name,
+      id: user.id,
+    },
+  });
+
   sendResponse(res, {
     statusCode: httpStatus.CREATED,
     success: true,
@@ -313,7 +324,8 @@ export type TLikeState = {
 };
 export type TCommentState = {
   isComment: boolean;
-  postId: number | null;
+  sourceId: number;
+  commentType: "post" | "replie";
 };
 const likeAction = handleAsync(async (req: Request, res: Response) => {
   const user = req.user as TJwtUser;

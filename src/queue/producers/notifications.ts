@@ -1,7 +1,11 @@
 import { Queue, Worker } from "bullmq";
 import redisDatabase from "../../utils/redisConnection";
-import { NotificationType } from "../../utils/notifications";
-import { W_SendNotification } from "../workers/notificationWorker";
+
+import { W_CommentHandler } from "../workers/postWorker";
+import {
+  W_SendCommentNotification,
+  W_SendLikeNotification,
+} from "../workers/notificationWorker";
 
 const handleSendNotification = new Queue("handleSendNotification", {
   connection: redisDatabase,
@@ -26,9 +30,29 @@ async function like(params: {
     throw error;
   }
 }
-new Worker("handleSendNotification", W_SendNotification, {
+async function comment(params: {
+  sourceId: number;
+  commentType: "post" | "replie";
+  sender: {
+    name: string;
+    id: number;
+  };
+}) {
+  try {
+    console.log("notification comment producers running");
+    await handleSendNotification.add("sendCommentNotification", params);
+    console.log("Notification added on queue");
+  } catch (error) {
+    throw error;
+  }
+}
+new Worker("handleSendNotification", W_SendLikeNotification, {
+  connection: redisDatabase,
+});
+new Worker("handleSendNotification", W_SendCommentNotification, {
   connection: redisDatabase,
 });
 export const NotificationQueue = {
   like,
+  comment,
 };
