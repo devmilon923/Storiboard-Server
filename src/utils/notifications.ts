@@ -15,7 +15,7 @@ export type NotificationType = {
     | "FOLLOW";
 };
 
-const sendNotification = async (payload: NotificationType) => {
+export const sendNotification = async (payload: NotificationType) => {
   try {
     //TODO
     // implement socket

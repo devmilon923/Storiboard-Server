@@ -2,9 +2,9 @@ import jwt from "jsonwebtoken";
 const privateToken = process.env.JWT_SECRET_KEY as string;
 export type TJwtUser = {
   id: number;
-  name: String;
-  email: String;
-  isVerifyed: Boolean;
+  name: string;
+  email: string;
+  isVerifyed: boolean;
   role: "user" | "admin";
 };
 export const verificationToken = (

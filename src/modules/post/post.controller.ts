@@ -9,6 +9,7 @@ import z from "zod";
 import { likeValidation } from "./post.validation";
 import { FeedQueue } from "../../queue/producers/feed";
 import { PostQueue } from "../../queue/producers/post";
+import { NotificationQueue } from "../../queue/producers/notifications";
 
 const createPost = handleAsync(async (req: Request, res: Response) => {
   const user = req.user as TJwtUser;
@@ -329,8 +330,17 @@ const likeAction = handleAsync(async (req: Request, res: Response) => {
         user: { connect: { id: user.id } },
       },
     });
+    console.log("handover to queue");
+    NotificationQueue.like({
+      sourceId,
+      likeType,
+      sender: {
+        name: user.name,
+        id: user.id,
+      },
+    });
     if (likeType === "post") {
-      await prisma.post.update({
+      let post = await prisma.post.update({
         where: {
           id: sourceId,
         },
@@ -342,7 +352,7 @@ const likeAction = handleAsync(async (req: Request, res: Response) => {
       });
       likeState.postId = sourceId;
     } else if (likeType === "replie") {
-      await prisma.comment.update({
+      let post = await prisma.comment.update({
         where: {
           id: sourceId,
         },
