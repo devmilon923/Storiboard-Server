@@ -51,13 +51,25 @@ const W_SendLikeNotification = async (
   }
 
   if (receiverId) {
-    await sendNotification({
-      title,
-      notiType:
-        `LIKE_ON_${job.data.likeType.toUpperCase()}` as notificationType,
-      senderId: job.data.sender.id,
-      receiverId,
+    const result = await prisma.notificationSetting.findUnique({
+      where: { userId: receiverId },
     });
+    if (!result) return;
+    type ResultKey =
+      | "LIKE_ON_POST"
+      | "LIKE_ON_COMMENT"
+      | "COMMENT_ON_POST"
+      | "isFollow";
+    const type = `LIKE_ON_${job.data.likeType.toUpperCase()}` as ResultKey;
+    if (result[type] === true) {
+      await sendNotification({
+        title,
+        notiType:
+          `LIKE_ON_${job.data.likeType.toUpperCase()}` as notificationType,
+        senderId: job.data.sender.id,
+        receiverId,
+      });
+    }
   }
 };
 const W_SendCommentNotification = async (
@@ -105,17 +117,48 @@ const W_SendCommentNotification = async (
   } catch (error) {
     throw error;
   }
-  console.log(receiverId);
 
   if (receiverId) {
-    await sendNotification({
-      title,
-      notiType:
-        `COMMENT_ON_${job.data.commentType.toUpperCase()}` as notificationType,
-      senderId: job.data.sender.id,
-      receiverId,
+    const result = await prisma.notificationSetting.findUnique({
+      where: { userId: receiverId },
     });
+    if (!result) return;
+    type ResultKey =
+      | "LIKE_ON_POST"
+      | "LIKE_ON_COMMENT"
+      | "COMMENT_ON_POST"
+      | "isFollow";
+    const type =
+      `COMMENT_ON_${job.data.commentType.toUpperCase()}` as ResultKey;
+    if (result[type] === true) {
+      await sendNotification({
+        title,
+        notiType:
+          `COMMENT_ON_${job.data.commentType.toUpperCase()}` as notificationType,
+        senderId: job.data.sender.id,
+        receiverId,
+      });
+    }
   }
 };
-
-export { W_SendLikeNotification, W_SendCommentNotification };
+const W_CreateNotificationSetting = async (job: Job<any, any, any>) => {
+  try {
+    const result = await prisma.notificationSetting.upsert({
+      where: { id: job.data },
+      create: {
+        user: { connect: { id: job.data } },
+      },
+      update: {
+        user: { connect: { id: job.data } },
+      },
+    });
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+};
+export {
+  W_SendLikeNotification,
+  W_SendCommentNotification,
+  W_CreateNotificationSetting,
+};

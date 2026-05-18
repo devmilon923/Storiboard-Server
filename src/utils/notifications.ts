@@ -9,8 +9,7 @@ export type NotificationType = {
     | "LIKE_ON_POST"
     | "LIKE_ON_COMMENT"
     | "COMMENT_ON_POST"
-    | "REPLIE_ON_COMMENT"
-    | "REPLIE_ON_REPLIE"
+    | "COMMENT_ON_REPLIE"
     | "FOLLOW";
 };
 

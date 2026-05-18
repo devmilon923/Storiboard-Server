@@ -39,10 +39,9 @@ export type NotificationSettingSumAggregateOutputType = {
 export type NotificationSettingMinAggregateOutputType = {
   id: number | null
   userId: number | null
-  isLikeOnPost: boolean | null
-  isLikeOnComment: boolean | null
-  isCommentOnPost: boolean | null
-  isCommentOnComment: boolean | null
+  LIKE_ON_POST: boolean | null
+  LIKE_ON_COMMENT: boolean | null
+  COMMENT_ON_POST: boolean | null
   isFollow: boolean | null
   createdAt: Date | null
   updatedAt: Date | null
@@ -51,10 +50,9 @@ export type NotificationSettingMinAggregateOutputType = {
 export type NotificationSettingMaxAggregateOutputType = {
   id: number | null
   userId: number | null
-  isLikeOnPost: boolean | null
-  isLikeOnComment: boolean | null
-  isCommentOnPost: boolean | null
-  isCommentOnComment: boolean | null
+  LIKE_ON_POST: boolean | null
+  LIKE_ON_COMMENT: boolean | null
+  COMMENT_ON_POST: boolean | null
   isFollow: boolean | null
   createdAt: Date | null
   updatedAt: Date | null
@@ -63,10 +61,9 @@ export type NotificationSettingMaxAggregateOutputType = {
 export type NotificationSettingCountAggregateOutputType = {
   id: number
   userId: number
-  isLikeOnPost: number
-  isLikeOnComment: number
-  isCommentOnPost: number
-  isCommentOnComment: number
+  LIKE_ON_POST: number
+  LIKE_ON_COMMENT: number
+  COMMENT_ON_POST: number
   isFollow: number
   createdAt: number
   updatedAt: number
@@ -87,10 +84,9 @@ export type NotificationSettingSumAggregateInputType = {
 export type NotificationSettingMinAggregateInputType = {
   id?: true
   userId?: true
-  isLikeOnPost?: true
-  isLikeOnComment?: true
-  isCommentOnPost?: true
-  isCommentOnComment?: true
+  LIKE_ON_POST?: true
+  LIKE_ON_COMMENT?: true
+  COMMENT_ON_POST?: true
   isFollow?: true
   createdAt?: true
   updatedAt?: true
@@ -99,10 +95,9 @@ export type NotificationSettingMinAggregateInputType = {
 export type NotificationSettingMaxAggregateInputType = {
   id?: true
   userId?: true
-  isLikeOnPost?: true
-  isLikeOnComment?: true
-  isCommentOnPost?: true
-  isCommentOnComment?: true
+  LIKE_ON_POST?: true
+  LIKE_ON_COMMENT?: true
+  COMMENT_ON_POST?: true
   isFollow?: true
   createdAt?: true
   updatedAt?: true
@@ -111,10 +106,9 @@ export type NotificationSettingMaxAggregateInputType = {
 export type NotificationSettingCountAggregateInputType = {
   id?: true
   userId?: true
-  isLikeOnPost?: true
-  isLikeOnComment?: true
-  isCommentOnPost?: true
-  isCommentOnComment?: true
+  LIKE_ON_POST?: true
+  LIKE_ON_COMMENT?: true
+  COMMENT_ON_POST?: true
   isFollow?: true
   createdAt?: true
   updatedAt?: true
@@ -210,10 +204,9 @@ export type NotificationSettingGroupByArgs<ExtArgs extends runtime.Types.Extensi
 export type NotificationSettingGroupByOutputType = {
   id: number
   userId: number
-  isLikeOnPost: boolean
-  isLikeOnComment: boolean
-  isCommentOnPost: boolean
-  isCommentOnComment: boolean
+  LIKE_ON_POST: boolean
+  LIKE_ON_COMMENT: boolean
+  COMMENT_ON_POST: boolean
   isFollow: boolean
   createdAt: Date
   updatedAt: Date
@@ -245,10 +238,9 @@ export type NotificationSettingWhereInput = {
   NOT?: Prisma.NotificationSettingWhereInput | Prisma.NotificationSettingWhereInput[]
   id?: Prisma.IntFilter<"NotificationSetting"> | number
   userId?: Prisma.IntFilter<"NotificationSetting"> | number
-  isLikeOnPost?: Prisma.BoolFilter<"NotificationSetting"> | boolean
-  isLikeOnComment?: Prisma.BoolFilter<"NotificationSetting"> | boolean
-  isCommentOnPost?: Prisma.BoolFilter<"NotificationSetting"> | boolean
-  isCommentOnComment?: Prisma.BoolFilter<"NotificationSetting"> | boolean
+  LIKE_ON_POST?: Prisma.BoolFilter<"NotificationSetting"> | boolean
+  LIKE_ON_COMMENT?: Prisma.BoolFilter<"NotificationSetting"> | boolean
+  COMMENT_ON_POST?: Prisma.BoolFilter<"NotificationSetting"> | boolean
   isFollow?: Prisma.BoolFilter<"NotificationSetting"> | boolean
   createdAt?: Prisma.DateTimeFilter<"NotificationSetting"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"NotificationSetting"> | Date | string
@@ -258,10 +250,9 @@ export type NotificationSettingWhereInput = {
 export type NotificationSettingOrderByWithRelationInput = {
   id?: Prisma.SortOrder
   userId?: Prisma.SortOrder
-  isLikeOnPost?: Prisma.SortOrder
-  isLikeOnComment?: Prisma.SortOrder
-  isCommentOnPost?: Prisma.SortOrder
-  isCommentOnComment?: Prisma.SortOrder
+  LIKE_ON_POST?: Prisma.SortOrder
+  LIKE_ON_COMMENT?: Prisma.SortOrder
+  COMMENT_ON_POST?: Prisma.SortOrder
   isFollow?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -274,10 +265,9 @@ export type NotificationSettingWhereUniqueInput = Prisma.AtLeast<{
   AND?: Prisma.NotificationSettingWhereInput | Prisma.NotificationSettingWhereInput[]
   OR?: Prisma.NotificationSettingWhereInput[]
   NOT?: Prisma.NotificationSettingWhereInput | Prisma.NotificationSettingWhereInput[]
-  isLikeOnPost?: Prisma.BoolFilter<"NotificationSetting"> | boolean
-  isLikeOnComment?: Prisma.BoolFilter<"NotificationSetting"> | boolean
-  isCommentOnPost?: Prisma.BoolFilter<"NotificationSetting"> | boolean
-  isCommentOnComment?: Prisma.BoolFilter<"NotificationSetting"> | boolean
+  LIKE_ON_POST?: Prisma.BoolFilter<"NotificationSetting"> | boolean
+  LIKE_ON_COMMENT?: Prisma.BoolFilter<"NotificationSetting"> | boolean
+  COMMENT_ON_POST?: Prisma.BoolFilter<"NotificationSetting"> | boolean
   isFollow?: Prisma.BoolFilter<"NotificationSetting"> | boolean
   createdAt?: Prisma.DateTimeFilter<"NotificationSetting"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"NotificationSetting"> | Date | string
@@ -287,10 +277,9 @@ export type NotificationSettingWhereUniqueInput = Prisma.AtLeast<{
 export type NotificationSettingOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
   userId?: Prisma.SortOrder
-  isLikeOnPost?: Prisma.SortOrder
-  isLikeOnComment?: Prisma.SortOrder
-  isCommentOnPost?: Prisma.SortOrder
-  isCommentOnComment?: Prisma.SortOrder
+  LIKE_ON_POST?: Prisma.SortOrder
+  LIKE_ON_COMMENT?: Prisma.SortOrder
+  COMMENT_ON_POST?: Prisma.SortOrder
   isFollow?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -307,10 +296,9 @@ export type NotificationSettingScalarWhereWithAggregatesInput = {
   NOT?: Prisma.NotificationSettingScalarWhereWithAggregatesInput | Prisma.NotificationSettingScalarWhereWithAggregatesInput[]
   id?: Prisma.IntWithAggregatesFilter<"NotificationSetting"> | number
   userId?: Prisma.IntWithAggregatesFilter<"NotificationSetting"> | number
-  isLikeOnPost?: Prisma.BoolWithAggregatesFilter<"NotificationSetting"> | boolean
-  isLikeOnComment?: Prisma.BoolWithAggregatesFilter<"NotificationSetting"> | boolean
-  isCommentOnPost?: Prisma.BoolWithAggregatesFilter<"NotificationSetting"> | boolean
-  isCommentOnComment?: Prisma.BoolWithAggregatesFilter<"NotificationSetting"> | boolean
+  LIKE_ON_POST?: Prisma.BoolWithAggregatesFilter<"NotificationSetting"> | boolean
+  LIKE_ON_COMMENT?: Prisma.BoolWithAggregatesFilter<"NotificationSetting"> | boolean
+  COMMENT_ON_POST?: Prisma.BoolWithAggregatesFilter<"NotificationSetting"> | boolean
   isFollow?: Prisma.BoolWithAggregatesFilter<"NotificationSetting"> | boolean
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"NotificationSetting"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"NotificationSetting"> | Date | string
@@ -318,10 +306,9 @@ export type NotificationSettingScalarWhereWithAggregatesInput = {
 
 export type NotificationSettingCreateInput = {
   id?: number
-  isLikeOnPost?: boolean
-  isLikeOnComment?: boolean
-  isCommentOnPost?: boolean
-  isCommentOnComment?: boolean
+  LIKE_ON_POST?: boolean
+  LIKE_ON_COMMENT?: boolean
+  COMMENT_ON_POST?: boolean
   isFollow?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -331,20 +318,18 @@ export type NotificationSettingCreateInput = {
 export type NotificationSettingUncheckedCreateInput = {
   id?: number
   userId: number
-  isLikeOnPost?: boolean
-  isLikeOnComment?: boolean
-  isCommentOnPost?: boolean
-  isCommentOnComment?: boolean
+  LIKE_ON_POST?: boolean
+  LIKE_ON_COMMENT?: boolean
+  COMMENT_ON_POST?: boolean
   isFollow?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
 }
 
 export type NotificationSettingUpdateInput = {
-  isLikeOnPost?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  isLikeOnComment?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  isCommentOnPost?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  isCommentOnComment?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  LIKE_ON_POST?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  LIKE_ON_COMMENT?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  COMMENT_ON_POST?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isFollow?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -354,10 +339,9 @@ export type NotificationSettingUpdateInput = {
 export type NotificationSettingUncheckedUpdateInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   userId?: Prisma.IntFieldUpdateOperationsInput | number
-  isLikeOnPost?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  isLikeOnComment?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  isCommentOnPost?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  isCommentOnComment?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  LIKE_ON_POST?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  LIKE_ON_COMMENT?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  COMMENT_ON_POST?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isFollow?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -366,20 +350,18 @@ export type NotificationSettingUncheckedUpdateInput = {
 export type NotificationSettingCreateManyInput = {
   id?: number
   userId: number
-  isLikeOnPost?: boolean
-  isLikeOnComment?: boolean
-  isCommentOnPost?: boolean
-  isCommentOnComment?: boolean
+  LIKE_ON_POST?: boolean
+  LIKE_ON_COMMENT?: boolean
+  COMMENT_ON_POST?: boolean
   isFollow?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
 }
 
 export type NotificationSettingUpdateManyMutationInput = {
-  isLikeOnPost?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  isLikeOnComment?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  isCommentOnPost?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  isCommentOnComment?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  LIKE_ON_POST?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  LIKE_ON_COMMENT?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  COMMENT_ON_POST?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isFollow?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -388,10 +370,9 @@ export type NotificationSettingUpdateManyMutationInput = {
 export type NotificationSettingUncheckedUpdateManyInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   userId?: Prisma.IntFieldUpdateOperationsInput | number
-  isLikeOnPost?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  isLikeOnComment?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  isCommentOnPost?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  isCommentOnComment?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  LIKE_ON_POST?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  LIKE_ON_COMMENT?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  COMMENT_ON_POST?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isFollow?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -400,10 +381,9 @@ export type NotificationSettingUncheckedUpdateManyInput = {
 export type NotificationSettingCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   userId?: Prisma.SortOrder
-  isLikeOnPost?: Prisma.SortOrder
-  isLikeOnComment?: Prisma.SortOrder
-  isCommentOnPost?: Prisma.SortOrder
-  isCommentOnComment?: Prisma.SortOrder
+  LIKE_ON_POST?: Prisma.SortOrder
+  LIKE_ON_COMMENT?: Prisma.SortOrder
+  COMMENT_ON_POST?: Prisma.SortOrder
   isFollow?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -417,10 +397,9 @@ export type NotificationSettingAvgOrderByAggregateInput = {
 export type NotificationSettingMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
   userId?: Prisma.SortOrder
-  isLikeOnPost?: Prisma.SortOrder
-  isLikeOnComment?: Prisma.SortOrder
-  isCommentOnPost?: Prisma.SortOrder
-  isCommentOnComment?: Prisma.SortOrder
+  LIKE_ON_POST?: Prisma.SortOrder
+  LIKE_ON_COMMENT?: Prisma.SortOrder
+  COMMENT_ON_POST?: Prisma.SortOrder
   isFollow?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -429,10 +408,9 @@ export type NotificationSettingMaxOrderByAggregateInput = {
 export type NotificationSettingMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
   userId?: Prisma.SortOrder
-  isLikeOnPost?: Prisma.SortOrder
-  isLikeOnComment?: Prisma.SortOrder
-  isCommentOnPost?: Prisma.SortOrder
-  isCommentOnComment?: Prisma.SortOrder
+  LIKE_ON_POST?: Prisma.SortOrder
+  LIKE_ON_COMMENT?: Prisma.SortOrder
+  COMMENT_ON_POST?: Prisma.SortOrder
   isFollow?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -482,10 +460,9 @@ export type NotificationSettingUncheckedUpdateOneWithoutUserNestedInput = {
 
 export type NotificationSettingCreateWithoutUserInput = {
   id?: number
-  isLikeOnPost?: boolean
-  isLikeOnComment?: boolean
-  isCommentOnPost?: boolean
-  isCommentOnComment?: boolean
+  LIKE_ON_POST?: boolean
+  LIKE_ON_COMMENT?: boolean
+  COMMENT_ON_POST?: boolean
   isFollow?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -493,10 +470,9 @@ export type NotificationSettingCreateWithoutUserInput = {
 
 export type NotificationSettingUncheckedCreateWithoutUserInput = {
   id?: number
-  isLikeOnPost?: boolean
-  isLikeOnComment?: boolean
-  isCommentOnPost?: boolean
-  isCommentOnComment?: boolean
+  LIKE_ON_POST?: boolean
+  LIKE_ON_COMMENT?: boolean
+  COMMENT_ON_POST?: boolean
   isFollow?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -519,10 +495,9 @@ export type NotificationSettingUpdateToOneWithWhereWithoutUserInput = {
 }
 
 export type NotificationSettingUpdateWithoutUserInput = {
-  isLikeOnPost?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  isLikeOnComment?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  isCommentOnPost?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  isCommentOnComment?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  LIKE_ON_POST?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  LIKE_ON_COMMENT?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  COMMENT_ON_POST?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isFollow?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -530,10 +505,9 @@ export type NotificationSettingUpdateWithoutUserInput = {
 
 export type NotificationSettingUncheckedUpdateWithoutUserInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
-  isLikeOnPost?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  isLikeOnComment?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  isCommentOnPost?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  isCommentOnComment?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  LIKE_ON_POST?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  LIKE_ON_COMMENT?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  COMMENT_ON_POST?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isFollow?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -544,10 +518,9 @@ export type NotificationSettingUncheckedUpdateWithoutUserInput = {
 export type NotificationSettingSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   userId?: boolean
-  isLikeOnPost?: boolean
-  isLikeOnComment?: boolean
-  isCommentOnPost?: boolean
-  isCommentOnComment?: boolean
+  LIKE_ON_POST?: boolean
+  LIKE_ON_COMMENT?: boolean
+  COMMENT_ON_POST?: boolean
   isFollow?: boolean
   createdAt?: boolean
   updatedAt?: boolean
@@ -557,10 +530,9 @@ export type NotificationSettingSelect<ExtArgs extends runtime.Types.Extensions.I
 export type NotificationSettingSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   userId?: boolean
-  isLikeOnPost?: boolean
-  isLikeOnComment?: boolean
-  isCommentOnPost?: boolean
-  isCommentOnComment?: boolean
+  LIKE_ON_POST?: boolean
+  LIKE_ON_COMMENT?: boolean
+  COMMENT_ON_POST?: boolean
   isFollow?: boolean
   createdAt?: boolean
   updatedAt?: boolean
@@ -570,10 +542,9 @@ export type NotificationSettingSelectCreateManyAndReturn<ExtArgs extends runtime
 export type NotificationSettingSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   userId?: boolean
-  isLikeOnPost?: boolean
-  isLikeOnComment?: boolean
-  isCommentOnPost?: boolean
-  isCommentOnComment?: boolean
+  LIKE_ON_POST?: boolean
+  LIKE_ON_COMMENT?: boolean
+  COMMENT_ON_POST?: boolean
   isFollow?: boolean
   createdAt?: boolean
   updatedAt?: boolean
@@ -583,16 +554,15 @@ export type NotificationSettingSelectUpdateManyAndReturn<ExtArgs extends runtime
 export type NotificationSettingSelectScalar = {
   id?: boolean
   userId?: boolean
-  isLikeOnPost?: boolean
-  isLikeOnComment?: boolean
-  isCommentOnPost?: boolean
-  isCommentOnComment?: boolean
+  LIKE_ON_POST?: boolean
+  LIKE_ON_COMMENT?: boolean
+  COMMENT_ON_POST?: boolean
   isFollow?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }
 
-export type NotificationSettingOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "isLikeOnPost" | "isLikeOnComment" | "isCommentOnPost" | "isCommentOnComment" | "isFollow" | "createdAt" | "updatedAt", ExtArgs["result"]["notificationSetting"]>
+export type NotificationSettingOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "LIKE_ON_POST" | "LIKE_ON_COMMENT" | "COMMENT_ON_POST" | "isFollow" | "createdAt" | "updatedAt", ExtArgs["result"]["notificationSetting"]>
 export type NotificationSettingInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }
@@ -611,10 +581,9 @@ export type $NotificationSettingPayload<ExtArgs extends runtime.Types.Extensions
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: number
     userId: number
-    isLikeOnPost: boolean
-    isLikeOnComment: boolean
-    isCommentOnPost: boolean
-    isCommentOnComment: boolean
+    LIKE_ON_POST: boolean
+    LIKE_ON_COMMENT: boolean
+    COMMENT_ON_POST: boolean
     isFollow: boolean
     createdAt: Date
     updatedAt: Date
@@ -1044,10 +1013,9 @@ export interface Prisma__NotificationSettingClient<T, Null = never, ExtArgs exte
 export interface NotificationSettingFieldRefs {
   readonly id: Prisma.FieldRef<"NotificationSetting", 'Int'>
   readonly userId: Prisma.FieldRef<"NotificationSetting", 'Int'>
-  readonly isLikeOnPost: Prisma.FieldRef<"NotificationSetting", 'Boolean'>
-  readonly isLikeOnComment: Prisma.FieldRef<"NotificationSetting", 'Boolean'>
-  readonly isCommentOnPost: Prisma.FieldRef<"NotificationSetting", 'Boolean'>
-  readonly isCommentOnComment: Prisma.FieldRef<"NotificationSetting", 'Boolean'>
+  readonly LIKE_ON_POST: Prisma.FieldRef<"NotificationSetting", 'Boolean'>
+  readonly LIKE_ON_COMMENT: Prisma.FieldRef<"NotificationSetting", 'Boolean'>
+  readonly COMMENT_ON_POST: Prisma.FieldRef<"NotificationSetting", 'Boolean'>
   readonly isFollow: Prisma.FieldRef<"NotificationSetting", 'Boolean'>
   readonly createdAt: Prisma.FieldRef<"NotificationSetting", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"NotificationSetting", 'DateTime'>

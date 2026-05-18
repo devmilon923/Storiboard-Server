@@ -1,8 +1,8 @@
 import { Queue, Worker } from "bullmq";
 import redisDatabase from "../../utils/redisConnection";
 
-import { W_CommentHandler } from "../workers/postWorker";
 import {
+  W_CreateNotificationSetting,
   W_SendCommentNotification,
   W_SendLikeNotification,
 } from "../workers/notificationWorker";
@@ -13,7 +13,32 @@ const handleSendNotification = new Queue("handleSendNotification", {
     removeOnComplete: true,
   },
 });
-
+const handleSendCommentNotification = new Queue("handleSendCommentNotification", {
+  connection: redisDatabase,
+  defaultJobOptions: {
+    removeOnComplete: true,
+  },
+});
+const handleSendLikeNotification = new Queue("handleSendLikeNotification", {
+  connection: redisDatabase,
+  defaultJobOptions: {
+    removeOnComplete: true,
+  },
+});
+const handleNotificationSetting = new Queue("handleNotificationSetting", {
+  connection: redisDatabase,
+  defaultJobOptions: {
+    removeOnComplete: true,
+  },
+});
+async function createSetting(userId: number) {
+  try {
+    await handleNotificationSetting.add("createSetting", userId);
+    console.log("Notification setting added on queue");
+  } catch (error) {
+    throw error;
+  }
+}
 async function like(params: {
   sourceId: number;
   likeType: "post" | "replie" | "comment";
@@ -24,7 +49,7 @@ async function like(params: {
 }) {
   try {
     console.log("notification like producers running");
-    await handleSendNotification.add("sendLikeNotification", params);
+    await handleSendLikeNotification.add("sendLikeNotification", params);
     console.log("Notification added on queue");
   } catch (error) {
     throw error;
@@ -40,19 +65,23 @@ async function comment(params: {
 }) {
   try {
     console.log("notification comment producers running");
-    await handleSendNotification.add("sendCommentNotification", params);
+    await handleSendCommentNotification.add("sendCommentNotification", params);
     console.log("Notification added on queue");
   } catch (error) {
     throw error;
   }
 }
-new Worker("handleSendNotification", W_SendLikeNotification, {
+new Worker("handleSendLikeNotification", W_SendLikeNotification, {
   connection: redisDatabase,
 });
-new Worker("handleSendNotification", W_SendCommentNotification, {
+new Worker("handleSendCommentNotification", W_SendCommentNotification, {
+  connection: redisDatabase,
+});
+new Worker("handleNotificationSetting", W_CreateNotificationSetting, {
   connection: redisDatabase,
 });
 export const NotificationQueue = {
   like,
   comment,
+  createSetting,
 };

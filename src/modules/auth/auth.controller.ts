@@ -16,6 +16,7 @@ import {
 } from "../../utils/jwtValidation";
 import { generateOTP, verifyOTP } from "../../utils/otpValidation";
 import { sendOTP } from "../../utils/nodemailler";
+import { NotificationQueue } from "../../queue/producers/notifications";
 
 const register = handleAsync(async (req: Request, res: Response) => {
   const { email, password, name, gender, profession, image } = req.body;
@@ -107,6 +108,7 @@ const localLogin = handleAsync(async (req: Request, res: Response) => {
     sameSite: process.env.NODE_ENV === "production" ? "none" : "strict",
     maxAge: parseInt(process.env.rfExpire as string) * 1000,
   });
+  NotificationQueue.createSetting(user.id);
   sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,

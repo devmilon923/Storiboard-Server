@@ -1258,10 +1258,9 @@ export type NotificationsScalarFieldEnum = (typeof NotificationsScalarFieldEnum)
 export const NotificationSettingScalarFieldEnum = {
   id: 'id',
   userId: 'userId',
-  isLikeOnPost: 'isLikeOnPost',
-  isLikeOnComment: 'isLikeOnComment',
-  isCommentOnPost: 'isCommentOnPost',
-  isCommentOnComment: 'isCommentOnComment',
+  LIKE_ON_POST: 'LIKE_ON_POST',
+  LIKE_ON_COMMENT: 'LIKE_ON_COMMENT',
+  COMMENT_ON_POST: 'COMMENT_ON_POST',
   isFollow: 'isFollow',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
