@@ -15,7 +15,7 @@ const port = process.env.ServerPort || 3001;
 app.use(cookieParser());
 app.use(
   cors({
-    origin: process.env.ClientURl,
+    origin: ["http://192.168.31.157:3000"],
     credentials: true,
   }),
 );

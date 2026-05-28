@@ -59,7 +59,7 @@ const register = handleAsync(async (req: Request, res: Response) => {
   const token = verificationToken(user.id.toString(), "accountVerification");
   res.cookie("verification_token", token, {
     httpOnly: true,
-    secure: process.env.NODE_ENV === "production",
+    secure: process.env.NODE_ENV === "production" ? true : false,
     sameSite: process.env.NODE_ENV === "production" ? "none" : "strict",
     maxAge: parseInt(process.env.veriExpire as string) * 1000,
   });
@@ -98,14 +98,14 @@ const localLogin = handleAsync(async (req: Request, res: Response) => {
   const refreshToken = refreshtoken({ ...user, role: "user" });
   res.cookie("token", token, {
     httpOnly: true,
-    secure: process.env.NODE_ENV === "production",
-    sameSite: process.env.NODE_ENV === "production" ? "none" : "strict",
+    secure: process.env.NODE_ENV === "production" ? true : false,
+    sameSite: process.env.NODE_ENV === "production" ? "strict" : "lax",
     maxAge: parseInt(process.env.acExpire as string) * 1000,
   });
   res.cookie("refreshToken", refreshToken, {
     httpOnly: true,
-    secure: process.env.NODE_ENV === "production",
-    sameSite: process.env.NODE_ENV === "production" ? "none" : "strict",
+    secure: process.env.NODE_ENV === "production" ? true : false,
+    sameSite: process.env.NODE_ENV === "production" ? "strict" : "lax",
     maxAge: parseInt(process.env.rfExpire as string) * 1000,
   });
   NotificationQueue.createSetting(user.id);
@@ -209,7 +209,7 @@ const resendOTP = handleAsync(async (req: Request, res: Response) => {
   );
   res.cookie("verification_token", verificationToken, {
     httpOnly: true,
-    secure: process.env.NODE_ENV === "production",
+    secure: process.env.NODE_ENV === "production" ? true : false,
     sameSite: process.env.NODE_ENV === "production" ? "none" : "strict",
     maxAge: parseInt(process.env.veriExpire as string) * 1000,
   });
@@ -324,14 +324,14 @@ const renewToken = handleAsync(async (req: Request, res: Response) => {
 
   res.cookie("token", token, {
     httpOnly: true,
-    secure: process.env.NODE_ENV === "production",
-    sameSite: process.env.NODE_ENV === "production" ? "none" : "strict",
+    secure: process.env.NODE_ENV === "production" ? true : false,
+    sameSite: process.env.NODE_ENV === "production" ? "strict" : "lax",
     maxAge: parseInt(process.env.acExpire as string) * 1000,
   });
   res.cookie("refreshToken", refreshToken, {
     httpOnly: true,
-    secure: process.env.NODE_ENV === "production",
-    sameSite: process.env.NODE_ENV === "production" ? "none" : "strict",
+    secure: process.env.NODE_ENV === "production" ? true : false,
+    sameSite: process.env.NODE_ENV === "production" ? "strict" : "lax",
     maxAge: parseInt(process.env.rfExpire as string) * 1000,
   });
   sendResponse(res, {
