@@ -14,6 +14,7 @@ const getProfile = handleAsync(async (req: Request, res: Response) => {
       id: data.id,
     },
     select: {
+      id: true,
       name: true,
       email: true,
       _count: {
