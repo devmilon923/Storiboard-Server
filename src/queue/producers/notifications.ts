@@ -5,20 +5,24 @@ import {
   W_CreateNotificationSetting,
   W_SendCommentNotification,
   W_SendLikeNotification,
+  W_SendOTP,
 } from "../workers/notificationWorker";
 
-const handleSendNotification = new Queue("handleSendNotification", {
+const handleSendOtp = new Queue("handleSendOtp", {
   connection: redisDatabase,
   defaultJobOptions: {
     removeOnComplete: true,
   },
 });
-const handleSendCommentNotification = new Queue("handleSendCommentNotification", {
-  connection: redisDatabase,
-  defaultJobOptions: {
-    removeOnComplete: true,
+const handleSendCommentNotification = new Queue(
+  "handleSendCommentNotification",
+  {
+    connection: redisDatabase,
+    defaultJobOptions: {
+      removeOnComplete: true,
+    },
   },
-});
+);
 const handleSendLikeNotification = new Queue("handleSendLikeNotification", {
   connection: redisDatabase,
   defaultJobOptions: {
@@ -35,6 +39,13 @@ async function createSetting(userId: number) {
   try {
     await handleNotificationSetting.add("createSetting", userId);
     console.log("Notification setting added on queue");
+  } catch (error) {
+    throw error;
+  }
+}
+async function sendOTP(payload: { to: string; subject: string; otp: number }) {
+  try {
+    await handleSendOtp.add("senOTP", payload);
   } catch (error) {
     throw error;
   }
@@ -80,8 +91,10 @@ new Worker("handleSendCommentNotification", W_SendCommentNotification, {
 new Worker("handleNotificationSetting", W_CreateNotificationSetting, {
   connection: redisDatabase,
 });
+new Worker("handleSendOtp", W_SendOTP, { connection: redisDatabase });
 export const NotificationQueue = {
   like,
   comment,
   createSetting,
+  sendOTP,
 };

@@ -17,7 +17,10 @@ const getProfile = handleAsync(async (req: Request, res: Response) => {
     },
   });
   if (!user) {
-    throw new ServerError(httpStatus.BAD_REQUEST, "Invalid login details");
+    res.clearCookie("token");
+    res.clearCookie("refreshToken");
+    res.clearCookie("verification_token");
+    throw new ServerError(httpStatus.BAD_REQUEST, "No user found");
   }
 
   return sendResponse(res, {

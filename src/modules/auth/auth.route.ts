@@ -6,10 +6,8 @@ import {
   loginValidation,
   newPassword,
   registrationValidation,
-  renewToken,
   verifyAccount,
 } from "./validation";
-import passport from "passport";
 
 const router = Router();
 
@@ -29,7 +27,7 @@ router
   .patch(zodValidate(newPassword), AuthController.newPassword);
 
 router.route("/resend-otp").post(AuthController.resendOTP);
- 
+
 router
   .route("/forget-password")
   .post(zodValidate(forgetPassword), AuthController.forgetPassword);

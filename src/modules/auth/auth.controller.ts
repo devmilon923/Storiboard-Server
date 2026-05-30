@@ -60,21 +60,20 @@ const register = handleAsync(async (req: Request, res: Response) => {
   res.cookie("verification_token", token, {
     httpOnly: true,
     secure: process.env.NODE_ENV === "production" ? true : false,
-    sameSite: "lax", // First-party friendly
+    sameSite: "lax",
     maxAge: parseInt(process.env.rfExpire as string) * 1000,
   });
-
+  //Send Otp
+  NotificationQueue.sendOTP({
+    to: user.email,
+    subject: "Verify your account",
+    otp: secureOTP.plainToken,
+  });
   sendResponse(res, {
     statusCode: httpStatus.CREATED,
     success: true,
     message: "Register successfully but you need to verify your account",
     data: { user },
-  });
-  //Send Otp
-  await sendOTP({
-    to: user.email,
-    subject: "Verify your account",
-    otp: secureOTP.plainToken,
   });
 });
 

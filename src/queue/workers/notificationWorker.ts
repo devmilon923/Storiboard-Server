@@ -2,6 +2,7 @@ import { Job, Worker } from "bullmq";
 import { sendNotification } from "../../utils/notifications";
 import { prisma } from "../../utils/prisma";
 import { notificationType } from "../../generated/prisma/enums";
+import { sendOTP } from "../../utils/nodemailler";
 
 const W_SendLikeNotification = async (
   job: Job<
@@ -72,6 +73,16 @@ const W_SendLikeNotification = async (
     }
   }
 };
+const W_SendOTP = async (
+  job: Job<{ to: string; subject: string; otp: number }, any, string>,
+) => {
+  try {
+    await sendOTP(job.data);
+  } catch (error) {
+    throw error;
+  }
+};
+
 const W_SendCommentNotification = async (
   job: Job<
     {
@@ -161,4 +172,5 @@ export {
   W_SendLikeNotification,
   W_SendCommentNotification,
   W_CreateNotificationSetting,
+  W_SendOTP,
 };
