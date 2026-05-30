@@ -5,7 +5,7 @@ CREATE TYPE "CommentType" AS ENUM ('post', 'replie');
 CREATE TYPE "LikeType" AS ENUM ('post', 'replie', 'comment');
 
 -- CreateEnum
-CREATE TYPE "notificationType" AS ENUM ('LIKE_ON_POST', 'LIKE_ON_COMMENT', 'COMMENT_ON_POST', 'REPLIE_ON_COMMENT', 'REPLIE_ON_REPLIE', 'FOLLOW');
+CREATE TYPE "notificationType" AS ENUM ('LIKE_ON_POST', 'LIKE_ON_COMMENT', 'COMMENT_ON_POST', 'COMMENT_ON_REPLIE', 'FOLLOW');
 
 -- CreateEnum
 CREATE TYPE "Gender" AS ENUM ('Male', 'Female', 'Others');
@@ -61,9 +61,9 @@ CREATE TABLE "Notifications" (
     "senderId" INTEGER NOT NULL,
     "receiverId" INTEGER NOT NULL,
     "title" TEXT NOT NULL,
-    "content" TEXT NOT NULL,
-    "ref" TEXT NOT NULL,
+    "ref" TEXT,
     "notiType" "notificationType" NOT NULL,
+    "isRead" BOOLEAN NOT NULL DEFAULT false,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL
 );
@@ -72,10 +72,9 @@ CREATE TABLE "Notifications" (
 CREATE TABLE "notificationSetting" (
     "id" SERIAL NOT NULL,
     "userId" INTEGER NOT NULL,
-    "isLikeOnPost" BOOLEAN NOT NULL DEFAULT true,
-    "isLikeOnComment" BOOLEAN NOT NULL DEFAULT true,
-    "isCommentOnPost" BOOLEAN NOT NULL DEFAULT true,
-    "isCommentOnComment" BOOLEAN NOT NULL DEFAULT true,
+    "LIKE_ON_POST" BOOLEAN NOT NULL DEFAULT true,
+    "LIKE_ON_COMMENT" BOOLEAN NOT NULL DEFAULT true,
+    "COMMENT_ON_POST" BOOLEAN NOT NULL DEFAULT true,
     "isFollow" BOOLEAN NOT NULL DEFAULT true,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL

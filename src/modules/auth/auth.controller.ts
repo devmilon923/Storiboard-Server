@@ -60,9 +60,10 @@ const register = handleAsync(async (req: Request, res: Response) => {
   res.cookie("verification_token", token, {
     httpOnly: true,
     secure: process.env.NODE_ENV === "production" ? true : false,
-    sameSite: process.env.NODE_ENV === "production" ? "none" : "strict",
-    maxAge: parseInt(process.env.veriExpire as string) * 1000,
+    sameSite: "lax", // First-party friendly
+    maxAge: parseInt(process.env.rfExpire as string) * 1000,
   });
+
   sendResponse(res, {
     statusCode: httpStatus.CREATED,
     success: true,
@@ -132,6 +133,8 @@ const localLogin = handleAsync(async (req: Request, res: Response) => {
 
 const verifyAccount = handleAsync(async (req: Request, res: Response) => {
   const verificationToken = req.cookies.verification_token;
+
+  // console.log(verificationToken);
   if (!verificationToken) {
     throw new ServerError(
       httpStatus.BAD_REQUEST,

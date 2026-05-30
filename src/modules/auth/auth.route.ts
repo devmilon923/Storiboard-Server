@@ -29,7 +29,7 @@ router
   .patch(zodValidate(newPassword), AuthController.newPassword);
 
 router.route("/resend-otp").post(AuthController.resendOTP);
-
+ 
 router
   .route("/forget-password")
   .post(zodValidate(forgetPassword), AuthController.forgetPassword);
