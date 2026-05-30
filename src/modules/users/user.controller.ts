@@ -5,6 +5,7 @@ import { Request, Response } from "express";
 import httpStatus from "http-status";
 import sendResponse from "../../utils/response";
 import { TJwtUser } from "../../utils/jwtValidation";
+import { TEditProfile } from "./user.validation";
 const getProfile = handleAsync(async (req: Request, res: Response) => {
   const data = req.user as TJwtUser;
 
@@ -12,8 +13,19 @@ const getProfile = handleAsync(async (req: Request, res: Response) => {
     where: {
       id: data.id,
     },
-    omit: {
-      password: false,
+    select: {
+      name: true,
+      email: true,
+      _count: {
+        select: { followers: true, following: true, posts: true },
+      },
+      address: true,
+      bio: true,
+      website: true,
+      image: true,
+      profession: true,
+      isVerifyed: true,
+      createdAt: true,
     },
   });
   if (!user) {
@@ -140,4 +152,27 @@ const getFollowers = handleAsync(async (req: Request, res: Response) => {
     cursor,
   });
 });
-export const UserController = { getProfile, followUser, getFollowers };
+const editProfile = handleAsync(async (req: Request, res: Response) => {
+  const user = req.user as TJwtUser;
+  const payload = req.body as TEditProfile;
+  const result = await prisma.user.update({
+    where: {
+      id: user.id,
+      isVerifyed: true,
+    },
+    data: payload,
+  });
+
+  return sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: "Profile updated successfully!",
+    data: { ...payload, id: result.id },
+  });
+});
+export const UserController = {
+  getProfile,
+  followUser,
+  getFollowers,
+  editProfile,
+};
