@@ -39,6 +39,9 @@ export type UserMinAggregateOutputType = {
   name: string | null
   email: string | null
   password: string | null
+  bio: string | null
+  address: string | null
+  website: string | null
   image: string | null
   isVerifyed: boolean | null
   profession: string | null
@@ -53,6 +56,9 @@ export type UserMaxAggregateOutputType = {
   name: string | null
   email: string | null
   password: string | null
+  bio: string | null
+  address: string | null
+  website: string | null
   image: string | null
   isVerifyed: boolean | null
   profession: string | null
@@ -67,6 +73,9 @@ export type UserCountAggregateOutputType = {
   name: number
   email: number
   password: number
+  bio: number
+  address: number
+  website: number
   image: number
   isVerifyed: number
   profession: number
@@ -91,6 +100,9 @@ export type UserMinAggregateInputType = {
   name?: true
   email?: true
   password?: true
+  bio?: true
+  address?: true
+  website?: true
   image?: true
   isVerifyed?: true
   profession?: true
@@ -105,6 +117,9 @@ export type UserMaxAggregateInputType = {
   name?: true
   email?: true
   password?: true
+  bio?: true
+  address?: true
+  website?: true
   image?: true
   isVerifyed?: true
   profession?: true
@@ -119,6 +134,9 @@ export type UserCountAggregateInputType = {
   name?: true
   email?: true
   password?: true
+  bio?: true
+  address?: true
+  website?: true
   image?: true
   isVerifyed?: true
   profession?: true
@@ -220,6 +238,9 @@ export type UserGroupByOutputType = {
   name: string
   email: string
   password: string
+  bio: string | null
+  address: string | null
+  website: string | null
   image: string
   isVerifyed: boolean
   profession: string
@@ -257,6 +278,9 @@ export type UserWhereInput = {
   name?: Prisma.StringFilter<"User"> | string
   email?: Prisma.StringFilter<"User"> | string
   password?: Prisma.StringFilter<"User"> | string
+  bio?: Prisma.StringNullableFilter<"User"> | string | null
+  address?: Prisma.StringNullableFilter<"User"> | string | null
+  website?: Prisma.StringNullableFilter<"User"> | string | null
   image?: Prisma.StringFilter<"User"> | string
   isVerifyed?: Prisma.BoolFilter<"User"> | boolean
   profession?: Prisma.StringFilter<"User"> | string
@@ -282,6 +306,9 @@ export type UserOrderByWithRelationInput = {
   name?: Prisma.SortOrder
   email?: Prisma.SortOrder
   password?: Prisma.SortOrder
+  bio?: Prisma.SortOrderInput | Prisma.SortOrder
+  address?: Prisma.SortOrderInput | Prisma.SortOrder
+  website?: Prisma.SortOrderInput | Prisma.SortOrder
   image?: Prisma.SortOrder
   isVerifyed?: Prisma.SortOrder
   profession?: Prisma.SortOrder
@@ -310,6 +337,9 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   NOT?: Prisma.UserWhereInput | Prisma.UserWhereInput[]
   name?: Prisma.StringFilter<"User"> | string
   password?: Prisma.StringFilter<"User"> | string
+  bio?: Prisma.StringNullableFilter<"User"> | string | null
+  address?: Prisma.StringNullableFilter<"User"> | string | null
+  website?: Prisma.StringNullableFilter<"User"> | string | null
   image?: Prisma.StringFilter<"User"> | string
   isVerifyed?: Prisma.BoolFilter<"User"> | boolean
   profession?: Prisma.StringFilter<"User"> | string
@@ -335,6 +365,9 @@ export type UserOrderByWithAggregationInput = {
   name?: Prisma.SortOrder
   email?: Prisma.SortOrder
   password?: Prisma.SortOrder
+  bio?: Prisma.SortOrderInput | Prisma.SortOrder
+  address?: Prisma.SortOrderInput | Prisma.SortOrder
+  website?: Prisma.SortOrderInput | Prisma.SortOrder
   image?: Prisma.SortOrder
   isVerifyed?: Prisma.SortOrder
   profession?: Prisma.SortOrder
@@ -357,6 +390,9 @@ export type UserScalarWhereWithAggregatesInput = {
   name?: Prisma.StringWithAggregatesFilter<"User"> | string
   email?: Prisma.StringWithAggregatesFilter<"User"> | string
   password?: Prisma.StringWithAggregatesFilter<"User"> | string
+  bio?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
+  address?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
+  website?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
   image?: Prisma.StringWithAggregatesFilter<"User"> | string
   isVerifyed?: Prisma.BoolWithAggregatesFilter<"User"> | boolean
   profession?: Prisma.StringWithAggregatesFilter<"User"> | string
@@ -370,6 +406,9 @@ export type UserCreateInput = {
   name: string
   email: string
   password: string
+  bio?: string | null
+  address?: string | null
+  website?: string | null
   image: string
   isVerifyed?: boolean
   profession: string
@@ -395,6 +434,9 @@ export type UserUncheckedCreateInput = {
   name: string
   email: string
   password: string
+  bio?: string | null
+  address?: string | null
+  website?: string | null
   image: string
   isVerifyed?: boolean
   profession: string
@@ -419,6 +461,9 @@ export type UserUpdateInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
+  bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  website?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   image?: Prisma.StringFieldUpdateOperationsInput | string
   isVerifyed?: Prisma.BoolFieldUpdateOperationsInput | boolean
   profession?: Prisma.StringFieldUpdateOperationsInput | string
@@ -444,6 +489,9 @@ export type UserUncheckedUpdateInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
+  bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  website?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   image?: Prisma.StringFieldUpdateOperationsInput | string
   isVerifyed?: Prisma.BoolFieldUpdateOperationsInput | boolean
   profession?: Prisma.StringFieldUpdateOperationsInput | string
@@ -469,6 +517,9 @@ export type UserCreateManyInput = {
   name: string
   email: string
   password: string
+  bio?: string | null
+  address?: string | null
+  website?: string | null
   image: string
   isVerifyed?: boolean
   profession: string
@@ -482,6 +533,9 @@ export type UserUpdateManyMutationInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
+  bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  website?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   image?: Prisma.StringFieldUpdateOperationsInput | string
   isVerifyed?: Prisma.BoolFieldUpdateOperationsInput | boolean
   profession?: Prisma.StringFieldUpdateOperationsInput | string
@@ -496,6 +550,9 @@ export type UserUncheckedUpdateManyInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
+  bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  website?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   image?: Prisma.StringFieldUpdateOperationsInput | string
   isVerifyed?: Prisma.BoolFieldUpdateOperationsInput | boolean
   profession?: Prisma.StringFieldUpdateOperationsInput | string
@@ -515,6 +572,9 @@ export type UserCountOrderByAggregateInput = {
   name?: Prisma.SortOrder
   email?: Prisma.SortOrder
   password?: Prisma.SortOrder
+  bio?: Prisma.SortOrder
+  address?: Prisma.SortOrder
+  website?: Prisma.SortOrder
   image?: Prisma.SortOrder
   isVerifyed?: Prisma.SortOrder
   profession?: Prisma.SortOrder
@@ -533,6 +593,9 @@ export type UserMaxOrderByAggregateInput = {
   name?: Prisma.SortOrder
   email?: Prisma.SortOrder
   password?: Prisma.SortOrder
+  bio?: Prisma.SortOrder
+  address?: Prisma.SortOrder
+  website?: Prisma.SortOrder
   image?: Prisma.SortOrder
   isVerifyed?: Prisma.SortOrder
   profession?: Prisma.SortOrder
@@ -547,6 +610,9 @@ export type UserMinOrderByAggregateInput = {
   name?: Prisma.SortOrder
   email?: Prisma.SortOrder
   password?: Prisma.SortOrder
+  bio?: Prisma.SortOrder
+  address?: Prisma.SortOrder
+  website?: Prisma.SortOrder
   image?: Prisma.SortOrder
   isVerifyed?: Prisma.SortOrder
   profession?: Prisma.SortOrder
@@ -726,6 +792,9 @@ export type UserCreateWithoutCommentsInput = {
   name: string
   email: string
   password: string
+  bio?: string | null
+  address?: string | null
+  website?: string | null
   image: string
   isVerifyed?: boolean
   profession: string
@@ -750,6 +819,9 @@ export type UserUncheckedCreateWithoutCommentsInput = {
   name: string
   email: string
   password: string
+  bio?: string | null
+  address?: string | null
+  website?: string | null
   image: string
   isVerifyed?: boolean
   profession: string
@@ -789,6 +861,9 @@ export type UserUpdateWithoutCommentsInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
+  bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  website?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   image?: Prisma.StringFieldUpdateOperationsInput | string
   isVerifyed?: Prisma.BoolFieldUpdateOperationsInput | boolean
   profession?: Prisma.StringFieldUpdateOperationsInput | string
@@ -813,6 +888,9 @@ export type UserUncheckedUpdateWithoutCommentsInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
+  bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  website?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   image?: Prisma.StringFieldUpdateOperationsInput | string
   isVerifyed?: Prisma.BoolFieldUpdateOperationsInput | boolean
   profession?: Prisma.StringFieldUpdateOperationsInput | string
@@ -836,6 +914,9 @@ export type UserCreateWithoutFeedsInput = {
   name: string
   email: string
   password: string
+  bio?: string | null
+  address?: string | null
+  website?: string | null
   image: string
   isVerifyed?: boolean
   profession: string
@@ -860,6 +941,9 @@ export type UserUncheckedCreateWithoutFeedsInput = {
   name: string
   email: string
   password: string
+  bio?: string | null
+  address?: string | null
+  website?: string | null
   image: string
   isVerifyed?: boolean
   profession: string
@@ -899,6 +983,9 @@ export type UserUpdateWithoutFeedsInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
+  bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  website?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   image?: Prisma.StringFieldUpdateOperationsInput | string
   isVerifyed?: Prisma.BoolFieldUpdateOperationsInput | boolean
   profession?: Prisma.StringFieldUpdateOperationsInput | string
@@ -923,6 +1010,9 @@ export type UserUncheckedUpdateWithoutFeedsInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
+  bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  website?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   image?: Prisma.StringFieldUpdateOperationsInput | string
   isVerifyed?: Prisma.BoolFieldUpdateOperationsInput | boolean
   profession?: Prisma.StringFieldUpdateOperationsInput | string
@@ -946,6 +1036,9 @@ export type UserCreateWithoutFollowingInput = {
   name: string
   email: string
   password: string
+  bio?: string | null
+  address?: string | null
+  website?: string | null
   image: string
   isVerifyed?: boolean
   profession: string
@@ -970,6 +1063,9 @@ export type UserUncheckedCreateWithoutFollowingInput = {
   name: string
   email: string
   password: string
+  bio?: string | null
+  address?: string | null
+  website?: string | null
   image: string
   isVerifyed?: boolean
   profession: string
@@ -998,6 +1094,9 @@ export type UserCreateWithoutFollowersInput = {
   name: string
   email: string
   password: string
+  bio?: string | null
+  address?: string | null
+  website?: string | null
   image: string
   isVerifyed?: boolean
   profession: string
@@ -1022,6 +1121,9 @@ export type UserUncheckedCreateWithoutFollowersInput = {
   name: string
   email: string
   password: string
+  bio?: string | null
+  address?: string | null
+  website?: string | null
   image: string
   isVerifyed?: boolean
   profession: string
@@ -1061,6 +1163,9 @@ export type UserUpdateWithoutFollowingInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
+  bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  website?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   image?: Prisma.StringFieldUpdateOperationsInput | string
   isVerifyed?: Prisma.BoolFieldUpdateOperationsInput | boolean
   profession?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1085,6 +1190,9 @@ export type UserUncheckedUpdateWithoutFollowingInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
+  bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  website?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   image?: Prisma.StringFieldUpdateOperationsInput | string
   isVerifyed?: Prisma.BoolFieldUpdateOperationsInput | boolean
   profession?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1119,6 +1227,9 @@ export type UserUpdateWithoutFollowersInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
+  bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  website?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   image?: Prisma.StringFieldUpdateOperationsInput | string
   isVerifyed?: Prisma.BoolFieldUpdateOperationsInput | boolean
   profession?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1143,6 +1254,9 @@ export type UserUncheckedUpdateWithoutFollowersInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
+  bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  website?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   image?: Prisma.StringFieldUpdateOperationsInput | string
   isVerifyed?: Prisma.BoolFieldUpdateOperationsInput | boolean
   profession?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1166,6 +1280,9 @@ export type UserCreateWithoutLikesInput = {
   name: string
   email: string
   password: string
+  bio?: string | null
+  address?: string | null
+  website?: string | null
   image: string
   isVerifyed?: boolean
   profession: string
@@ -1190,6 +1307,9 @@ export type UserUncheckedCreateWithoutLikesInput = {
   name: string
   email: string
   password: string
+  bio?: string | null
+  address?: string | null
+  website?: string | null
   image: string
   isVerifyed?: boolean
   profession: string
@@ -1229,6 +1349,9 @@ export type UserUpdateWithoutLikesInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
+  bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  website?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   image?: Prisma.StringFieldUpdateOperationsInput | string
   isVerifyed?: Prisma.BoolFieldUpdateOperationsInput | boolean
   profession?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1253,6 +1376,9 @@ export type UserUncheckedUpdateWithoutLikesInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
+  bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  website?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   image?: Prisma.StringFieldUpdateOperationsInput | string
   isVerifyed?: Prisma.BoolFieldUpdateOperationsInput | boolean
   profession?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1276,6 +1402,9 @@ export type UserCreateWithoutSenderNotificationsInput = {
   name: string
   email: string
   password: string
+  bio?: string | null
+  address?: string | null
+  website?: string | null
   image: string
   isVerifyed?: boolean
   profession: string
@@ -1300,6 +1429,9 @@ export type UserUncheckedCreateWithoutSenderNotificationsInput = {
   name: string
   email: string
   password: string
+  bio?: string | null
+  address?: string | null
+  website?: string | null
   image: string
   isVerifyed?: boolean
   profession: string
@@ -1328,6 +1460,9 @@ export type UserCreateWithoutReceiverNotificationsInput = {
   name: string
   email: string
   password: string
+  bio?: string | null
+  address?: string | null
+  website?: string | null
   image: string
   isVerifyed?: boolean
   profession: string
@@ -1352,6 +1487,9 @@ export type UserUncheckedCreateWithoutReceiverNotificationsInput = {
   name: string
   email: string
   password: string
+  bio?: string | null
+  address?: string | null
+  website?: string | null
   image: string
   isVerifyed?: boolean
   profession: string
@@ -1391,6 +1529,9 @@ export type UserUpdateWithoutSenderNotificationsInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
+  bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  website?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   image?: Prisma.StringFieldUpdateOperationsInput | string
   isVerifyed?: Prisma.BoolFieldUpdateOperationsInput | boolean
   profession?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1415,6 +1556,9 @@ export type UserUncheckedUpdateWithoutSenderNotificationsInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
+  bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  website?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   image?: Prisma.StringFieldUpdateOperationsInput | string
   isVerifyed?: Prisma.BoolFieldUpdateOperationsInput | boolean
   profession?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1449,6 +1593,9 @@ export type UserUpdateWithoutReceiverNotificationsInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
+  bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  website?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   image?: Prisma.StringFieldUpdateOperationsInput | string
   isVerifyed?: Prisma.BoolFieldUpdateOperationsInput | boolean
   profession?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1473,6 +1620,9 @@ export type UserUncheckedUpdateWithoutReceiverNotificationsInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
+  bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  website?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   image?: Prisma.StringFieldUpdateOperationsInput | string
   isVerifyed?: Prisma.BoolFieldUpdateOperationsInput | boolean
   profession?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1496,6 +1646,9 @@ export type UserCreateWithoutNotificationSettingsInput = {
   name: string
   email: string
   password: string
+  bio?: string | null
+  address?: string | null
+  website?: string | null
   image: string
   isVerifyed?: boolean
   profession: string
@@ -1520,6 +1673,9 @@ export type UserUncheckedCreateWithoutNotificationSettingsInput = {
   name: string
   email: string
   password: string
+  bio?: string | null
+  address?: string | null
+  website?: string | null
   image: string
   isVerifyed?: boolean
   profession: string
@@ -1559,6 +1715,9 @@ export type UserUpdateWithoutNotificationSettingsInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
+  bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  website?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   image?: Prisma.StringFieldUpdateOperationsInput | string
   isVerifyed?: Prisma.BoolFieldUpdateOperationsInput | boolean
   profession?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1583,6 +1742,9 @@ export type UserUncheckedUpdateWithoutNotificationSettingsInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
+  bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  website?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   image?: Prisma.StringFieldUpdateOperationsInput | string
   isVerifyed?: Prisma.BoolFieldUpdateOperationsInput | boolean
   profession?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1606,6 +1768,9 @@ export type UserCreateWithoutPostsInput = {
   name: string
   email: string
   password: string
+  bio?: string | null
+  address?: string | null
+  website?: string | null
   image: string
   isVerifyed?: boolean
   profession: string
@@ -1630,6 +1795,9 @@ export type UserUncheckedCreateWithoutPostsInput = {
   name: string
   email: string
   password: string
+  bio?: string | null
+  address?: string | null
+  website?: string | null
   image: string
   isVerifyed?: boolean
   profession: string
@@ -1669,6 +1837,9 @@ export type UserUpdateWithoutPostsInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
+  bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  website?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   image?: Prisma.StringFieldUpdateOperationsInput | string
   isVerifyed?: Prisma.BoolFieldUpdateOperationsInput | boolean
   profession?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1693,6 +1864,9 @@ export type UserUncheckedUpdateWithoutPostsInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
+  bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  website?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   image?: Prisma.StringFieldUpdateOperationsInput | string
   isVerifyed?: Prisma.BoolFieldUpdateOperationsInput | boolean
   profession?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1716,6 +1890,9 @@ export type UserCreateWithoutRefreshTokensInput = {
   name: string
   email: string
   password: string
+  bio?: string | null
+  address?: string | null
+  website?: string | null
   image: string
   isVerifyed?: boolean
   profession: string
@@ -1740,6 +1917,9 @@ export type UserUncheckedCreateWithoutRefreshTokensInput = {
   name: string
   email: string
   password: string
+  bio?: string | null
+  address?: string | null
+  website?: string | null
   image: string
   isVerifyed?: boolean
   profession: string
@@ -1779,6 +1959,9 @@ export type UserUpdateWithoutRefreshTokensInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
+  bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  website?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   image?: Prisma.StringFieldUpdateOperationsInput | string
   isVerifyed?: Prisma.BoolFieldUpdateOperationsInput | boolean
   profession?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1803,6 +1986,9 @@ export type UserUncheckedUpdateWithoutRefreshTokensInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
+  bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  website?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   image?: Prisma.StringFieldUpdateOperationsInput | string
   isVerifyed?: Prisma.BoolFieldUpdateOperationsInput | boolean
   profession?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1826,6 +2012,9 @@ export type UserCreateWithoutSavePostsInput = {
   name: string
   email: string
   password: string
+  bio?: string | null
+  address?: string | null
+  website?: string | null
   image: string
   isVerifyed?: boolean
   profession: string
@@ -1850,6 +2039,9 @@ export type UserUncheckedCreateWithoutSavePostsInput = {
   name: string
   email: string
   password: string
+  bio?: string | null
+  address?: string | null
+  website?: string | null
   image: string
   isVerifyed?: boolean
   profession: string
@@ -1889,6 +2081,9 @@ export type UserUpdateWithoutSavePostsInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
+  bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  website?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   image?: Prisma.StringFieldUpdateOperationsInput | string
   isVerifyed?: Prisma.BoolFieldUpdateOperationsInput | boolean
   profession?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1913,6 +2108,9 @@ export type UserUncheckedUpdateWithoutSavePostsInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
+  bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  website?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   image?: Prisma.StringFieldUpdateOperationsInput | string
   isVerifyed?: Prisma.BoolFieldUpdateOperationsInput | boolean
   profession?: Prisma.StringFieldUpdateOperationsInput | string
@@ -2040,6 +2238,9 @@ export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   name?: boolean
   email?: boolean
   password?: boolean
+  bio?: boolean
+  address?: boolean
+  website?: boolean
   image?: boolean
   isVerifyed?: boolean
   profession?: boolean
@@ -2066,6 +2267,9 @@ export type UserSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   name?: boolean
   email?: boolean
   password?: boolean
+  bio?: boolean
+  address?: boolean
+  website?: boolean
   image?: boolean
   isVerifyed?: boolean
   profession?: boolean
@@ -2080,6 +2284,9 @@ export type UserSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   name?: boolean
   email?: boolean
   password?: boolean
+  bio?: boolean
+  address?: boolean
+  website?: boolean
   image?: boolean
   isVerifyed?: boolean
   profession?: boolean
@@ -2094,6 +2301,9 @@ export type UserSelectScalar = {
   name?: boolean
   email?: boolean
   password?: boolean
+  bio?: boolean
+  address?: boolean
+  website?: boolean
   image?: boolean
   isVerifyed?: boolean
   profession?: boolean
@@ -2103,7 +2313,7 @@ export type UserSelectScalar = {
   updatedAt?: boolean
 }
 
-export type UserOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "email" | "password" | "image" | "isVerifyed" | "profession" | "gender" | "role" | "createdAt" | "updatedAt", ExtArgs["result"]["user"]>
+export type UserOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "email" | "password" | "bio" | "address" | "website" | "image" | "isVerifyed" | "profession" | "gender" | "role" | "createdAt" | "updatedAt", ExtArgs["result"]["user"]>
 export type UserInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   refreshTokens?: boolean | Prisma.User$refreshTokensArgs<ExtArgs>
   following?: boolean | Prisma.User$followingArgs<ExtArgs>
@@ -2141,6 +2351,9 @@ export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     name: string
     email: string
     password: string
+    bio: string | null
+    address: string | null
+    website: string | null
     image: string
     isVerifyed: boolean
     profession: string
@@ -2586,6 +2799,9 @@ export interface UserFieldRefs {
   readonly name: Prisma.FieldRef<"User", 'String'>
   readonly email: Prisma.FieldRef<"User", 'String'>
   readonly password: Prisma.FieldRef<"User", 'String'>
+  readonly bio: Prisma.FieldRef<"User", 'String'>
+  readonly address: Prisma.FieldRef<"User", 'String'>
+  readonly website: Prisma.FieldRef<"User", 'String'>
   readonly image: Prisma.FieldRef<"User", 'String'>
   readonly isVerifyed: Prisma.FieldRef<"User", 'Boolean'>
   readonly profession: Prisma.FieldRef<"User", 'String'>
